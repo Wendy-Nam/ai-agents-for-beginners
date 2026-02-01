@@ -11,7 +11,7 @@ CO_OP_TRANSLATOR_METADATA:
 
 ![초보자를 위한 생성형 AI](../../translated_images/repo-thumbnailv2.06f4a48036fde647f6ba4eb19f5651babe59bb30e972748afb349e47725d7601.ko.png)
 
-## AI 에이전트를 구축하기 위해 알아야 할 모든 것을 가르치는 강좌
+## AI 에이전트 구축에 필요한 모든 것을 배우는 강좌
 
 [![GitHub license](https://img.shields.io/github/license/microsoft/ai-agents-for-beginners.svg)](https://github.com/microsoft/ai-agents-for-beginners/blob/master/LICENSE?WT.mc_id=academic-105485-koreyst)
 [![GitHub contributors](https://img.shields.io/github/contributors/microsoft/ai-agents-for-beginners.svg)](https://GitHub.com/microsoft/ai-agents-for-beginners/graphs/contributors/?WT.mc_id=academic-105485-koreyst)
@@ -38,47 +38,47 @@ CO_OP_TRANSLATOR_METADATA:
 
 ## 🌱 시작하기
 
-이 강좌는 AI 에이전트를 구축하는 기본 사항을 다루는 여러 강의를 포함하고 있습니다. 각 강의는 독립적인 주제를 다루므로 원하는 곳에서 시작하세요!
+이 강좌에서는 AI 에이전트를 만드는 기본기를 배울 수 있어요. 각 강의는 독립적이라 관심 있는 주제부터 시작해도 괜찮아요.
 
-이 강좌는 다국어 지원을 제공합니다. [지원 언어 목록](../..)을 확인하세요.
+다국어 지원도 되니까 [지원 언어 목록](../..)에서 확인해 보세요.
 
-생성형 AI 모델을 처음 사용하는 경우, [초보자를 위한 생성형 AI](https://aka.ms/genai-beginners) 강좌를 확인하세요. 이 강좌는 생성형 AI를 활용한 21개의 강의를 포함하고 있습니다.
+생성형 AI가 처음이라면 [초보자를 위한 생성형 AI](https://aka.ms/genai-beginners) 강좌를 먼저 들어보는 걸 추천해요. 총 21개 강의로 구성되어 있어요.
 
-[이 저장소에 별(🌟)을 추가](https://docs.github.com/en/get-started/exploring-projects-on-github/saving-repositories-with-stars?WT.mc_id=academic-105485-koreyst)하고 [저장소를 포크](https://github.com/microsoft/ai-agents-for-beginners/fork)하여 코드를 실행하는 것을 잊지 마세요.
+도움이 됐다면 [별(🌟)](https://docs.github.com/en/get-started/exploring-projects-on-github/saving-repositories-with-stars?WT.mc_id=academic-105485-koreyst)이나 [포크](https://github.com/microsoft/ai-agents-for-beginners/fork)도 부탁드려요!
 
-### 다른 학습자들과 만나고 질문하기
+### 다른 학습자들과 소통하기
 
-AI 에이전트를 구축하다가 막히거나 질문이 있다면 [Azure AI Foundry Community Discord](https://aka.ms/ai-agents/discord)의 전용 Discord 채널에 참여하세요.
+AI 에이전트를 만들다가 막히거나 궁금한 게 있으면 [Azure AI Foundry Community Discord](https://aka.ms/ai-agents/discord)에 들어와 보세요.
 
-### 필요한 것
+### 준비물
 
-이 강좌의 각 강의에는 코드 예제가 포함되어 있으며, code_samples 폴더에서 찾을 수 있습니다. [저장소를 포크](https://github.com/microsoft/ai-agents-for-beginners/fork)하여 자신의 복사본을 만들 수 있습니다.
+각 강의에는 코드 예제가 포함되어 있어요. code_samples 폴더에서 찾을 수 있고, [저장소를 포크](https://github.com/microsoft/ai-agents-for-beginners/fork)해서 직접 실행해 볼 수 있어요.
 
-이 강좌의 코드 예제는 Azure AI Foundry와 GitHub Model Catalogs를 활용하여 언어 모델과 상호작용합니다:
+코드 예제는 Azure AI Foundry와 GitHub Model Catalogs를 통해 언어 모델과 연동돼요:
 
 - [Github Models](https://aka.ms/ai-agents-beginners/github-models) - 무료 / 제한적
 - [Azure AI Foundry](https://aka.ms/ai-agents-beginners/ai-foundry) - Azure 계정 필요
 
-이 강좌는 Microsoft의 다음 AI 에이전트 프레임워크와 서비스를 사용합니다:
+이 강좌에서 사용하는 Microsoft AI 에이전트 프레임워크와 서비스들:
 
 - [Microsoft Agent Framework (MAF) - 신규!](https://aka.ms/ai-agents-beginners/agent-framewrok)
 - [Azure AI Agent Service](https://aka.ms/ai-agents-beginners/ai-agent-service)
 - [Semantic Kernel](https://aka.ms/ai-agents-beginners/semantic-kernel)
 - [AutoGen](https://aka.ms/ai-agents/autogen)
 
-이 강좌의 코드를 실행하는 방법에 대한 자세한 내용은 [강좌 설정](./00-course-setup/README.md)을 참조하세요.
+코드 실행 방법은 [강좌 설정](./00-course-setup/README.md)에서 자세히 확인할 수 있어요.
 
-## 🙏 도움을 주고 싶으신가요?
+## 🙏 기여하고 싶으시다면
 
-제안 사항이 있거나 철자 또는 코드 오류를 발견하셨나요? [이슈를 제기](https://github.com/microsoft/ai-agents-for-beginners/issues?WT.mc_id=academic-105485-koreyst)하거나 [풀 리퀘스트를 생성](https://github.com/microsoft/ai-agents-for-beginners/pulls?WT.mc_id=academic-105485-koreyst)하세요.
+제안이나 오타, 코드 오류를 발견하셨다면 [이슈](https://github.com/microsoft/ai-agents-for-beginners/issues?WT.mc_id=academic-105485-koreyst)를 등록하거나 [풀 리퀘스트](https://github.com/microsoft/ai-agents-for-beginners/pulls?WT.mc_id=academic-105485-koreyst)를 보내주세요!
 
 
 
-## 📂 각 강의는 다음을 포함합니다
+## 📂 각 강의 구성
 
 - README에 작성된 강의 내용과 짧은 동영상
 - Azure AI Foundry와 Github Models(무료)를 지원하는 Python 코드 샘플
-- 학습을 계속할 수 있는 추가 리소스 링크
+- 추가 학습 리소스 링크
 
 
 ## 🗃️ 강의 목록
@@ -104,9 +104,9 @@ AI 에이전트를 구축하다가 막히거나 질문이 있다면 [Azure AI Fo
 | 로컬 AI 에이전트 생성                     | 곧 공개 예정                               |                                                            |                                                                                        |
 | AI 에이전트 보안                           | 곧 공개 예정                               |                                                            |                                                                                        |
 
-## 🎒 기타 강좌
+## 🎒 다른 강좌들
 
-우리 팀은 다른 강좌도 제작합니다! 확인해보세요:
+Microsoft 팀에서 만든 다른 강좌들도 있어요:
 
 - [**NEW** 초보자를 위한 Edge AI](https://github.com/microsoft/edgeai-for-beginners?WT.mc_id=academic-105485-koreyst)
 - [초보자를 위한 모델 컨텍스트 프로토콜 (MCP)](https://github.com/microsoft/mcp-for-beginners?WT.mc_id=academic-105485-koreyst)
@@ -126,27 +126,27 @@ AI 에이전트를 구축하다가 막히거나 질문이 있다면 [Azure AI Fo
 
 ## 🌟 커뮤니티 감사
 
-Agentic RAG를 시연하는 중요한 코드 샘플을 제공해준 [Shivam Goyal](https://www.linkedin.com/in/shivam2003/)에게 감사드립니다.
+Agentic RAG 코드 샘플을 제공해주신 [Shivam Goyal](https://www.linkedin.com/in/shivam2003/)님께 감사드려요!
 
 ## 기여하기
 
-이 프로젝트는 기여와 제안을 환영합니다. 대부분의 기여는 Contributor License Agreement (CLA)에 동의해야 하며, 이를 통해 기여자가 자신의 기여를 사용할 권리를 Microsoft에 부여한다는 것을 선언합니다. 자세한 내용은 <https://cla.opensource.microsoft.com>를 참조하세요.
+이 프로젝트는 기여와 제안을 환영해요. 대부분의 기여에는 Contributor License Agreement (CLA) 동의가 필요한데, 기여 내용을 사용할 권리를 Microsoft에 부여한다는 내용이에요. 자세한 건 <https://cla.opensource.microsoft.com>에서 확인할 수 있어요.
 
-풀 리퀘스트를 제출하면 CLA 봇이 자동으로 CLA 제공 여부를 확인하고 PR에 적절히 표시합니다(예: 상태 확인, 댓글). 봇이 제공하는 지침을 따르세요. 모든 CLA를 사용하는 저장소에서 한 번만 이 작업을 수행하면 됩니다.
+풀 리퀘스트를 제출하면 CLA 봇이 자동으로 동의 여부를 확인하고 PR에 표시해줘요. 봇의 안내를 따르면 되고, CLA는 모든 저장소에서 한 번만 동의하면 돼요.
 
-이 프로젝트는 [Microsoft 오픈 소스 행동 강령](https://opensource.microsoft.com/codeofconduct/)을 채택했습니다. 자세한 내용은 [행동 강령 FAQ](https://opensource.microsoft.com/codeofconduct/faq/)를 참조하거나 [opencode@microsoft.com](mailto:opencode@microsoft.com)으로 추가 질문이나 의견을 보내주세요.
+이 프로젝트는 [Microsoft 오픈 소스 행동 강령](https://opensource.microsoft.com/codeofconduct/)을 따르고 있어요. 궁금한 점은 [행동 강령 FAQ](https://opensource.microsoft.com/codeofconduct/faq/)를 참고하거나 [opencode@microsoft.com](mailto:opencode@microsoft.com)으로 문의해주세요.
 
 ## 상표
 
-이 프로젝트는 프로젝트, 제품 또는 서비스에 대한 상표 또는 로고를 포함할 수 있습니다. Microsoft 상표 또는 로고의 허가된 사용은 [Microsoft 상표 및 브랜드 지침](https://www.microsoft.com/legal/intellectualproperty/trademarks/usage/general)을 따라야 합니다. 수정된 버전의 프로젝트에서 Microsoft 상표 또는 로고를 사용하는 경우 혼란을 초래하거나 Microsoft 후원을 암시해서는 안 됩니다. 제3자 상표 또는 로고의 사용은 해당 제3자의 정책을 따라야 합니다.
+이 프로젝트에는 상표나 로고가 포함될 수 있어요. Microsoft 상표나 로고를 사용할 때는 [Microsoft 상표 및 브랜드 지침](https://www.microsoft.com/legal/intellectualproperty/trademarks/usage/general)을 따라야 해요. 수정된 버전에서 Microsoft 상표나 로고를 사용할 때 혼란을 주거나 후원을 암시하면 안 돼요. 제3자 상표나 로고는 해당 제3자의 정책을 따르세요.
 
-## 도움 받기
+## 도움이 필요하면
 
-AI 앱을 구축하다가 막히거나 질문이 있다면 다음을 방문하세요:
+AI 앱을 만들다가 막히거나 질문이 있으면 여기로 오세요:
 
 [![Azure AI Foundry Discord](https://img.shields.io/badge/Discord-Azure_AI_Foundry_Community_Discord-blue?style=for-the-badge&logo=discord&color=5865f2&logoColor=fff)](https://aka.ms/foundry/discord)
 
-제품 피드백을 제공하거나 빌드 중 오류가 발생하면 다음을 방문하세요:
+제품 피드백이나 빌드 중 오류가 발생하면 여기서 문의하세요:
 
 [![Azure AI Foundry Developer Forum](https://img.shields.io/badge/GitHub-Azure_AI_Foundry_Developer_Forum-blue?style=for-the-badge&logo=github&color=000000&logoColor=fff)](https://aka.ms/foundry/forum)
 
