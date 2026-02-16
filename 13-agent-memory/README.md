@@ -1,163 +1,164 @@
-# Memory for AI Agents 
-[![Agent Memory](./images/lesson-13-thumbnail.png)](https://youtu.be/QrYbHesIxpw?si=qNYW6PL3fb3lTPMk)
+# 🧠 AI 에이전트를 위한 메모리 - 기억하는 AI, 성장하는 AI
 
-When discussing the unique benefits of creating AI Agents, two things are mainly discussed: the ability to call tools to complete tasks and the the ability to improve over time. Memory is at the foundation of creating self-improving agent that can create better experiences for our users.
+[![AI 에이전트 메모리](./images/lesson-13-thumbnail.png)](https://youtu.be/QrYbHesIxpw?si=qNYW6PL3fb3lTPMk)
 
-In this lesson, we will look at what memory is for AI Agents and how we can manage it and use it for the benefit of our applications.
+AI 에이전트가 제공하는 독특한 이점에 대해 이야기할 때, 주로 두 가지가 언급됩니다: 작업을 완료하기 위해 도구를 호출하는 능력과 시간이 지남에 따라 개선되는 능력입니다. **메모리**는 사용자에게 더 나은 경험을 제공할 수 있는 자기 개선형 에이전트를 만드는 기초입니다.
 
-## Introduction
+이번 레슨에서는 AI 에이전트에게 메모리가 무엇인지, 그리고 이를 어떻게 관리하고 애플리케이션의 이점으로 활용할 수 있는지 자세히 알아봅니다.
 
-This lesson will cover:
+## 🧐 소개
 
-• **Understanding AI Agent Memory**: What memory is and why it's essential for agents.
+이번 레슨에서는 다음 내용을 다룹니다:
 
-• **Implementing and Storing Memory**: Practical methods for adding memory capabilities to your AI agents, focusing on short-term and long-term memory.
+- **AI 에이전트 메모리 이해하기**: 메모리가 무엇이고 에이전트에게 왜 필수적인지 알아봅니다.
+- **메모리 구현 및 저장**: AI 에이전트에 메모리 기능을 추가하는 실용적인 방법을 살펴보고, 단기 및 장기 메모리에 중점을 둡니다.
+- **AI 에이전트를 자기 개선형으로 만들기**: 메모리가 어떻게 에이전트가 과거 상호작용에서 학습하고 시간이 지남에 따라 개선될 수 있게 하는지 알아봅니다.
 
-• **Making AI Agents Self-Improving**: How memory enables agents to learn from past interactions and improve over time.
+## 🛠️ 사용 가능한 구현체
 
-## Available Implementations
+이번 레슨에는 두 가지 포괄적인 노트북 튜토리얼이 포함되어 있습니다:
 
-This lesson includes two comprehensive notebook tutorials:
+- **[13-agent-memory.ipynb](./13-agent-memory.ipynb)**: Mem0 및 Azure AI Search를 Semantic Kernel 프레임워크와 함께 사용하여 메모리를 구현합니다.
+- **[13-agent-memory-cognee.ipynb](./13-agent-memory-cognee.ipynb)**: Cognee를 사용하여 구조화된 메모리를 구현하고, 임베딩으로 지원되는 지식 그래프를 자동으로 구축하며, 그래프를 시각화하고 지능적으로 검색합니다.
 
-• **[13-agent-memory.ipynb](./13-agent-memory.ipynb)**: Implements memory using Mem0 and Azure AI Search with Semantic Kernel framework
+## 📚 학습 목표
 
-• **[13-agent-memory-cognee.ipynb](./13-agent-memory-cognee.ipynb)**: Implements structured memory using Cognee, automatically building knowledge graph backed by embeddings, visualizing graph, and intelligent retrieval
+이번 레슨을 완료하면 다음을 할 수 있게 됩니다:
 
-## Learning Goals
+- **작업 기억, 단기 기억, 장기 기억**을 포함한 다양한 유형의 AI 에이전트 메모리와 **페르소나 메모리, 에피소드 메모리**와 같은 특수한 형태를 구분할 수 있습니다.
+- Semantic Kernel 프레임워크를 사용하여 **AI 에이전트의 단기 및 장기 메모리를 구현하고 관리**할 수 있으며, Mem0, Cognee, 화이트보드 메모리와 같은 도구를 활용하고 Azure AI Search와 통합할 수 있습니다.
+- **자기 개선형 AI 에이전트의 기본 원리**와 강력한 메모리 관리 시스템이 지속적인 학습과 적응에 어떻게 기여하는지 이해할 수 있습니다.
 
-After completing this lesson, you will know how to:
+---
 
-• **Differentiate between various types of AI agent memory**, including working, short-term, and long-term memory, as well as specialized forms like persona and episodic memory.
+## 🤔 AI 에이전트 메모리 이해하기
 
-• **Implement and manage short-term and long-term memory for AI agents** using the Semantic Kernel framework, leveraging tools like Mem0, Cognee, Whiteboard memory, and integrating with Azure AI Search.
+핵심적으로, **AI 에이전트를 위한 메모리는 정보를 유지하고 기억할 수 있게 하는 메커니즘**을 의미합니다. 이 정보는 대화에 대한 특정 세부 사항, 사용자 선호도, 과거 행동 또는 학습된 패턴일 수 있습니다.
 
-• **Understand the principles behind self-improving AI agents** and how robust memory management systems contribute to continuous learning and adaptation.
+메모리가 없으면 AI 애플리케이션은 종종 상태 비저장(stateless) 방식으로 작동하여 각 상호작용이 처음부터 다시 시작됩니다. 이는 에이전트가 이전 컨텍스트나 선호도를 "잊어버려" 사용자 경험을 반복적이고 답답하게 만듭니다.
 
-## Understanding AI Agent Memory
+### 메모리가 왜 중요할까요?
 
-At its core, **memory for AI agents refers to the mechanisms that allow them to retain and recall information**. This information can be specific details about a conversation, user preferences, past actions, or even learned patterns.
+에이전트의 지능은 과거 정보를 기억하고 활용하는 능력과 깊이 연결되어 있습니다. 메모리는 에이전트가 다음과 같은 특성을 갖출 수 있게 합니다:
 
-Without memory, AI applications are often stateless, meaning each interaction starts from scratch. This leads to a repetitive and frustrating user experience where the agent "forgets" previous context or preferences.
+- **성찰적(Reflective)**: 과거 행동과 결과에서 학습합니다.
+- **상호작용적(Interactive)**: 진행 중인 대화에서 컨텍스트를 유지합니다.
+- **능동적 및 반응적(Proactive and Reactive)**: 과거 데이터를 기반으로 필요를 예측하거나 적절하게 응답합니다.
+- **자율적(Autonomous)**: 저장된 지식을 활용하여 더 독립적으로 작동합니다.
 
-### Why is Memory Important?
+메모리를 구현하는 목표는 에이전트를 더욱 **신뢰할 수 있고 유능하게** 만드는 것입니다.
 
-an agent's intelligence is deeply tied to its ability to recall and utilize past information. Memory allows agents to be:
+### 메모리의 유형
 
-• **Reflective**: Learning from past actions and outcomes.
+#### 작업 기억 (Working Memory)
 
-• **Interactive**: Maintaining context over an ongoing conversation.
+에이전트가 단일 진행 중인 작업이나 사고 과정 중에 사용하는 **스크래치패드**와 같다고 생각하면 됩니다. 다음 단계를 계산하는 데 필요한 즉각적인 정보를 보유합니다.
 
-• **Proactive and Reactive**: Anticipating needs or responding appropriately based on historical data.
+AI 에이전트의 경우, 작업 기억은 전체 채팅 기록이 길거나 잘렸더라도 대화에서 가장 관련성 높은 정보를 포착하는 경우가 많습니다. 요구 사항, 제안, 결정 및 조치와 같은 핵심 요소를 추출하는 데 중점을 둡니다.
 
-• **Autonomous**: Operating more independently by drawing on stored knowledge.
+**작업 기억 예시**
 
-The goal of implementing memory is to make agents more **reliable and capable**.
+여행 예약 에이전트에서 작업 기억은 "파리 여행을 예약하고 싶어요"와 같은 사용자의 현재 요청을 포착할 수 있습니다. 이 특정 요구 사항은 현재 상호작용을 안내하기 위해 에이전트의 즉각적인 컨텍스트에 유지됩니다.
 
-### Types of Memory
+#### 단기 기억 (Short Term Memory)
 
-#### Working Memory
+이 유형의 메모리는 단일 대화 또는 세션이 지속되는 동안 정보를 유지합니다. 현재 채팅의 컨텍스트로, 에이전트가 대화의 이전 턴을 참조할 수 있게 합니다.
 
-Think of this as a piece of scratch paper an agent uses during a single, ongoing task or thought process. It holds immediate information needed to compute the next step.
+**단기 기억 예시**
 
-For AI agents, working memory often captures the most relevant information from a conversation, even if the full chat history is long or truncated. It focuses on extracting key elements like requirements, proposals, decisions, and actions.
+사용자가 "파리行 항공편 비용이 얼마나 들까요?"라고 묻고 이어서 "거기 숙박 시설은 어때요?"라고 질문하면, 단기 기억은 동일한 대화 내에서 "거기"가 "파리"를 의미한다는 것을 에이전트가 알 수 있게 합니다.
 
-**Working Memory Example**
+#### 장기 기억 (Long Term Memory)
 
-In a travel booking agent, working memory might capture the user's current request, such as "I want to book a trip to Paris". This specific requirement is held in the agent's immediate context to guide the current interaction.
+여러 대화 또는 세션에 걸쳐 지속되는 정보입니다. 이를 통해 에이전트는 사용자 선호도, 과거 상호작용 또는 일반 지식을 장기간에 걸쳐 기억할 수 있습니다. 이는 개인화에 중요합니다.
 
-#### Short Term Memory
+**장기 기억 예시**
 
-This type of memory retains information for the duration of a single conversation or session. It's the context of the current chat, allowing the agent to refer back to previous turns in the dialogue.
+장기 기억은 "Ben은 스키와 야외 활동을 즐기고, 산 전망이 있는 커피를 좋아하며, 과거 부상으로 인해 고급 스키 슬로프는 피하고 싶어 한다"는 정보를 저장할 수 있습니다. 이전 상호작용에서 학습된 이 정보는 향후 여행 계획 세션에서 추천에 영향을 미쳐 고도로 개인화된 경험을 제공합니다.
 
-**Short Term Memory Example**
+#### 페르소나 메모리 (Persona Memory)
 
-If a user asks, "How much would a flight to Paris cost?" and then follows up with "What about accommodation there?", short-term memory ensures the agent knows "there" refers to "Paris" within the same conversation.
+이 특수한 메모리 유형은 에이전트가 일관된 "성격" 또는 "페르소나"를 개발하는 데 도움이 됩니다. 에이전트가 자신이나 의도된 역할에 대한 세부 정보를 기억하게 하여 상호작용을 더 매끄럽고 집중적으로 만듭니다.
 
-#### Long Term Memory
+**페르소나 메모리 예시**
+여행 에이전트가 "스키 전문 플래너"로 설계된 경우, 페르소나 메모리는 이 역할을 강화하여 전문가의 어조와 지식에 맞춰 응답하도록 영향을 미칠 수 있습니다.
 
-This is information that persists across multiple conversations or sessions. It allows agents to remember user preferences, historical interactions, or general knowledge over extended periods. This is important for personalization.
+#### 워크플로우/에피소드 메모리 (Workflow/Episodic Memory)
 
-**Long Term Memory Example**
+이 메모리는 복잡한 작업 중 에이전트가 수행하는 단계의 순서(성공 및 실패 포함)를 저장합니다. 이는 학습하기 위해 특정 "에피소드"나 과거 경험을 기억하는 것과 같습니다.
 
-A long-term memory might store that "Ben enjoys skiing and outdoor activities, likes coffee with a mountain view, and wants to avoid advanced ski slopes due to a past injury". This information, learned from previous interactions, influences recommendations in future travel planning sessions, making them highly personalized.
+**에피소드 메모리 예시**
 
-#### Persona Memory
+에이전트가 특정 항공편을 예약하려고 시도했지만 좌석 부족으로 실패한 경우, 에피소드 메모리는 이 실패를 기록하여 에이전트가 후속 시도에서 대체 항공편을 시도하거나 문제에 대해 더 잘 알고 사용자에게 알릴 수 있게 합니다.
 
-This specialized memory type helps an agent develop a consistent "personality" or "persona". It allows the agent to remember details about itself or its intended role, making interactions more fluid and focused.
+#### 엔티티 메모리 (Entity Memory)
 
-**Persona Memory Example**
-If the travel agent is designed to be an "expert ski planner," persona memory might reinforce this role, influencing its responses to align with an expert's tone and knowledge.
+이는 대화에서 특정 엔티티(사람, 장소, 사물 등)와 이벤트를 추출하고 기억하는 것을 포함합니다. 이를 통해 에이전트는 논의된 핵심 요소에 대한 구조화된 이해를 구축할 수 있습니다.
 
-#### Workflow/Episodic Memory
+**엔티티 메모리 예시**
 
-This memory stores the sequence of steps an agent takes during a complex task, including successes and failures. It's like remembering specific "episodes" or past experiences to learn from them.
+과거 여행에 대한 대화에서 에이전트는 "파리", "에펠탑", "르 샤 누아르 레스토랑에서의 저녁 식사"를 엔티티로 추출할 수 있습니다. 향후 상호작용에서 에이전트는 "르 샤 누아르"를 기억하고 새로운 예약을 제안할 수 있습니다.
 
-**Episodic Memory Example**
+#### 구조화된 RAG (Structured RAG, Retrieval Augmented Generation)
 
-If the agent attempted to book a specific flight but it failed due to unavailability, episodic memory could record this failure, allowing the agent to try alternative flights or inform the user about the issue in a more informed way during a subsequent attempt.
+RAG는 더 넓은 기술이지만, "구조화된 RAG"는 강력한 메모리 기술로 강조됩니다. 이는 다양한 소스(대화, 이메일, 이미지)에서 밀집되고 구조화된 정보를 추출하여 응답의 정밀도, 재현율 및 속도를 향상시키는 데 사용합니다. 오직 의미론적 유사성에만 의존하는 기존 RAG와 달리, 구조화된 RAG는 정보의 고유한 구조와 함께 작동합니다.
 
-#### Entity Memory
+**구조화된 RAG 예시**
 
-This involves extracting and remembering specific entities (like people, places, or things) and events from conversations. It allows the agent to build a structured understanding of key elements discussed.
+단순히 키워드를 일치시키는 대신, 구조화된 RAG는 이메일에서 항공편 세부 정보(목적지, 날짜, 시간, 항공사)를 구문 분석하여 구조화된 방식으로 저장할 수 있습니다. 이를 통해 "화요일에 파리로 예약한 항공편이 뭐였지?"와 같은 정확한 쿼리가 가능해집니다.
 
-**Entity Memory Example**
+---
 
-From a conversation about a past trip, the agent might extract "Paris," "Eiffel Tower," and "dinner at Le Chat Noir restaurant" as entities. In a future interaction, the agent could recall "Le Chat Noir" and offer to make a new reservation there.
+## 💾 메모리 구현 및 저장
 
-#### Structured RAG (Retrieval Augmented Generation)
+AI 에이전트를 위한 메모리 구현은 정보를 생성, 저장, 검색, 통합, 업데이트하고 심지어 "잊는"(또는 삭제) 작업을 포함하는 체계적인 **메모리 관리** 프로세스를 포함합니다. 특히 **검색**은 매우 중요한 측면입니다.
 
-While RAG is a broader technique, "Structured RAG" is highlighted as a powerful memory technology. It extracts dense, structured information from various sources (conversations, emails, images) and uses it to enhance precision, recall, and speed in responses. Unlike classic RAG that relies solely on semantic similarity, Structured RAG works with the inherent structure of information.
-
-**Structured RAG Example**
-
-Instead of just matching keywords, Structured RAG could parse flight details (destination, date, time, airline) from an email and store them in a structured way. This allows precise queries like "What flight did I book to Paris on Tuesday?"
-
-## Implementing and Storing Memory
-
-Implementing memory for AI agents involves a systematic process of **memory management**, which includes generating, storing, retrieving, integrating, updating, and even "forgetting" (or deleting) information. Retrieval is a particularly crucial aspect.
-
-### Specialized Memory Tools
+### 특수 메모리 도구
 
 #### Mem0
 
-One way to store and manage agent memory is using specialized tools like Mem0. Mem0 works as a persistent memory layer, allowing agents to recall relevant interactions, store user preferences and factual context, and learn from successes and failures over time. The idea here is that stateless agents turn into stateful ones.
+에이전트 메모리를 저장하고 관리하는 한 가지 방법은 Mem0과 같은 특수 도구를 사용하는 것입니다. Mem0은 영구 메모리 계층으로 작동하여 에이전트가 관련 상호작용을 기억하고, 사용자 선호도와 사실적 컨텍스트를 저장하며, 시간이 지남에 따라 성공과 실패에서 학습할 수 있게 합니다. 여기서 핵심 아이디어는 상태 비저장(stateless) 에이전트를 상태 저장(stateful) 에이전트로 전환하는 것입니다.
 
-It works through a **two-phase memory pipeline: extraction and update**. First, messages added to an agent's thread are sent to the Mem0 service, which uses a Large Language Model (LLM) to summarize conversation history and extract new memories. Subsequently, an LLM-driven update phase determines whether to add, modify, or delete these memories, storing them in a hybrid data store that can include vector, graph, and key-value databases. This system also supports various memory types and can incorporate graph memory for managing relationships between entities.
+이는 **추출 및 업데이트의 2단계 메모리 파이프라인**을 통해 작동합니다. 먼저, 에이전트의 스레드에 추가된 메시지는 Mem0 서비스로 전송되고, 서비스는 LLM을 사용하여 대화 기록을 요약하고 새로운 기억을 추출합니다. 그 후, LLM 기반 업데이트 단계에서 이러한 기억을 추가, 수정 또는 삭제할지 결정하고, 벡터, 그래프, 키-값 데이터베이스를 포함할 수 있는 하이브리드 데이터 저장소에 저장합니다. 이 시스템은 또한 다양한 메모리 유형을 지원하고 엔티티 간의 관계를 관리하기 위해 그래프 메모리를 통합할 수 있습니다.
 
 #### Cognee
 
-Another powerful approach is using **Cognee**, an open-source semantic memory for AI agents that transforms structured and unstructured data into queryable knowledge graphs backed by embeddings. Cognee provides a **dual-store architecture** combining vector similarity search with graph relationships, enabling agents to understand not just what information is similar, but how concepts relate to each other.
+또 다른 강력한 접근 방식은 **Cognee**를 사용하는 것입니다. Cognee는 구조화 및 비구조화 데이터를 임베딩으로 지원되는 **쿼리 가능한 지식 그래프**로 변환하는 AI 에이전트용 오픈 소스 의미론적 메모리입니다. Cognee는 벡터 유사성 검색과 그래프 관계를 결합한 **이중 저장소 아키텍처**를 제공하여 에이전트가 어떤 정보가 유사한지뿐만 아니라 개념들이 서로 어떻게 관련되어 있는지 이해할 수 있게 합니다.
 
-It excels at **hybrid retrieval** that blends vector similarity, graph structure, and LLM reasoning - from raw chunk lookup to graph-aware question answering. The system maintains **living memory** that evolves and grows while remaining queryable as one connected graph, supporting both short-term session context and long-term persistent memory.
+Cognee는 원시 청크 조회부터 그래프를 인식하는 질문 응답에 이르기까지, 벡터 유사성, 그래프 구조, LLM 추론을 혼합하는 **하이브리드 검색**에 탁월합니다. 이 시스템은 하나의 연결된 그래프로 쿼리 가능한 상태를 유지하면서 진화하고 성장하는 **살아있는 메모리**를 유지 관리하며, 단기 세션 컨텍스트와 장기 영구 메모리를 모두 지원합니다.
 
-The Cognee notebook tutorial ([13-agent-memory-cognee.ipynb](./13-agent-memory-cognee.ipynb)) demonstrates building this unified memory layer, with practical examples of ingesting diverse data sources, visualizing the knowledge graph, and querying with different search strategies tailored to specific agent needs.
+Cognee 노트북 튜토리얼([13-agent-memory-cognee.ipynb](./13-agent-memory-cognee.ipynb))은 다양한 데이터 소스 수집, 지식 그래프 시각화, 특정 에이전트 요구에 맞게 조정된 다양한 검색 전략으로 쿼리하는 실용적인 예제를 통해 이 통합 메모리 계층을 구축하는 방법을 보여줍니다.
 
-### Storing Memory with RAG
+### RAG를 사용한 메모리 저장
 
-Beyond specialized memory tools like mem0 , you can leverage robust search services like **Azure AI Search as a backend for storing and retrieving memories**, especially for structured RAG.
+mem0과 같은 특수 메모리 도구 외에도, 특히 구조화된 RAG의 경우 **Azure AI Search**와 같은 강력한 검색 서비스를 **메모리 저장 및 검색을 위한 백엔드**로 활용할 수 있습니다.
 
-This allows you to ground your agent's responses with your own data, ensuring more relevant and accurate answers. Azure AI Search can be used to store user-specific travel memories, product catalogs, or any other domain-specific knowledge.
+이를 통해 자체 데이터로 에이전트의 응답을 근거(grounding)하여 더 관련성 높고 정확한 답변을 보장할 수 있습니다. Azure AI Search는 사용자별 여행 메모리, 제품 카탈로그 또는 기타 도메인별 지식을 저장하는 데 사용할 수 있습니다.
 
-Azure AI Search supports capabilities like **Structured RAG**, which excels at extracting and retrieving dense, structured information from large datasets like conversation histories, emails, or even images. This provides "superhuman precision and recall" compared to traditional text chunking and embedding approaches.
+Azure AI Search는 대화 기록, 이메일 또는 이미지와 같은 대규모 데이터셋에서 밀집되고 구조화된 정보를 추출하고 검색하는 데 탁월한 **구조화된 RAG** 기능을 지원합니다. 이는 기존의 텍스트 청킹 및 임베딩 접근 방식에 비해 "초인적인 정밀도와 재현율"을 제공합니다.
 
-## Making AI Agents Self-Improve
+---
 
-A common pattern for self-improving agents involves introducing a **"knowledge agent"**. This separate agent observes the main conversation between the user and the primary agent. Its role is to:
+## 📈 AI 에이전트를 자기 개선형으로 만들기
 
-1. **Identify valuable information**: Determine if any part of the conversation is worth saving as general knowledge or a specific user preference.
+자기 개선형 에이전트의 일반적인 패턴은 **"지식 에이전트"** 를 도입하는 것입니다. 이 별도의 에이전트는 사용자와 기본 에이전트 간의 주요 대화를 관찰합니다. 그 역할은 다음과 같습니다:
 
-2. **Extract and summarize**: Distill the essential learning or preference from the conversation.
+1.  **가치 있는 정보 식별**: 대화의 어떤 부분이 일반 지식이나 특정 사용자 선호도로 저장할 가치가 있는지 결정합니다.
+2.  **추출 및 요약**: 대화에서 필수적인 학습 내용이나 선호도를 추출하고 요약합니다.
+3.  **지식 베이스에 저장**: 이 추출된 정보를 나중에 검색할 수 있도록 (종종 벡터 데이터베이스에) 영구 저장합니다.
+4.  **향후 쿼리 보강**: 사용자가 새 쿼리를 시작하면 지식 에이전트는 관련 저장 정보를 검색하여 사용자의 프롬프트에 추가함으로써 기본 에이전트에게 중요한 컨텍스트를 제공합니다(RAG와 유사).
 
-3. **Store in a knowledge base**: Persist this extracted information, often in a vector database, so it can be retrieved later.
+### 메모리 최적화
 
-4. **Augment future queries**: When the user initiates a new query, the knowledge agent retrieves relevant stored information and appends it to the user's prompt, providing crucial context to the primary agent (similar to RAG).
+- **지연 시간 관리**: 사용자 상호작용 속도를 늦추지 않기 위해, 처음에는 더 저렴하고 빠른 모델을 사용하여 정보를 저장하거나 검색할 가치가 있는지 빠르게 확인하고, 필요한 경우에만 더 복잡한 추출/검색 프로세스를 호출할 수 있습니다.
+- **지식 베이스 유지 관리**: 성장하는 지식 베이스의 경우, 사용 빈도가 낮은 정보를 "콜드 스토리지"로 이동하여 비용을 관리할 수 있습니다.
 
-### Optimizations for Memory
+---
 
-• **Latency Management**: To avoid slowing down user interactions, a cheaper, faster model can be used initially to quickly check if information is valuable to store or retrieve, only invoking the more complex extraction/retrieval process when necessary.
+## ❓ 에이전트 메모리에 대해 더 궁금한 점이 있나요?
 
-• **Knowledge Base Maintenance**: For a growing knowledge base, less frequently used information can be moved to "cold storage" to manage costs.
+[Azure AI Foundry Discord](https://aka.ms/ai-agents/discord)에 참여하여 다른 학습자들을 만나고, 오피스 아워에 참여하고 AI Agents에 대한 질문에 대한 답변을 받아보세요.
 
-## Got More Questions About Agent Memory?
+---
 
-Join the [Azure AI Foundry Discord](https://aka.ms/ai-agents/discord) to meet with other learners, attend office hours and get your AI Agents questions answered.
+*이 가이드가 여러분의 AI 에이전트가 기억하고, 학습하고, 성장하는 지능적인 동반자로 발전하는 데 도움이 되길 바랍니다!* 🧠

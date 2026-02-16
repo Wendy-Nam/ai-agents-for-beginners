@@ -1,175 +1,167 @@
-# Using Agentic Protocols (MCP, A2A and NLWeb)
 
-[![Agentic Protocols](./images/lesson-11-thumbnail.png)](https://youtu.be/X-Dh9R3Opn8)
+# 🤝 에이전틱 프로토콜 사용하기 (MCP, A2A, NLWeb)
 
-> _(Click the image above to view video of this lesson)_
+[![에이전틱 프로토콜](./images/lesson-11-thumbnail.png)](https://youtu.be/X-Dh9R3Opn8)
 
-As the use of AI agents grows, so does the need for protocols that ensure standardization, security, and support open innovation. In this lesson, we will cover 3 protocols looking to meet this need - Model Context Protocol (MCP), Agent to Agent (A2A) and Natural Language Web (NLWeb).
+> _(👆 이미지를 클릭하면 이번 레슨의 강의 영상을 볼 수 있어요!)_
 
-## Introduction
+AI 에이전트의 사용이 증가함에 따라, 표준화, 보안을 보장하고 개방형 혁신을 지원하는 프로토콜의 필요성도 함께 커지고 있습니다. 이번 레슨에서는 이러한 필요를 충족시키기 위한 세 가지 프로토콜, 즉 **MCP(Model Context Protocol)**, **A2A(Agent to Agent)**, 그리고 **NLWeb(Natural Language Web)** 에 대해 자세히 알아봅니다.
 
-In this lesson, we will cover:
+## 🧐 소개
 
-• How **MCP** allows AI Agents to access external tools and data to complete user tasks.
+이번 레슨에서는 다음 내용을 다룹니다:
 
-•  How **A2A** enables communication and collaboration between different AI agents.
+• **MCP**가 어떻게 AI 에이전트가 외부 도구와 데이터에 접근하여 사용자 작업을 완료할 수 있게 하는지 알아봅니다.
 
-• How **NLWeb** brings natural language interfaces to any website enabling AI Agents to discover and interact with the content.
+• **A2A**가 어떻게 서로 다른 AI 에이전트 간의 통신과 협업을 가능하게 하는지 알아봅니다.
 
-## Learning Goals
+• **NLWeb**이 어떻게 모든 웹사이트에 자연어 인터페이스를 제공하여 AI 에이전트가 콘텐츠를 발견하고 상호작용할 수 있게 하는지 알아봅니다.
 
-• **Identify** the core purpose and benefits of MCP, A2A, and NLWeb in the context of AI agents.
+## 📚 학습 목표
 
-• **Explain** how each protocol facilitates communication and interaction between LLMs, tools, and other agents.
+• AI 에이전트의 맥락에서 MCP, A2A, NLWeb의 핵심 목적과 이점을 **식별**할 수 있습니다.
 
-• **Recognize** the distinct roles each protocol plays in building complex agentic systems.
+• 각 프로토콜이 LLM, 도구 및 다른 에이전트 간의 통신과 상호작용을 어떻게 촉진하는지 **설명**할 수 있습니다.
 
-## Model Context Protocol
+• 복잡한 에이전틱 시스템을 구축하는 데 각 프로토콜이 수행하는 고유한 역할을 **인식**할 수 있습니다.
 
-The **Model Context Protocol (MCP)** is an open standard that provides standardized way for applications to provide context and tools to LLMs. This enables a "universal adaptor" to different data sources and tools that AI Agents can connect to in a consistent way.
+---
 
-Let’s look at the components of MCP, the benefits compared to direct API usage, and an example of how AI agents might use an MCP server.
+## 🔌 모델 컨텍스트 프로토콜 (Model Context Protocol, MCP)
 
-### MCP Core Components
+**MCP(Model Context Protocol)** 는 애플리케이션이 LLM에 컨텍스트와 도구를 제공하는 표준화된 방법을 제공하는 개방형 표준입니다. 이를 통해 AI 에이전트가 다양한 데이터 소스와 도구에 일관된 방식으로 연결할 수 있는 "범용 어댑터(universal adaptor)"를 사용할 수 있습니다.
 
-MCP operates on a **client-server architecture** and the core components are:
+MCP의 구성 요소, 직접 API 사용과 비교한 이점, 그리고 AI 에이전트가 MCP 서버를 사용하는 방법에 대한 예시를 살펴보겠습니다.
 
-• **Hosts** are LLM applications (for example a code editor like VSCode) that start the connections to an MCP Server.
+### MCP 핵심 구성 요소
 
-• **Clients** are components within the host application that maintain one-to-one connections with servers.
+MCP는 **클라이언트-서버 아키텍처**로 작동하며 핵심 구성 요소는 다음과 같습니다:
 
-• **Servers** are lightweight programs that expose specific capabilities.
+- **호스트(Hosts)** 는 MCP 서버에 대한 연결을 시작하는 LLM 애플리케이션입니다 (예: VSCode와 같은 코드 편집기).
+- **클라이언트(Clients)** 는 호스트 애플리케이션 내의 구성 요소로, 서버와 일대일 연결을 유지합니다.
+- **서버(Servers)** 는 특정 기능을 노출하는 경량 프로그램입니다.
 
-Included in the protocol are three core primitives which are the capabilities of an MCP Server:
+프로토콜에는 MCP 서버의 기능인 세 가지 핵심 프리미티브(기본 요소)가 포함됩니다:
 
-• **Tools**: These are discrete actions or functions an AI agent can call to perform an action. For example, a weather service might expose a "get weather" tool, or an e-commerce server might expose a "purchase product" tool. MCP servers advertise each tool's name, description, and input/output schema in their capabilities listing.
+- **도구(Tools)**: AI 에이전트가 작업을 수행하기 위해 호출할 수 있는 개별적인 액션 또는 함수입니다. 예를 들어, 날씨 서비스는 "날씨 가져오기" 도구를 노출하거나, 전자상거래 서버는 "제품 구매" 도구를 노출할 수 있습니다. MCP 서버는 기능 목록에 각 도구의 이름, 설명, 입력/출력 스키마를 명시합니다.
+- **리소스(Resources)**: MCP 서버가 제공할 수 있는 읽기 전용 데이터 항목 또는 문서로, 클라이언트가 필요에 따라 검색할 수 있습니다. 예를 들어, 파일 내용, 데이터베이스 레코드, 로그 파일 등이 있습니다. 리소스는 텍스트(코드, JSON 등) 또는 바이너리(이미지, PDF 등) 형태일 수 있습니다.
+- **프롬프트(Prompts)**: 더 복잡한 워크플로우를 가능하게 하는 미리 정의된 템플릿으로, 제안된 프롬프트를 제공합니다.
 
-• **Resources**: These are read-only data items or documents that an MCP server can provide, and clients can retrieve them on demand. Examples include file contents, database records, or log files. Resources can be text (like code or JSON) or binary (like images or PDFs).
+### MCP의 이점
 
-• **Prompts**: These are predefined templates that provide suggested prompts, allowing for more complex workflows.
+MCP는 AI 에이전트에 다음과 같은 중요한 이점을 제공합니다:
 
-### Benefits of MCP
+- **동적 도구 발견(Dynamic Tool Discovery)**: 에이전트는 서버로부터 사용 가능한 도구 목록과 각 도구가 수행하는 작업에 대한 설명을 동적으로 받을 수 있습니다. 이는 통합을 위해 종종 정적 코딩이 필요한 기존 API와 대조됩니다. 즉, API가 변경되면 코드 업데이트가 필요합니다. MCP는 "한 번 통합" 방식을 제공하여 적응성을 크게 향상시킵니다.
+- **LLM 간 상호 운용성(Interoperability Across LLMs)**: MCP는 다양한 LLM에서 작동하므로 더 나은 성능을 위해 핵심 모델을 유연하게 전환하여 평가할 수 있습니다.
+- **표준화된 보안(Standardized Security)**: MCP는 표준 인증 방법을 포함하므로, 추가 MCP 서버에 대한 액세스를 확장할 때 확장성이 향상됩니다. 이는 다양한 기존 API에 대해 서로 다른 키와 인증 유형을 관리하는 것보다 간단합니다.
 
-MCP offers significant advantages for AI Agents:
+### MCP 예시
 
-• **Dynamic Tool Discovery**: Agents can dynamically receive a list of available tools from a server along with descriptions of what they do. This contrasts with traditional APIs, which often require static coding for integrations, meaning any API change necessitates code updates. MCP offers an "integrate once" approach, leading to greater adaptability.
+![MCP 다이어그램](./images/mcp-diagram.png)
 
-• **Interoperability Across LLMs**: MCP works across different LLMs, providing flexibility to switch core models to evaluate for better performance.
+사용자가 MCP로 구동되는 AI 어시스턴트를 사용하여 항공편을 예약하려는 상황을 상상해 보세요.
 
-• **Standardized Security**: MCP includes a standard authentication method, improving scalability when adding access to additional MCP servers. This is simpler than managing different keys and authentication types for various traditional APIs.
+1. **연결(Connection)**: AI 어시스턴트(MCP 클라이언트)는 항공사에서 제공하는 MCP 서버에 연결합니다.
+2. **도구 발견(Tool Discovery)**: 클라이언트는 항공사의 MCP 서버에 "사용 가능한 도구가 무엇인가요?"라고 묻습니다. 서버는 "항공편 검색" 및 "항공편 예약"과 같은 도구 목록으로 응답합니다.
+3. **도구 호출(Tool Invocation)**: 그런 다음 사용자가 AI 어시스턴트에게 "포틀랜드에서 호놀룰루로 가는 항공편을 검색해 줘"라고 요청합니다. AI 어시스턴트는 자체 LLM을 사용하여 "항공편 검색" 도구를 호출해야 한다는 것을 파악하고 관련 매개변수(출발지, 도착지)를 MCP 서버에 전달합니다.
+4. **실행 및 응답(Execution and Response)**: 래퍼 역할을 하는 MCP 서버는 항공사 내부 예약 API에 실제 호출을 수행합니다. 그런 다음 항공편 정보(예: JSON 데이터)를 수신하여 AI 어시스턴트에 다시 보냅니다.
+5. **추가 상호작용(Further Interaction)**: AI 어시스턴트는 항공편 옵션을 제시합니다. 사용자가 항공편을 선택하면 어시스턴트는 동일한 MCP 서버에서 "항공편 예약" 도구를 호출하여 예약을 완료할 수 있습니다.
 
-### MCP Example
+---
 
-![MCP Diagram](./images/mcp-diagram.png)
+## 🤝 에이전트 간 프로토콜 (Agent-to-Agent Protocol, A2A)
 
-Imagine a user wants to book a flight using an AI assistant powered by MCP.
+MCP가 LLM을 도구에 연결하는 데 초점을 맞추는 반면, **A2A(Agent-to-Agent) 프로토콜**은 한 걸음 더 나아가 서로 다른 AI 에이전트 간의 통신과 협업을 가능하게 합니다. A2A는 다양한 조직, 환경, 기술 스택에 걸쳐 있는 AI 에이전트를 연결하여 공유된 작업을 완료하도록 돕습니다.
 
-1. **Connection**: The AI assistant (the MCP client) connects to an MCP server provided by an airline.
+A2A의 구성 요소와 이점, 그리고 여행 애플리케이션에 적용될 수 있는 예시를 살펴보겠습니다.
 
-2. **Tool Discovery**: The client asks the airline's MCP server, "What tools do you have available?" The server responds with tools like "search flights" and "book flights".
+### A2A 핵심 구성 요소
 
-3. **Tool Invocation**: You then ask the AI assistant, "Please search for a flight from Portland to Honolulu." The AI assistant, using its LLM, identifies that it needs to call the "search flights" tool and passes the relevant parameters (origin, destination) to the MCP server.
+A2A는 에이전트 간의 통신을 가능하게 하고 사용자의 하위 작업을 완료하기 위해 함께 작업하도록 하는 데 중점을 둡니다. 프로토콜의 각 구성 요소는 이를 위해 기여합니다:
 
-4. **Execution and Response**: The MCP server, acting as a wrapper, makes the actual call to the airline's internal booking API. It then receives the flight information (e.g., JSON data) and sends it back to the AI assistant.
+#### 에이전트 카드 (Agent Card)
 
-5. **Further Interaction**: The AI assistant presents the flight options. Once you select a flight, the assistant might invoke the "book flight" tool on the same MCP server, completing the booking.
+MCP 서버가 도구 목록을 공유하는 것과 유사하게, 에이전트 카드에는 다음 정보가 포함됩니다:
 
-## Agent-to-Agent Protocol (A2A)
+- 에이전트 이름
+- 에이전트가 수행하는 **일반적인 작업에 대한 설명**
+- 다른 에이전트(또는 인간 사용자)가 언제, 왜 해당 에이전트를 호출해야 하는지 이해하는 데 도움이 되는 설명과 함께 특정 기술 목록 (**구체적인 스킬**)
+- 에이전트의 **현재 엔드포인트 URL**
+- 스트리밍 응답 및 푸시 알림과 같은 에이전트의 **버전** 및 **기능**
 
-While MCP focuses on connecting LLMs to tools, the **Agent-to-Agent (A2A) protocol** takes it a step further by enabling communication and collaboration between different AI agents.  A2A connects AI agents across different organizations, environments and tech stacks to complete a shared task.
+#### 에이전트 실행기 (Agent Executor)
 
-We’ll examine the components and benefits of A2A, along with an example of how it could be applied in our travel application.
+에이전트 실행기는 **사용자 채팅의 컨텍스트를 원격 에이전트에 전달**하는 역할을 합니다. 원격 에이전트는 완료해야 할 작업을 이해하기 위해 이 컨텍스트가 필요합니다. A2A 서버에서 에이전트는 자체 LLM을 사용하여 수신 요청을 분석하고 자체 내부 도구를 사용하여 작업을 실행합니다.
 
-### A2A Core Components
+#### 아티팩트 (Artifact)
 
-A2A focuses on enabling communication between agents and having them work together to complete a subtask of user. Each component of the protocol contributes to this:
+원격 에이전트가 요청된 작업을 완료하면 작업 결과물이 아티팩트로 생성됩니다. 아티팩트는 **에이전트 작업 결과**, **완료된 작업에 대한 설명**, 그리고 프로토콜을 통해 전송되는 **텍스트 컨텍스트**를 포함합니다. 아티팩트가 전송된 후에는 다시 필요할 때까지 원격 에이전트와의 연결이 종료됩니다.
 
-#### Agent Card
+#### 이벤트 큐 (Event Queue)
 
-Similar to how an MCP server shares a list of tools, an Agent Card has:
-- The Name of the Agent .
-- A **description of the general tasks** it completes.
-- A **list of specific skills** with descriptions to help other agents (or even human users) understand when and why they would want to call that agent.
-- The **current Endpoint URL** of the agent
-- The **version** and **capabilities** of the agent such as streaming responses and push notifications.
+이 구성 요소는 **업데이트 처리 및 메시지 전달**에 사용됩니다. 특히 에이전트 시스템이 프로덕션 환경에서 작업 완료 시간이 오래 걸릴 수 있을 때, 작업이 완료되기 전에 에이전트 간 연결이 종료되는 것을 방지하는 데 중요합니다.
 
-#### Agent Executor
+### A2A의 이점
 
-The Agent Executor is responsible for **passing the context of the user chat to the remote agent**, the remote agent needs this to understand the task that needs to be completed. In an A2A server, an agent uses its own Large Language Model (LLM) to parse incoming requests and execute tasks using its own internal tools.
+- **향상된 협업(Enhanced Collaboration)**: 다양한 공급업체와 플랫폼의 에이전트가 상호 작용하고, 컨텍스트를 공유하며, 함께 작업할 수 있도록 하여 전통적으로 단절되었던 시스템 전반에 걸친 원활한 자동화를 가능하게 합니다.
+- **모델 선택 유연성(Model Selection Flexibility)**: 각 A2A 에이전트는 요청을 처리하는 데 사용할 LLM을 자체적으로 결정할 수 있습니다. 이는 일부 MCP 시나리오에서 단일 LLM 연결을 사용하는 것과 달리, 에이전트별로 최적화되거나 미세 조정된 모델을 사용할 수 있게 합니다.
+- **내장된 인증(Built-in Authentication)**: 인증이 A2A 프로토콜에 직접 통합되어 있어 에이전트 상호작용을 위한 강력한 보안 프레임워크를 제공합니다.
 
-#### Artifact
+### A2A 예시
 
-Once a remote agent has completed the requested task, its work product is created as an artifact.  An artifact **contains the result of the agent's work**, a **description of what was completed**, and the **text context** that is sent through the protocol. After the artifact is sent, the connection with the remote agent is closed until it is needed again.
+![A2A 다이어그램](./images/A2A-Diagram.png)
 
-#### Event Queue
+여행 예약 시나리오를 A2A를 사용하여 확장해 보겠습니다.
 
-This component is used for **handling updates and passing messages**. It is particularly important in production for agentic systems to prevent the connection between agents from being closed before a task is completed, especially when task completion times can take a longer time.
+1. **사용자의 다중 에이전트 요청**: 사용자가 A2A 클라이언트/에이전트인 "여행 에이전트"와 상호작용하며, "다음 주에 호놀룰루로 가는 전체 여행(항공편, 호텔, 렌터카 포함)을 예약해 줘"라고 말합니다.
+2. **여행 에이전트의 오케스트레이션**: 여행 에이전트는 이 복잡한 요청을 받습니다. 자체 LLM을 사용하여 작업을 추론하고 다른 특화된 에이전트와 상호작용해야 한다고 판단합니다.
+3. **에이전트 간 통신**: 여행 에이전트는 A2A 프로토콜을 사용하여 다른 회사에서 만든 "항공사 에이전트", "호텔 에이전트", "렌터카 에이전트"와 같은 다운스트림 에이전트에 연결합니다.
+4. **위임된 작업 실행**: 여행 에이전트는 이러한 특화된 에이전트에게 구체적인 작업(예: "호놀룰루行 항공편 찾기", "호텔 예약", "자동차 렌트")을 보냅니다. 각 특화 에이전트는 자체 LLM을 실행하고 자체 도구(자체적으로 MCP 서버일 수 있음)를 활용하여 예약의 특정 부분을 수행합니다.
+5. **통합된 응답**: 모든 다운스트림 에이전트가 작업을 완료하면 여행 에이전트는 결과(항공편 세부 정보, 호텔 확인, 렌터카 예약)를 취합하여 포괄적이고 채팅 스타일의 응답을 사용자에게 다시 보냅니다.
 
-### Benefits of A2A
+---
 
-• **Enhanced Collaboration**: It enables agents from different vendors and platforms to interact, share context, and work together, facilitating seamless automation across traditionally disconnected systems.
+## 🌐 자연어 웹 (Natural Language Web, NLWeb)
 
-• **Model Selection Flexibility**: Each A2A agent can decide which LLM it uses to service its requests, allowing for optimized or fine-tuned models per agent, unlike a single LLM connection in some MCP scenarios.
+웹사이트는 오랫동안 사용자가 인터넷 전반의 정보와 데이터에 액세스하는 주요 수단이었습니다.
 
-• **Built-in Authentication**: Authentication is integrated directly into the A2A protocol, providing a robust security framework for agent interactions.
+NLWeb의 다양한 구성 요소, NLWeb의 이점, 그리고 여행 애플리케이션을 통해 NLWeb이 어떻게 작동하는지 예시를 살펴보겠습니다.
 
-### A2A Example
+### NLWeb의 구성 요소
 
-![A2A Diagram](./images/A2A-Diagram.png)
+- **NLWeb 애플리케이션 (핵심 서비스 코드)**: 자연어 질문을 처리하는 시스템입니다. 플랫폼의 다양한 부분을 연결하여 응답을 생성합니다. 웹사이트의 **자연어 기능을 구동하는 엔진**이라고 생각하면 됩니다.
+- **NLWeb 프로토콜**: 웹사이트와의 자연어 상호작용을 위한 **기본 규칙 집합**입니다. JSON 형식(종종 Schema.org 사용)으로 응답을 다시 보냅니다. 그 목적은 HTML이 온라인에서 문서를 공유할 수 있게 만든 것과 같은 방식으로, "AI 웹"을 위한 간단한 기반을 만드는 것입니다.
+- **MCP 서버 (모델 컨텍스트 프로토콜 엔드포인트)**: 각 NLWeb 설정은 **MCP 서버**로도 작동합니다. 이는 다른 AI 시스템과 **도구(예: "ask" 메서드) 및 데이터를 공유**할 수 있음을 의미합니다. 실제로 이는 웹사이트의 콘텐츠와 기능을 AI 에이전트가 사용할 수 있게 만들어, 사이트가 더 넓은 "에이전트 생태계"의 일부가 될 수 있도록 합니다.
+- **임베딩 모델(Embedding Models)**: 이러한 모델은 **웹사이트 콘텐츠를 벡터(임베딩)라는 숫자 표현으로 변환**하는 데 사용됩니다. 이러한 벡터는 컴퓨터가 비교하고 검색할 수 있는 방식으로 의미를 포착합니다. 특별한 데이터베이스에 저장되며, 사용자는 사용할 임베딩 모델을 선택할 수 있습니다.
+- **벡터 데이터베이스 (검색 메커니즘)**: 웹사이트 콘텐츠의 **임베딩을 저장**하는 데이터베이스입니다. 누군가 질문을 하면 NLWeb은 벡터 데이터베이스를 확인하여 가장 관련성 높은 정보를 빠르게 찾습니다. 유사도 순으로 정렬된 가능한 답변 목록을 신속하게 제공합니다. NLWeb은 Qdrant, Snowflake, Milvus, Azure AI Search, Elasticsearch와 같은 다양한 벡터 스토리지 시스템과 함께 작동합니다.
 
-Let's expand on our travel booking scenario, but this time using A2A.
+### 예시로 알아보는 NLWeb
 
-1. **User Request to Multi-Agent**: A user interacts with a "Travel Agent" A2A client/agent, perhaps by saying, "Please book an entire trip to Honolulu for next week, including flights, a hotel, and a rental car".
+![NLWeb 다이어그램](./images/nlweb-diagram.png)
 
-2. **Orchestration by Travel Agent**: The Travel Agent receives this complex request. It uses its LLM to reason about the task and determine that it needs to interact with other specialized agents.
+다시 여행 예약 웹사이트를 생각해 보겠습니다. 하지만 이번에는 NLWeb으로 구동됩니다.
 
-3. **Inter-Agent Communication**: The Travel Agent then uses the A2A protocol to connect to downstream agents, such as an "Airline Agent," a "Hotel Agent," and a "Car Rental Agent" that are created by different companies.
+1. **데이터 수집(Data Ingestion)**: 여행 웹사이트의 기존 제품 카탈로그(예: 항공편 목록, 호텔 설명, 여행 패키지)는 Schema.org를 사용하여 형식이 지정되거나 RSS 피드를 통해 로드됩니다. NLWeb의 도구는 이 구조화된 데이터를 수집하고, 임베딩을 생성하며, 로컬 또는 원격 벡터 데이터베이스에 저장합니다.
+2. **자연어 쿼리 (인간)**: 사용자가 웹사이트를 방문하여 메뉴를 탐색하는 대신 채팅 인터페이스에 "다음 주에 호놀룰루에서 가족 친화적이고 수영장이 있는 호텔을 찾아줘"라고 입력합니다.
+3. **NLWeb 처리**: NLWeb 애플리케이션이 이 쿼리를 수신합니다. 이해를 위해 쿼리를 LLM에 보내는 동시에 벡터 데이터베이스에서 관련 호텔 목록을 검색합니다.
+4. **정확한 결과**: LLM은 데이터베이스의 검색 결과를 해석하고, "가족 친화적", "수영장", "호놀룰루" 기준에 따라 최적의 일치 항목을 식별한 후 자연어 응답 형식으로 구성합니다. 중요한 점은 응답이 웹사이트 카탈로그의 실제 호텔을 참조하므로 허위 정보 생성을 피한다는 것입니다.
+5. **AI 에이전트 상호 작용**: NLWeb이 MCP 서버 역할을 하기 때문에 외부 AI 여행 에이전트도 이 웹사이트의 NLWeb 인스턴스에 연결할 수 있습니다. 그런 다음 AI 에이전트는 `ask` MCP 메서드를 사용하여 웹사이트에 직접 질의할 수 있습니다: `ask("호텔에서 추천하는 호놀룰루 지역의 비건 친화적 레스토랑이 있나요?")`. NLWeb 인스턴스는 (로드된 경우) 레스토랑 정보 데이터베이스를 활용하여 이 쿼리를 처리하고 구조화된 JSON 응답을 반환합니다.
 
-4. **Delegated Task Execution**: The Travel Agent sends specific tasks to these specialized agents (e.g., "Find flights to Honolulu," "Book a hotel," "Rent a car"). Each of these specialized agents, running their own LLMs and utilizing their own tools (which could be MCP servers themselves), performs its specific part of the booking.
+---
 
-5. **Consolidated Response**: Once all downstream agents complete their tasks, the Travel Agent compiles the results (flight details, hotel confirmation, car rental booking) and sends a comprehensive, chat-style response back to the user.
+## ❓ MCP/A2A/NLWeb에 대해 더 궁금한 점이 있나요?
 
-## Natural Language Web (NLWeb)
+[Azure AI Foundry Discord](https://aka.ms/ai-agents/discord)에 참여하여 다른 학습자들을 만나고, 오피스 아워에 참여하고 AI Agents에 대한 질문에 대한 답변을 받아보세요.
 
-Websites have long been the primary way for users to access information and data across the internet.
+---
 
-Let us look at the different components of NLWeb, the benefits of NLWeb and an example how our NLWeb works by looking at our travel application.
+## 📚 자료 (Resources)
 
-### Components of NLWeb
+- [초보자를 위한 MCP (MCP for Beginners)](https://aka.ms/mcp-for-beginners)
+- [MCP 문서 (MCP Documentation)](https://github.com/microsoft/semantic-kernel/tree/main/python/semantic-kernel/semantic_kernel/connectors/mcp)
+- [NLWeb 저장소 (NLWeb Repo)](https://github.com/nlweb-ai/NLWeb)
+- [Semantic Kernel 가이드 (Semantic Kernel Guides)](https://learn.microsoft.com/semantic-kernel/)
 
-- **NLWeb Application (Core Service Code)**: The system that processes natural language questions. It connects the different parts of the platform to create responses. You can think of it as the **engine that powers the natural language features** of a website.
+---
 
-- **NLWeb Protocol**: This is a **basic set of rules for natural language interaction** with a website. It sends back responses in JSON format (often using Schema.org). Its purpose is to create a simple foundation for the “AI Web,” in the same way that HTML made it possible to share documents online.
-
-- **MCP Server (Model Context Protocol Endpoint)**: Each NLWeb setup also works as an **MCP server**. This means it can **share tools (like an “ask” method) and data** with other AI systems. In practice, this makes the website’s content and abilities usable by AI agents, allowing the site to become part of the wider “agent ecosystem.”
-
-- **Embedding Models**: These models are used to **convert website content into numerical representations called vectors** (embeddings). These vectors capture meaning in a way computers can compare and search. They are stored in a special database, and users can choose which embedding model they want to use.
-
-- **Vector Database (Retrieval Mechanism)**: This database **stores the embeddings of the website content**. When someone asks a question, NLWeb checks the vector database to quickly find the most relevant information. It gives a fast list of possible answers, ranked by similarity. NLWeb works with different vector storage systems such as Qdrant, Snowflake, Milvus, Azure AI Search, and Elasticsearch.
-
-### NLWeb by Example
-
-![NLWeb](./images/nlweb-diagram.png)
-
-Consider our travel booking website again, but this time, it's powered by NLWeb.
-
-1. **Data Ingestion**: The travel website's existing product catalogs (e.g., flight listings, hotel descriptions, tour packages) are formatted using Schema.org or loaded via RSS feeds. NLWeb's tools ingest this structured data, create embeddings, and store them in a local or remote vector database.
-
-2. **Natural Language Query (Human)**: A user visits the website and, instead of navigating menus, types into a chat interface: "Find me a family-friendly hotel in Honolulu with a pool for next week".
-
-3. **NLWeb Processing**: The NLWeb application receives this query. It sends the query to an LLM for understanding and simultaneously searches its vector database for relevant hotel listings.
-
-4. **Accurate Results**: The LLM helps to interpret the search results from the database, identify the best matches based on "family-friendly," "pool," and "Honolulu" criteria, and then formats a natural language response. Crucially, the response refers to actual hotels from the website's catalog, avoiding made-up information.
-
-5. **AI Agent Interaction**: Because NLWeb serves as an MCP server, an external AI travel agent could also connect to this website's NLWeb instance. The AI agent could then use the `ask` MCP method to query the website directly: `ask("Are there any vegan-friendly restaurants in the Honolulu area recommended by the hotel?")`. The NLWeb instance would process this, leveraging its database of restaurant information (if loaded), and return a structured JSON response.
-
-### Got More Questions about MCP/A2A/NLWeb?
-
-Join the [Azure AI Foundry Discord](https://aka.ms/ai-agents/discord) to meet with other learners, attend office hours and get your AI Agents questions answered.
-
-## Resources
-
-- [MCP for Beginners](https://aka.ms/mcp-for-beginners)  
-- [MCP Documentation](https://github.com/microsoft/semantic-kernel/tree/main/python/semantic-kernel/semantic_kernel/connectors/mcp)
-- [NLWeb Repo](https://github.com/nlweb-ai/NLWeb)
-- [Semantic Kernel Guides](https://learn.microsoft.com/semantic-kernel/)
+*이 가이드가 여러분의 AI 에이전트가 표준화된 프로토콜을 통해 세상과 소통하는 방법을 이해하는 데 도움이 되길 바랍니다!* 🤝

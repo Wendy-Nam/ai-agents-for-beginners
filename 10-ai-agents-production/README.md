@@ -1,166 +1,180 @@
-# AI Agents in Production: Observability & Evaluation
 
-[![AI Agents in Production](./images/lesson-10-thumbnail.png)](https://youtu.be/l4TP6IyJxmQ?si=reGOyeqjxFevyDq9)
+# 🚀 프로덕션 환경의 AI 에이전트: 관찰 가능성(Observability) & 평가(Evaluation)
 
-As AI agents move from experimental prototypes to real-world applications, the ability to understand their behavior, monitor their performance, and systematically evaluate their outputs becomes important.
+[![프로덕션 환경의 AI 에이전트](./images/lesson-10-thumbnail.png)](https://youtu.be/l4TP6IyJxmQ?si=reGOyeqjxFevyDq9)
 
-## Learning Goals
+AI 에이전트가 실험적인 프로토타입 단계를 넘어 실제 현업 애플리케이션으로 자리 잡으면서, 에이전트의 동작을 이해하고, 성능을 모니터링하며, 결과물을 체계적으로 평가하는 능력은 매우 중요해지고 있습니다.
 
-After completing this lesson, you will know how to/understand:
-- Core concepts of agent observability and evaluation
-- Techniques for improving the performance, costs, and effectiveness of agents
-- What and how to evaluate your AI agents systematically
-- How to control costs when deploying AI agents to production
-- How to instrument agents built with AutoGen
+## 🎯 학습 목표
 
-The goal is to equip you with the knowledge to transform your "black box" agents into transparent, manageable, and dependable systems.
+이번 레슨을 완료하면 다음을 할 수 있게 됩니다:
 
-_**Note:** It is important to deploy AI Agents that are safe and trustworthy. Check out the [Building Trustworthy AI Agents](./06-building-trustworthy-agents/README.md) lesson as well._
+- 에이전트 관찰 가능성 및 평가의 핵심 개념 이해하기
+- 에이전트의 성능, 비용 및 효율성을 개선하는 기술 습득하기
+- AI 에이전트를 체계적으로 평가하는 방법과 평가 항목 이해하기
+- AI 에이전트를 프로덕션에 배포할 때 비용을 통제하는 방법 알아보기
+- AutoGen으로 구축된 에이전트를 계측(instrument)하는 방법 배우기
 
-## Traces and Spans
+이번 레슨의 목표는 여러분의 "블랙박스" 에이전트를 투명하고 관리 가능하며 신뢰할 수 있는 시스템으로 탈바꿈시키는 데 필요한 지식을 제공하는 것입니다.
 
-Observability tools such as [Langfuse](https://langfuse.com/) or [Azure AI Foundry](https://learn.microsoft.com/en-us/azure/ai-foundry/what-is-azure-ai-foundry) usually represent agent runs as traces and spans.
+_**참고:** 안전하고 신뢰할 수 있는 AI 에이전트를 배포하는 것은 매우 중요합니다. [신뢰할 수 있는 AI 에이전트 구축하기](./06-building-trustworthy-agents/README.md) 강의도 함께 확인해 보세요._
 
-- **Trace** represents a complete agent task from start to finish (like handling a user query).
-- **Spans** are individual steps within the trace (like calling a language model or retrieving data).
+---
 
-![Trace tree in Langfuse](https://langfuse.com/images/cookbook/example-autogen-evaluation/trace-tree.png)
+## 🔍 트레이스(Traces)와 스팬(Spans)
 
-Without observability, an AI agent can feel like a "black box" - its internal state and reasoning are opaque, making it difficult to diagnose issues or optimize performance. With observability, agents become "glass boxes," offering transparency that is vital for building trust and ensuring they operate as intended. 
+[Langfuse](https://langfuse.com/) 또는 [Azure AI Foundry](https://learn.microsoft.com/ko-kr/azure/ai-foundry/what-is-azure-ai-foundry)와 같은 관찰 가능성 도구는 일반적으로 에이전트 실행 과정을 **트레이스**와 **스팬**으로 표현합니다.
 
-## Why Observability Matters in Production Environments
+- **트레이스 (Trace)** 는 사용자 쿼리 처리와 같은 에이전트의 전체 작업 과정을 처음부터 끝까지 나타냅니다.
+- **스팬 (Span)** 은 트레이스 내의 개별 단계로, 언어 모델 호출, 데이터 검색 등의 각 단계를 의미합니다.
 
-Transitioning AI agents to production environments introduces a new set of challenges and requirements. Observability is no longer a "nice-to-have" but a critical capability:
+![Langfuse의 트레이스 트리](https://langfuse.com/images/cookbook/example-autogen-evaluation/trace-tree.png)
 
-*   **Debugging and Root-Cause Analysis**: When an agent fails or produces an unexpected output, observability tools provide the traces needed to pinpoint the source of the error. This is especially important in complex agents that might involve multiple LLM calls, tool interactions, and conditional logic.
-*   **Latency and Cost Management**: AI agents often rely on LLMs and other external APIs that are billed per token or per call. Observability allows for precise tracking of these calls, helping to identify operations that are excessively slow or expensive. This enables teams to optimize prompts, select more efficient models, or redesign workflows to manage operational costs and ensure a good user experience.
-*   **Trust, Safety, and Compliance**: In many applications, it's important to ensure that agents behave safely and ethically. Observability provides an audit trail of agent actions and decisions. This can be used to detect and mitigate issues like prompt injection, the generation of harmful content, or the mishandling of personally identifiable information (PII). For example, you can review traces to understand why an agent provided a certain response or used a specific tool.
-*   **Continuous Improvement Loops**: Observability data is the foundation of an iterative development process. By monitoring how agents perform in the real world, teams can identify areas for improvement, gather data for fine-tuning models, and validate the impact of changes. This creates a feedback loop where production insights from online evaluation inform offline experimentation and refinement, leading to progressively better agent performance.
+관찰 가능성이 없다면 AI 에이전트는 내부 상태와 추론 과정을 알 수 없는 **"블랙박스"**처럼 느껴져 문제 진단이나 성능 최적화가 어렵습니다. 반면, 관찰 가능성을 확보하면 에이전트는 **"유리 상자"**처럼 투명해져, 신뢰를 구축하고 의도한 대로 작동하는지 확인하는 데 필수적인 요소가 됩니다.
 
-## Key Metrics to Track
+## 🤔 프로덕션 환경에서 관찰 가능성이 중요한 이유
 
-To monitor and understand agent behavior, a range of metrics and signals should be tracked. While the specific metrics might vary based on the agent's purpose, some are universally important.
+AI 에이전트를 프로덕션 환경으로 전환하면 새로운 도전 과제와 요구 사항이 생깁니다. 관찰 가능성은 더 이상 "있으면 좋은" 기능이 아니라 **핵심적인 역량**이 됩니다.
 
-Here are some of the most common metrics that observability tools monitor:
+- **디버깅 및 근본 원인 분석**: 에이전트가 실패하거나 예상치 못한 결과를 생성할 때, 관찰 가능성 도구는 오류의 근원을 정확히 찾아낼 수 있는 트레이스를 제공합니다. 이는 여러 LLM 호출, 도구 상호작용, 조건부 로직이 포함된 복잡한 에이전트에서 특히 중요합니다.
+- **지연 시간 및 비용 관리**: AI 에이전트는 주로 토큰 또는 호출 횟수별로 비용이 청구되는 LLM 및 기타 외부 API에 의존합니다. 관찰 가능성을 통해 이러한 호출을 정밀하게 추적하여 지나치게 느리거나 비용이 많이 드는 작업을 식별할 수 있습니다. 이를 통해 팀은 프롬프트를 최적화하고, 더 효율적인 모델을 선택하거나, 운영 비용을 관리하고 좋은 사용자 경험을 보장하기 위해 워크플로우를 재설계할 수 있습니다.
+- **신뢰, 안전 및 규정 준수**: 많은 애플리케이션에서 에이전트가 안전하고 윤리적으로 행동하는지 확인하는 것이 중요합니다. 관찰 가능성은 에이전트의 행동과 결정에 대한 감사 추적(audit trail)을 제공합니다. 이는 프롬프트 인젝션, 유해한 콘텐츠 생성, 개인 식별 정보(PII) 오용과 같은 문제를 감지하고 완화하는 데 사용될 수 있습니다. 예를 들어, 에이전트가 특정 응답을 제공하거나 특정 도구를 사용한 이유를 이해하기 위해 트레이스를 검토할 수 있습니다.
+- **지속적인 개선 루프**: 관찰 가능성 데이터는 반복적인 개발 프로세스의 기초가 됩니다. 실시간으로 에이전트가 어떻게 성능을 발휘하는지 모니터링함으로써 팀은 개선 영역을 식별하고, 모델 미세 조정을 위한 데이터를 수집하며, 변경 사항의 영향을 검증할 수 있습니다. 이는 온라인 평가에서 얻은 프로덕션 인사이트가 오프라인 실험 및 개선에 정보를 제공하고, 점진적으로 더 나은 에이전트 성능을 이끌어내는 피드백 루프를 생성합니다.
 
-**Latency:** How quickly does the agent respond? Long waiting times negatively impact user experience. You should measure latency for tasks and individual steps by tracing agent runs. For example, an agent that takes 20 seconds for all model calls could be accelerated by using a faster model or by running model calls in parallel.
+## 📊 추적해야 할 핵심 지표(Metrics)
 
-**Costs:** What’s the expense per agent run? AI agents rely on LLM calls billed per token or external APIs. Frequent tool usage or multiple prompts can rapidly increase costs. For instance, if an agent calls an LLM five times for marginal quality improvement, you must assess if the cost is justified or if you could reduce the number of calls or use a cheaper model. Real-time monitoring can also help identify unexpected spikes (e.g., bugs causing excessive API loops).
+에이전트 동작을 모니터링하고 이해하려면 다양한 범위의 지표와 신호를 추적해야 합니다. 구체적인 지표는 에이전트의 목적에 따라 다를 수 있지만, 보편적으로 중요한 몇 가지가 있습니다.
 
-**Request Errors:** How many requests did the agent fail? This can include API errors or failed tool calls. To make your agent more robust against these in production, you can then set up fallbacks or retries. E.g. if LLM provider A is down, you switch to LLM provider B as backup.
+관찰 가능성 도구가 모니터링하는 가장 일반적인 지표는 다음과 같습니다:
 
-**User Feedback:** Implementing direct user evaluations provide valuable insights. This can include explicit ratings (👍thumbs-up/👎down, ⭐1-5 stars) or textual comments. Consistent negative feedback should alert you as this is a sign that the agent is not working as expected. 
+- **지연 시간 (Latency)**: 에이전트가 얼마나 빠르게 응답하는가? 대기 시간이 길면 사용자 경험에 부정적인 영향을 미칩니다. 에이전트 실행 과정을 추적하여 전체 작업 및 개별 단계의 지연 시간을 측정해야 합니다. 예를 들어, 모든 모델 호출에 20초가 걸리는 에이전트는 더 빠른 모델을 사용하거나 모델 호출을 병렬로 실행하여 속도를 높일 수 있습니다.
+- **비용 (Costs)**: 에이전트 실행당 비용은 얼마인가? AI 에이전트는 토큰당 비용이 청구되는 LLM 호출 또는 외부 API에 의존합니다. 잦은 도구 사용이나 여러 번의 프롬프트는 비용을 빠르게 증가시킬 수 있습니다. 예를 들어, 에이전트가 미미한 품질 향상을 위해 LLM을 다섯 번 호출한다면, 그 비용이 정당한지, 아니면 호출 횟수를 줄이거나 더 저렴한 모델을 사용할 수 있는지 평가해야 합니다. 실시간 모니터링은 예상치 못한 비용 급증(예: 버그로 인한 과도한 API 루프)을 식별하는 데도 도움이 됩니다.
+- **요청 오류 (Request Errors)**: 에이전트가 실패한 요청은 몇 개인가? 여기에는 API 오류나 실패한 도구 호출이 포함될 수 있습니다. 이에 대비하여 프로덕션에서 에이전트를 더욱 견고하게 만들기 위해 폴백(fallback) 또는 재시도 메커니즘을 설정할 수 있습니다. 예를 들어, LLM 제공업체 A가 다운되면 백업으로 LLM 제공업체 B로 전환하는 것입니다.
+- **명시적 사용자 피드백 (User Feedback)**: 직접적인 사용자 평가를 구현하면 귀중한 통찰력을 얻을 수 있습니다. 여기에는 명시적인 평가(👍 좋아요/👎 싫어요, ⭐1-5점) 또는 텍스트 댓글이 포함될 수 있습니다. 일관된 부정적인 피드백은 에이전트가 예상대로 작동하지 않고 있다는 신호이므로 주의를 기울여야 합니다.
+- **암시적 사용자 피드백 (Implicit User Feedback)**: 명시적인 평가 없이도 사용자 행동을 통해 간접적인 피드백을 얻을 수 있습니다. 여기에는 즉각적인 질문 재구성, 반복적인 질문, 재시도 버튼 클릭 등이 포함됩니다. 예를 들어, 사용자가 동일한 질문을 반복해서 한다면 에이전트가 예상대로 작동하지 않고 있다는 신호일 수 있습니다.
+- **정확도 (Accuracy)**: 에이전트가 얼마나 자주 정확하거나 바람직한 결과를 생성하는가? 정확도의 정의는 다양합니다(예: 문제 해결 정확성, 정보 검색 정확성, 사용자 만족도). 첫 번째 단계는 에이전트의 성공이 무엇인지 정의하는 것입니다. 자동화된 검사, 평가 점수 또는 작업 완료 레이블을 통해 정확도를 추적할 수 있습니다. 예를 들어, 트레이스에 "성공" 또는 "실패" 레이블을 지정하는 것입니다.
+- **자동화된 평가 지표 (Automated Evaluation Metrics)**: 자동화된 평가를 설정할 수도 있습니다. 예를 들어, LLM을 사용하여 에이전트의 출력이 도움이 되는지, 정확한지 등을 평가하도록 점수를 매길 수 있습니다. 에이전트의 다양한 측면을 평가하는 데 도움이 되는 여러 오픈 소스 라이브러리도 있습니다. 예를 들어, RAG 에이전트용 [RAGAS](https://docs.ragas.io/) 또는 유해한 언어나 프롬프트 인젝션을 감지하는 [LLM Guard](https://llm-guard.com/) 등이 있습니다.
 
-**Implicit User Feedback:** User behaviors provide indirect feedback even without explicit ratings. This can include immediate question rephrasing, repeated queries or clicking a retry button. E.g. if you see that users repeatedly ask the same question, this is a sign that the agent is not working as expected.
+실제로는 이러한 지표들을 조합하여 AI 에이전트의 상태를 가장 잘 파악할 수 있습니다. 이번 챕터의 [예제 노트북](./code_samples/10_autogen_evaluation.ipynb)에서는 이러한 지표들이 실제 예시에서 어떻게 보이는지 보여드리겠습니다. 하지만 먼저, 일반적인 평가 워크플로우가 어떻게 생겼는지 알아보겠습니다.
 
-**Accuracy:** How frequently does the agent produce correct or desirable outputs? Accuracy definitions vary (e.g., problem-solving correctness, information retrieval accuracy, user satisfaction). The first step is to define what success looks like for your agent. You can track accuracy via automated checks, evaluation scores, or task completion labels. For example, marking traces as "succeeded" or "failed". 
+---
 
-**Automated Evaluation Metrics:** You can also set up automated evals. For instance, you can use an LLM to score the output of the agent e.g. if it is helpful, accurate, or not. There are also several open source libraries that help you to score different aspects of the agent. E.g. [RAGAS](https://docs.ragas.io/) for RAG agents or [LLM Guard](https://llm-guard.com/) to detect harmful language or prompt injection. 
+## 📝 에이전트 계측(Instrumentation)하기
 
-In practice, a combination of these metrics gives the best coverage of an AI agent’s health. In this chapters [example notebook](./code_samples/10_autogen_evaluation.ipynb), we'll show you how these metrics looks in real examples but first, we'll learn how a typical evaluation workflow looks like.
+추적 데이터를 수집하려면 코드를 **계측(instrument)** 해야 합니다. 목표는 에이전트 코드에서 트레이스와 지표를 생성하여 관찰 가능성 플랫폼이 캡처, 처리 및 시각화할 수 있도록 하는 것입니다.
 
-## Instrument your Agent
+- **OpenTelemetry (OTel)**: [OpenTelemetry](https://opentelemetry.io/)는 LLM 관찰 가능성 분야의 업계 표준으로 자리 잡았습니다. 텔레메트리 데이터를 생성, 수집 및 내보내기 위한 API, SDK 및 도구 세트를 제공합니다.
 
-To gather tracing data, you’ll need to instrument your code. The goal is to instrument the agent code to emit traces and metrics that can be captured, processed, and visualized by an observability platform.
+  기존 에이전트 프레임워크를 래핑하여 OpenTelemetry 스팬을 관찰 가능성 도구로 쉽게 내보낼 수 있게 해주는 많은 계측 라이브러리가 있습니다. 아래는 [OpenLit 계측 라이브러리](https://github.com/openlit/openlit)를 사용하여 AutoGen 에이전트를 계측하는 예시입니다:
 
-**OpenTelemetry (OTel):** [OpenTelemetry](https://opentelemetry.io/) has emerged as an industry standard for LLM observability. It provides a set of APIs, SDKs, and tools for generating, collecting, and exporting telemetry data. 
+  ```python
+  import openlit
 
-There are many instrumentation libraries that wrap existing agent frameworks and make it easy to export OpenTelemetry spans to an observability tool. Below is an example on instrumenting an AutoGen agent with the [OpenLit instrumentation library](https://github.com/openlit/openlit):
+  openlit.init(tracer = langfuse._otel_tracer, disable_batch = True)
+  ```
 
-```python
-import openlit
+  이번 챕터의 [예제 노트북](./code_samples/10_autogen_evaluation.ipynb)은 AutoGen 에이전트를 계측하는 방법을 자세히 보여줄 것입니다.
+- **수동 스팬 생성**: 계측 라이브러리가 좋은 기반을 제공하지만, 더 자세하거나 사용자 정의 정보가 필요한 경우가 종종 있습니다. 수동으로 스팬을 생성하여 사용자 정의 애플리케이션 로직을 추가할 수 있습니다. 더 중요한 것은, 자동 또는 수동으로 생성된 스팬에 사용자 정의 속성(태그 또는 메타데이터라고도 함)을 추가하여 풍부하게 만들 수 있다는 점입니다. 이러한 속성에는 비즈니스 관련 데이터, 중간 계산 결과, 디버깅이나 분석에 유용한 컨텍스트(예: `user_id`, `session_id`, `model_version`) 등이 포함될 수 있습니다.
 
-openlit.init(tracer = langfuse._otel_tracer, disable_batch = True)
-```
+  [Langfuse Python SDK](https://langfuse.com/docs/sdk/python/sdk-v3)로 수동으로 트레이스와 스팬을 생성하는 예시:
 
-The [example notebook](./code_samples/10_autogen_evaluation.ipynb) in this chapter will demonstrate how to instrument your AutoGen agent.
+  ```python
+  from langfuse import get_client
 
-**Manual Span Creation:** While instrumentation libraries provides a good baseline, there are often cases where more detailed or custom information is needed. You can manually create spans to add custom application logic. More importantly, they can enrich automatically or manually created spans with custom attributes (also known as tags or metadata). These attributes can include business-specific data, intermediate computations, or any context that might be useful for debugging or analysis, such as `user_id`, `session_id`, or `model_version`.
+  langfuse = get_client()
 
-Example on creating traces and spans manually with the [Langfuse Python SDK](https://langfuse.com/docs/sdk/python/sdk-v3): 
+  span = langfuse.start_span(name="my-span")
 
-```python
-from langfuse import get_client
- 
-langfuse = get_client()
- 
-span = langfuse.start_span(name="my-span")
- 
-span.end()
-```
+  span.end()
+  ```
 
-## Agent Evaluation
+---
 
-Observability gives us metrics, but evaluation is the process of analyzing that data (and performing tests) to determine how well an AI agent is performing and how it can be improved. In other words, once you have those traces and metrics, how do you use them to judge the agent and make decisions? 
+## 📈 에이전트 평가 (Evaluation)
 
-Regular evaluation is important because AI agents are often non-deterministic and can evolve (through updates or drifting model behavior) – without evaluation, you wouldn’t know if your “smart agent” is actually doing its job well or if it’s regressed.
+관찰 가능성은 우리에게 지표를 제공합니다. 그러나 **평가**는 AI 에이전트가 얼마나 잘 수행되고 있는지, 어떻게 개선될 수 있는지 판단하기 위해 그 데이터를 분석하고(테스트를 수행하는) 과정입니다. 즉, 트레이스와 지표를 확보한 후, 그것들을 사용하여 에이전트를 평가하고 결정을 내리는 방법입니다.
 
-There are two categories of evaluations for AI agents: **online evaluation** and **offline evaluation**. Both are valuable, and they complement each other. We usually begin with offline evaluation, as this is the minimum necessary step before deploying any agent.
+AI 에이전트는 종종 비결정적이며(업데이트나 모델 동작 변화를 통해) 진화할 수 있기 때문에 정기적인 평가가 중요합니다. 평가 없이는 "똑똑한 에이전트"가 실제로 제 역할을 잘 수행하고 있는지, 혹은 성능이 퇴보했는지 알 수 없습니다.
 
-### Offline Evaluation
+AI 에이전트 평가에는 **온라인 평가**와 **오프라인 평가**라는 두 가지 범주가 있습니다. 둘 다 가치 있으며 서로를 보완합니다. 일반적으로 에이전트를 배포하기 전에 필요한 최소 단계인 오프라인 평가부터 시작합니다.
 
-![Dataset items in Langfuse](https://langfuse.com/images/cookbook/example-autogen-evaluation/example-dataset.png)
+### 오프라인 평가 (Offline Evaluation)
 
-This involves evaluating the agent in a controlled setting, typically using test datasets, not live user queries. You use curated datasets where you know what the expected output or correct behavior is, and then run your agent on those. 
+![Langfuse의 데이터셋 항목](https://langfuse.com/images/cookbook/example-autogen-evaluation/example-dataset.png)
 
-For instance, if you built a math word-problem agent, you might have a [test dataset](https://huggingface.co/datasets/gsm8k) of 100 problems with known answers. Offline evaluation is often done during development (and can be part of CI/CD pipelines) to check improvements or guard against regressions. The benefit is that it’s **repeatable and you can get clear accuracy metrics since you have ground truth**. You might also simulate user queries and measure the agent’s responses against ideal answers or use automated metrics as described above. 
+이는 실제 사용자 쿼리가 아닌 일반적으로 테스트 데이터셋을 사용하여 통제된 환경에서 에이전트를 평가하는 것을 의미합니다. 예상되는 출력이나 올바른 동작을 알고 있는 큐레이션된 데이터셋을 사용하고, 해당 데이터셋에 대해 에이전트를 실행합니다.
 
-The key challenge with offline eval is ensuring your test dataset is comprehensive and stays relevant – the agent might perform well on a fixed test set but encounter very different queries in production. Therefore, you should keep test sets updated with new edge cases and examples that reflect real-world scenarios​. A mix of small “smoke test” cases and larger evaluation sets is useful: small sets for quick checks and larger ones for broader performance metrics​.
+예를 들어, 수학 단어 문제 에이전트를 구축했다면, 정답이 알려진 100개 문제의 [테스트 데이터셋](https://huggingface.co/datasets/gsm8k)을 보유할 수 있습니다. 오프라인 평가는 종종 개발 중에 수행되며(CI/CD 파이프라인의 일부가 될 수 있음) 개선 사항을 확인하거나 회귀를 방지하는 데 사용됩니다. 장점은 **반복 가능하고(Ground Truth가 있으므로) 명확한 정확도 지표를 얻을 수 있다**는 것입니다. 또한 사용자 쿼리를 시뮬레이션하고 이상적인 답변과 에이전트의 응답을 비교하거나 앞서 설명한 자동화된 지표를 사용할 수 있습니다.
 
-### Online Evaluation 
+오프라인 평가의 주요 과제는 테스트 데이터셋이 포괄적이고 관련성을 유지하도록 보장하는 것입니다. 에이전트는 고정된 테스트 세트에서는 잘 수행될 수 있지만, 프로덕션에서는 매우 다른 쿼리를 만날 수 있습니다. 따라서 실제 시나리오를 반영하는 새로운 에지 케이스와 예시로 테스트 세트를 지속적으로 업데이트해야 합니다. 빠른 점검을 위한 작은 "스모크 테스트" 세트와 광범위한 성능 지표를 위한 더 큰 평가 세트를 혼합하는 것이 유용합니다.
 
-![Observability metrics overview](https://langfuse.com/images/cookbook/example-autogen-evaluation/dashboard.png)
+### 온라인 평가 (Online Evaluation)
 
-This refers to evaluating the agent in a live, real-world environment, i.e. during actual usage in production. Online evaluation involves monitoring the agent’s performance on real user interactions and analyzing outcomes continuously. 
+![관찰 가능성 지표 개요](https://langfuse.com/images/cookbook/example-autogen-evaluation/dashboard.png)
 
-For example, you might track success rates, user satisfaction scores, or other metrics on live traffic. The advantage of online evaluation is that it **captures things you might not anticipate in a lab setting** – you can observe model drift over time (if the agent’s effectiveness degrades as input patterns shift) and catch unexpected queries or situations that weren’t in your test data​. It provides a true picture of how the agent behaves in the wild. 
+이는 실제 운영 환경, 즉 프로덕션에서 실제 사용 중인 에이전트를 평가하는 것을 의미합니다. 온라인 평가는 실제 사용자 상호작용에 대한 에이전트의 성능을 모니터링하고 결과를 지속적으로 분석하는 것을 포함합니다.
 
-Online evaluation often involves collecting implicit and explicit user feedback, as discussed, and possibly running shadow tests or A/B tests (where a new version of the agent runs in parallel to compare against the old). The challenge is that it can be tricky to get reliable labels or scores for live interactions – you might rely on user feedback or downstream metrics (like did the user click the result). 
+예를 들어, 실시간 트래픽에 대한 성공률, 사용자 만족도 점수 또는 기타 지표를 추적할 수 있습니다. 온라인 평가의 장점은 **실험실 환경에서는 예측하지 못했던 것들을 포착**할 수 있다는 것입니다. 입력 패턴이 변함에 따라 시간이 지남에 따른 모델 드리프트(model drift)를 관찰하고, 테스트 데이터에 없었던 예상치 못한 쿼리나 상황을 발견할 수 있습니다. 이는 실제 환경에서 에이전트가 어떻게 행동하는지에 대한 진정한 그림을 제공합니다.
 
-### Combining the two
+온라인 평가는 종종 앞서 논의한 암시적 및 명시적 사용자 피드백을 수집하고, 잠재적으로 섀도 테스트(shadow test) 또는 A/B 테스트(에이전트의 새 버전을 병렬로 실행하여 이전 버전과 비교)를 실행하는 것을 포함합니다. 과제는 실시간 상호작용에 대한 신뢰할 수 있는 레이블이나 점수를 얻는 것이 까다로울 수 있다는 점입니다. 사용자 피드백이나 다운스트림 지표(예: 사용자가 결과를 클릭했는지 여부)에 의존해야 할 수도 있습니다.
 
-Online and offline evaluations are not mutually exclusive; they are highly complementary. Insights from online monitoring (e.g., new types of user queries where the agent performs poorly) can be used to augment and improve offline test datasets. Conversely, agents that perform well in offline tests can then be more confidently deployed and monitored online. 
+### 두 가지 평가 방법 결합하기
 
-In fact, many teams adopt a loop: 
+온라인 및 오프라인 평가는 상호 배타적이지 않으며, 매우 보완적입니다. 온라인 모니터링에서 얻은 인사이트(예: 에이전트 성능이 저조한 새로운 유형의 사용자 쿼리)는 오프라인 테스트 데이터셋을 보강하고 개선하는 데 사용될 수 있습니다. 반대로, 오프라인 테스트에서 좋은 성능을 보이는 에이전트는 더 자신 있게 배포되고 온라인에서 모니터링될 수 있습니다.
 
-_evaluate offline -> deploy -> monitor online -> collect new failure cases -> add to offline dataset -> refine agent -> repeat_.
+실제로 많은 팀이 다음과 같은 루프를 채택합니다:
 
-## Common Issues
+_오프라인 평가 -> 배포 -> 온라인 모니터링 -> 새로운 실패 사례 수집 -> 오프라인 데이터셋에 추가 -> 에이전트 개선 -> 반복_
 
-As you deploy AI agents to production, you may encounter various challenges. Here are some common issues and their potential solutions:
+---
 
-| **Issue**    | **Potential Solution**   |
-| ------------- | ------------------ |
-| AI Agent not performing tasks consistently | - Refine the prompt given to the AI Agent; be clear on objectives.<br>- Identify where dividing the tasks into subtasks and handling them by multiple agents can help. |
-| AI Agent running into continuous loops  | - Ensure you have clear termination terms and conditions so the Agent knows when to stop the process.<br>- For complex tasks that require reasoning and planning, use a larger model that is specialized for reasoning tasks. |
-| AI Agent tool calls are not performing well   | - Test and validate the tool's output outside of the agent system.<br>- Refine the defined parameters, prompts, and naming of tools.  |
-| Multi-Agent system not performing consistently | - Refine prompts given to each agent to ensure they are specific and distinct from one another.<br>- Build a hierarchical system using a "routing" or controller agent to determine which agent is the correct one. |
+## ⚠️ 일반적인 문제점 (Common Issues)
 
-Many of these issues can be identified more effectively with observability in place. The traces and metrics we discussed earlier help pinpoint exactly where in the agent workflow problems occur, making debugging and optimization much more efficient.
+AI 에이전트를 프로덕션에 배포하면서 다양한 문제에 직면할 수 있습니다. 다음은 몇 가지 일반적인 문제와 잠재적인 해결 방안입니다:
 
-## Managing Costs
+| **문제점**                               | **잠재적 해결 방안**                                                                                                                                                               |
+| ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| AI 에이전트가 작업을 일관되게 수행하지 못함    | - AI 에이전트에게 주는 프롬프트를 개선하고, 목표를 명확히 합니다.`<br>`- 작업을 하위 작업으로 나누고 여러 에이전트가 처리하도록 하는 것이 도움이 될 수 있는지 파악합니다.              |
+| AI 에이전트가 계속 루프에 빠짐                 | - 에이전트가 프로세스를 중단해야 할 시점을 알 수 있도록 명확한 종료 조건을 설정합니다.`<br>`- 추론과 계획이 필요한 복잡한 작업에는 추론 작업에 특화된 더 큰 모델을 사용합니다.         |
+| AI 에이전트의 도구 호출이 제대로 작동하지 않음 | - 에이전트 시스템 외부에서 도구의 출력을 테스트하고 검증합니다.`<br>`- 도구의 정의된 매개변수, 프롬프트 및 이름을 개선합니다.                                                          |
+| 다중 에이전트 시스템이 일관되게 작동하지 않음  | - 각 에이전트에게 주는 프롬프트를 구체적이고 서로 구분되도록 개선합니다.`<br>`- "라우팅" 또는 제어 에이전트를 사용하여 올바른 에이전트가 무엇인지 결정하는 계층적 시스템을 구축합니다. |
 
-Here are some strategies to manage the costs of deploying AI agents to production:
+이러한 많은 문제들은 관찰 가능성이 확보된 상태에서 더 효과적으로 식별될 수 있습니다. 앞서 논의한 트레이스와 지표는 에이전트 워크플로우에서 정확히 어디에 문제가 발생하는지 파악하는 데 도움을 주어 디버깅과 최적화를 훨씬 더 효율적으로 만듭니다.
 
-**Using Smaller Models:** Small Language Models (SLMs) can perform well on certain agentic use-cases and will reduce costs significantly. As mentioned earlier, building an evaluation system to determine and compare performance vs larger models is the best way to understand how well an SLM will perform on your use case. Consider using SLMs for simpler tasks like intent classification or parameter extraction, while reserving larger models for complex reasoning.
+---
 
-**Using a Router Model:** A similar strategy is to use a diversity of models and sizes. You can use an LLM/SLM or serverless function to route requests based on complexity to the best fit models. This will also help reduce costs while also ensuring performance on the right tasks. For example, route simple queries to smaller, faster models, and only use expensive large models for complex reasoning tasks.
+## 💰 비용 관리 (Managing Costs)
 
-**Caching Responses:** Identifying common requests and tasks and providing the responses before they go through your agentic system is a good way to reduce the volume of similar requests. You can even implement a flow to identify how similar a request is to your cached requests using more basic AI models. This strategy can significantly reduce costs for frequently asked questions or common workflows.
+AI 에이전트를 프로덕션에 배포할 때 비용을 관리하기 위한 몇 가지 전략은 다음과 같습니다:
 
-## Lets see how this works in practice
+- **더 작은 모델 사용하기**: 소형 언어 모델(SLM)은 특정 에이전트 사용 사례에서 좋은 성능을 발휘할 수 있으며 비용을 크게 절감합니다. 앞서 언급했듯이, 더 큰 모델과의 성능을 결정하고 비교하기 위한 평가 시스템을 구축하는 것이 SLM이 사용 사례에서 얼마나 잘 수행될지 이해하는 가장 좋은 방법입니다. 의도 분류나 매개변수 추출과 같은 간단한 작업에는 SLM을 사용하고, 복잡한 추론에는 더 큰 모델을 사용하는 것을 고려하세요.
+- **라우터 모델 사용하기**: 유사한 전략으로 다양한 모델과 크기를 사용하는 것입니다. LLM/SLM 또는 서버리스 함수를 사용하여 복잡성에 따라 요청을 가장 적합한 모델로 라우팅할 수 있습니다. 이는 적절한 작업에 대한 성능을 보장하면서도 비용 절감에 도움이 됩니다. 예를 들어, 간단한 쿼리는 더 작고 빠른 모델로 라우팅하고, 값비싼 대형 모델은 복잡한 추론 작업에만 사용하는 것입니다.
+- **응답 캐싱하기**: 일반적인 요청과 작업을 식별하고 에이전트 시스템을 거치기 전에 응답을 제공하는 것은 유사한 요청의 볼륨을 줄이는 좋은 방법입니다. 더 기본적인 AI 모델을 사용하여 요청이 캐시된 요청과 얼마나 유사한지 식별하는 흐름을 구현할 수도 있습니다. 이 전략은 자주 묻는 질문이나 일반적인 워크플로우에 대한 비용을 크게 줄일 수 있습니다.
 
-In the [example notebook of this section](./code_samples/10_autogen_evaluation.ipynb), we’ll see examples of how we can use observability tools to monitor and evaluate our agent.
+---
 
+## 🧪 실제 작동 방식 살펴보기
 
-### Got More Questions about AI Agents in Production?
+이번 섹션의 [예제 노트북](./code_samples/10_autogen_evaluation.ipynb)에서는 관찰 가능성 도구를 사용하여 에이전트를 모니터링하고 평가하는 방법에 대한 실제 예시를 확인할 수 있습니다.
 
-Join the [Azure AI Foundry Discord](https://aka.ms/ai-agents/discord) to meet with other learners, attend office hours and get your AI Agents questions answered.
+---
 
-## Previous Lesson
+## ❓ 프로덕션 환경의 AI 에이전트에 대해 더 궁금한 점이 있나요?
 
-[Metacognition Design Pattern](../09-metacognition/README.md)
+[Azure AI Foundry Discord](https://aka.ms/ai-agents/discord)에 참여하여 다른 학습자들을 만나고, 오피스 아워에 참여하고 AI Agents에 대한 질문에 대한 답변을 받아보세요.
 
-## Next Lesson
+---
 
-[Agentic Protocols](../11-agentic-protocols/README.md)
+## 📚 레슨 목차
+
+### ⬅️ 이전 레슨
+
+[9강: 메타인지 디자인 패턴](../09-metacognition/README.md)
+
+### ➡️ 다음 레슨
+
+[11강: 에이전틱 프로토콜 (Agentic Protocols)](../11-agentic-protocols/README.md)
+
+---
+
+*이 가이드가 여러분의 AI 에이전트를 투명하게 관리하고 최적화하는 데 도움이 되길 바랍니다!* 📊

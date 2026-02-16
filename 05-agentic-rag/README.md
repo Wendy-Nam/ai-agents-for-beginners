@@ -1,146 +1,171 @@
+
 [![Agentic RAG](./images/lesson-5-thumbnail.png)](https://youtu.be/WcjAARvdL7I?si=BCgwjwFb2yCkEhR9)
 
-> _(Click the image above to view video of this lesson)_
+> _(👆 이미지를 클릭하면 이번 레슨의 강의 영상을 볼 수 있어요!)_
 
-# Agentic RAG
+# 🔍 Agentic RAG - 스스로 생각하며 정보를 찾는 똑똑한 시스템
 
-This lesson provides a comprehensive overview of Agentic Retrieval-Augmented Generation (Agentic RAG), an emerging AI paradigm where large language models (LLMs) autonomously plan their next steps while pulling information from external sources. Unlike static retrieval-then-read patterns, Agentic RAG involves iterative calls to the LLM, interspersed with tool or function calls and structured outputs. The system evaluates results, refines queries, invokes additional tools if needed, and continues this cycle until a satisfactory solution is achieved.
+이번 레슨에서는 **Agentic RAG(에이전틱 검색 증강 생성)** 에 대해 종합적으로 알아봅니다. Agentic RAG는 대규모 언어 모델(LLM)이 외부 데이터 소스에서 정보를 가져오면서 **스스로 다음 단계를 계획**하는 떠오르는 AI 패러다임입니다. 단순히 검색 후 읽는 정적인 패턴과 달리, Agentic RAG는 도구나 함수 호출 및 구조화된 출력을穿插하며 LLM을 **반복적으로 호출**하는 루프를 포함합니다. 시스템은 결과를 평가하고, 쿼리를 개선하고, 필요하면 추가 도구를 호출하며, 만족스러운 해결책에 도달할 때까지 이 사이클을 계속합니다.
 
-## Introduction
+## 🎯 소개
 
-This lesson will cover
+이번 레슨에서는 다음 내용을 다룹니다:
 
-- **Understand Agentic RAG:**  Learn about the emerging paradigm in AI where large language models (LLMs) autonomously plan their next steps while pulling information from external data sources.
-- **Grasp Iterative Maker-Checker Style:** Comprehend the loop of iterative calls to the LLM, interspersed with tool or function calls and structured outputs, designed to improve correctness and handle malformed queries.
-- **Explore Practical Applications:** Identify scenarios where Agentic RAG shines, such as correctness-first environments, complex database interactions, and extended workflows.
+- **Agentic RAG 이해하기:** LLM이 외부 데이터 소스에서 정보를 가져오면서 스스로 다음 단계를 계획하는 떠오르는 AI 패러다임에 대해 배웁니다.
+- **반복적 메이커-체커 스타일 이해하기:** 정확성을 높이고 잘못된 쿼리를 처리하기 위해 설계된, 도구/함수 호출 및 구조화된 출력과 함께 LLM을 반복적으로 호출하는 루프 개념을 이해합니다.
+- **실제 적용 사례 탐구:** 정확성 우선 환경, 복잡한 데이터베이스 상호작용, 확장된 워크플로우 등 Agentic RAG가 빛을 발하는 시나리오를 파악합니다.
 
-## Learning Goals
+## 📚 학습 목표
 
-After completing this lesson, you will know how to/understand:
+이번 레슨을 완료하면 다음을 할 수 있게 됩니다:
 
-- **Understanding Agentic RAG:** Learn about the emerging paradigm in AI where large language models (LLMs) autonomously plan their next steps while pulling information from external data sources.
-- **Iterative Maker-Checker Style:** Grasp the concept of a loop of iterative calls to the LLM, interspersed with tool or function calls and structured outputs, designed to improve correctness and handle malformed queries.
-- **Owning the Reasoning Process:** Comprehend the system's ability to own its reasoning process, making decisions on how to approach problems without relying on pre-defined paths.
-- **Workflow:** Understand how an agentic model independently decides to retrieve market trend reports, identify competitor data, correlate internal sales metrics, synthesize findings, and evaluate the strategy.
-- **Iterative Loops, Tool Integration, and Memory:** Learn about the system's reliance on a looped interaction pattern, maintaining state and memory across steps to avoid repetitive loops and make informed decisions.
-- **Handling Failure Modes and Self-Correction:** Explore the system's robust self-correction mechanisms, including iterating and re-querying, using diagnostic tools, and falling back on human oversight.
-- **Boundaries of Agency:** Understand the limitations of Agentic RAG, focusing on domain-specific autonomy, infrastructure dependence, and respect for guardrails.
-- **Practical Use Cases and Value:** Identify scenarios where Agentic RAG shines, such as correctness-first environments, complex database interactions, and extended workflows.
-- **Governance, Transparency, and Trust:** Learn about the importance of governance and transparency, including explainable reasoning, bias control, and human oversight.
+- **Agentic RAG 이해:** LLM이 외부 데이터 소스에서 정보를 가져오면서 스스로 다음 단계를 계획하는 떠오르는 AI 패러다임에 대해 배웁니다.
+- **반복적 메이커-체커 스타일:** 정확성을 높이고 잘못된 쿼리를 처리하기 위해 설계된, 도구/함수 호출 및 구조화된 출력과 함께 LLM을 반복적으로 호출하는 루프 개념을 이해합니다.
+- **추론 과정 소유:** 시스템이 추론 과정을 스스로 소유하여, 미리 정의된 경로에 의존하지 않고 문제에 접근하는 방법을 결정하는 능력을 이해합니다.
+- **워크플로우:** 에이전틱 모델이 시장 동향 보고서를 검색하고, 경쟁사 데이터를 식별하고, 내부 판매 지표를 상호 연관시키고, 결과를 종합하고, 전략을 평가하기 위해 독립적으로 결정하는 방법을 이해합니다.
+- **반복 루프, 도구 통합 및 메모리:** 시스템이 상태와 메모리를 단계별로 유지하여 반복적인 루프를 피하고 정보에 입각한 결정을 내리는 루프형 상호작용 패턴에 의존하는 방법을 배웁니다.
+- **실패 모드 처리 및 자기 수정:** 반복 및 재쿼리, 진단 도구 사용, 인간의 감독에 의존하는 등 시스템의 강력한 자기 수정 메커니즘을 탐구합니다.
+- **에이전시의 경계:** Agentic RAG의 한계를 이해하고, 도메인별 자율성, 인프라 의존성, 가드레일 준수에 초점을 맞춥니다.
+- **실제 사용 사례 및 가치:** 정확성 우선 환경, 복잡한 데이터베이스 상호작용, 확장된 워크플로우 등 Agentic RAG가 빛을 발하는 시나리오를 파악합니다.
+- **거버넌스, 투명성 및 신뢰:** 설명 가능한 추론, 편향 제어, 인간의 감독을 포함한 거버넌스와 투명성의 중요성을 배웁니다.
 
-## What is Agentic RAG?
+---
 
-Agentic Retrieval-Augmented Generation (Agentic RAG) is an emerging AI paradigm where large language models (LLMs) autonomously plan their next steps while pulling information from external sources. Unlike static retrieval-then-read patterns, Agentic RAG involves iterative calls to the LLM, interspersed with tool or function calls and structured outputs. The system evaluates results, refines queries, invokes additional tools if needed, and continues this cycle until a satisfactory solution is achieved. This iterative “maker-checker” style improves correctness, handles malformed queries, and ensures high-quality results.
+## 🤔 Agentic RAG란 무엇인가?
 
-The system actively owns its reasoning process, rewriting failed queries, choosing different retrieval methods, and integrating multiple tools—such as vector search in Azure AI Search, SQL databases, or custom APIs—before finalizing its answer. The distinguishing quality of an agentic system is its ability to own its reasoning process. Traditional RAG implementations rely on pre-defined paths, but an agentic system autonomously determines the sequence of steps based on the quality of the information it finds.
+**Agentic RAG(에이전틱 검색 증강 생성)** 는 LLM이 외부 데이터 소스에서 정보를 가져오면서 스스로 다음 단계를 계획하는 떠오르는 AI 패러다임입니다. 정적인 검색 후 읽기 패턴이나 신중하게 스크립트된 프롬프트 시퀀스와 달리, Agentic RAG는 도구나 함수 호출 및 구조화된 출력과 함께 LLM을 **반복적으로 호출**하는 루프를 포함합니다. 매 단계마다 시스템은 얻은 결과를 평가하고, 쿼리를 개선할지 결정하고, 필요하면 추가 도구를 호출하며, 만족스러운 해결책에 도달할 때까지 이 사이클을 계속합니다.
 
-## Defining Agentic Retrieval-Augmented Generation (Agentic RAG)
+이러한 반복적인 "메이커-체커" 스타일의 운영은 정확성을 높이고, 구조화된 데이터베이스(예: NL2SQL)에 대한 잘못된 쿼리를 처리하며, 균형 잡히고 고품질의 결과를 보장하도록 설계되었습니다. 시스템은 신중하게 엔지니어링된 프롬프트 체인에만 의존하지 않고, 추론 과정을 적극적으로 소유합니다. 실패한 쿼리를 다시 작성하고, 다른 검색 방법을 선택하고, Azure AI Search의 벡터 검색, SQL 데이터베이스, 사용자 정의 API 등 여러 도구를 통합하여 최종 답변을 완성할 수 있습니다. 이는 지나치게 복잡한 오케스트레이션 프레임워크의 필요성을 제거합니다. 대신, "LLM 호출 → 도구 사용 → LLM 호출 → ..."의 비교적 간단한 루프로 정교하고 견고한 결과를 얻을 수 있습니다.
 
-Agentic Retrieval-Augmented Generation (Agentic RAG) is an emerging paradigm in AI development where LLMs not only pull information from external data sources but also autonomously plan their next steps. Unlike static retrieval-then-read patterns or carefully scripted prompt sequences, Agentic RAG involves a loop of iterative calls to the LLM, interspersed with tool or function calls and structured outputs. At every turn, the system evaluates the results it has obtained, decides whether to refine its queries, invokes additional tools if needed, and continues this cycle until it achieves a satisfactory solution.
+![Agentic RAG 핵심 루프](./images/agentic-rag-core-loop.png)
 
-This iterative “maker-checker” style of operation is designed to improve correctness, handle malformed queries to structured databases (e.g. NL2SQL), and ensure balanced, high-quality results. Rather than relying solely on carefully engineered prompt chains, the system actively owns its reasoning process. It can rewrite queries that fail, choose different retrieval methods, and integrate multiple tools—such as vector search in Azure AI Search, SQL databases, or custom APIs—before finalizing its answer. This removes the need for overly complex orchestration frameworks. Instead, a relatively simple loop of “LLM call → tool use → LLM call → …” can yield sophisticated and well-grounded outputs.
+---
 
-![Agentic RAG Core Loop](./images/agentic-rag-core-loop.png)
+## 🧠 추론 과정 소유하기
 
-## Owning the Reasoning Process
+시스템을 "에이전틱(agentic)"하게 만드는 차별점은 **추론 과정을 스스로 소유**하는 능력입니다. 기존 RAG 구현은 종종 인간이 모델을 위한 경로(무엇을, 언제 검색할지에 대한 사고 사슬)를 미리 정의하는 데 의존합니다. 하지만 시스템이 진정으로 에이전틱할 때, 문제에 접근하는 방법을 내부적으로 결정합니다. 단순히 스크립트를 실행하는 것이 아니라, 찾은 정보의 품질에 따라 단계의 순서를 자율적으로 결정합니다.
 
-The distinguishing quality that makes a system “agentic” is its ability to own its reasoning process. Traditional RAG implementations often depend on humans pre-defining a path for the model: a chain-of-thought that outlines what to retrieve and when.
-But when a system is truly agentic, it internally decides how to approach the problem. It’s not just executing a script; it’s autonomously determining the sequence of steps based on the quality of the information it finds.
-For example, if it’s asked to create a product launch strategy, it doesn’t rely solely on a prompt that spells out the entire research and decision-making workflow. Instead, the agentic model independently decides to:
+예를 들어, 제품 출시 전략을 수립하라는 요청을 받았다고 가정해 보겠습니다. 에이전틱 모델은 전체 연구 및 의사 결정 워크플로우를 설명하는 프롬프트에만 의존하지 않습니다. 대신 독립적으로 다음을 결정합니다:
 
-1. Retrieve current market trend reports using Bing Web Grounding
-2. Identify relevant competitor data using Azure AI Search.
-3.	Correlate historical internal sales metrics using Azure SQL Database.
-4. Synthesize the findings into a cohesive strategy orchestrated via Azure OpenAI Service.
-5.	Evaluate the strategy for gaps or inconsistencies, prompting another round of retrieval if necessary.
-All of these steps—refining queries, choosing sources, iterating until “happy” with the answer—are decided by the model, not pre-scripted by a human.
+1. Bing Web Grounding을 사용하여 최신 시장 동향 보고서를 검색합니다.
+2. Azure AI Search를 사용하여 관련 경쟁사 데이터를 식별합니다.
+3. Azure SQL Database를 사용하여 과거 내부 판매 지표를 상호 연관시킵니다.
+4. Azure OpenAI Service를 통해 조정된 일관된 전략으로 결과를 종합합니다.
+5. 전략에 공백이나 불일치가 있는지 평가하고, 필요한 경우 추가 검색 라운드를 시작합니다.
 
-## Iterative Loops, Tool Integration, and Memory
+이러한 모든 단계(쿼리 개선, 소스 선택, 답변에 "만족"할 때까지 반복)는 인간이 미리 스크립트한 것이 아니라 모델에 의해 결정됩니다.
 
-![Tool Integration Architecture](./images/tool-integration.png)
+---
 
-An agentic system relies on a looped interaction pattern:
+## 🔁 반복 루프, 도구 통합 및 메모리
 
-- **Initial Call:** The user’s goal (aka. user prompt) is presented to the LLM.
-- **Tool Invocation:** If the model identifies missing information or ambiguous instructions, it selects a tool or retrieval method—like a vector database query (e.g. Azure AI Search Hybrid search over private data) or a structured SQL call—to gather more context.
-- **Assessment & Refinement:** After reviewing the returned data, the model decides whether the information suffices. If not, it refines the query, tries a different tool, or adjusts its approach.
-- **Repeat Until Satisfied:** This cycle continues until the model determines that it has enough clarity and evidence to deliver a final, well-reasoned response.
-- **Memory & State:** Because the system maintains state and memory across steps, it can recall previous attempts and their outcomes, avoiding repetitive loops and making more informed decisions as it proceeds.
+![도구 통합 아키텍처](./images/tool-integration.png)
 
-Over time, this creates a sense of evolving understanding, enabling the model to navigate complex, multi-step tasks without requiring a human to constantly intervene or reshape the prompt.
+에이전틱 시스템은 루프형 상호작용 패턴에 의존합니다:
 
-## Handling Failure Modes and Self-Correction
+- **초기 호출:** 사용자의 목표(즉, 사용자 프롬프트)가 LLM에 제시됩니다.
+- **도구 호출:** 모델이 누락된 정보나 모호한 지침을 식별하면, 더 많은 컨텍스트를 수집하기 위해 도구나 검색 방법(예: 프라이빗 데이터에 대한 Azure AI Search 하이브리드 검색, 구조화된 SQL 호출)을 선택합니다.
+- **평가 및 개선:** 반환된 데이터를 검토한 후, 모델은 정보가 충분한지 결정합니다. 충분하지 않으면 쿼리를 개선하고, 다른 도구를 시도하거나 접근 방식을 조정합니다.
+- **만족할 때까지 반복:** 모델이 최종적으로 잘 추론된 답변을 제공할 만큼 충분한 명확성과 증거를 확보했다고 판단할 때까지 이 사이클이 계속됩니다.
+- **메모리 및 상태:** 시스템이 단계별로 상태와 메모리를 유지하기 때문에 이전 시도와 그 결과를 기억하여 반복적인 루프를 피하고 진행하면서 더 정보에 입각한 결정을 내릴 수 있습니다.
 
-Agentic RAG’s autonomy also involves robust self-correction mechanisms. When the system hits dead ends—such as retrieving irrelevant documents or encountering malformed queries—it can:
+시간이 지남에 따라 이는 진화하는 이해의 감각을 만들어내며, 모델이 인간이 지속적으로 개입하거나 프롬프트를 재구성할 필요 없이 복잡하고 다단계 작업을 탐색할 수 있게 합니다.
 
-- **Iterate and Re-Query:** Instead of returning low-value responses, the model attempts new search strategies, rewrites database queries, or looks at alternative data sets.
-- **Use Diagnostic Tools:** The system may invoke additional functions designed to help it debug its reasoning steps or confirm the correctness of retrieved data. Tools like Azure AI Tracing will be important to enable robust observability and monitoring.
-- **Fallback on Human Oversight:** For high-stakes or repeatedly failing scenarios, the model might flag uncertainty and request human guidance. Once the human provides corrective feedback, the model can incorporate that lesson going forward.
+---
 
-This iterative and dynamic approach allows the model to improve continuously, ensuring that it’s not just a one-shot system but one that learns from its missteps during a given session.
+## 🛠️ 실패 모드 처리 및 자기 수정
 
-![Self Correction Mechanism](./images/self-correction.png)
+Agentic RAG의 자율성에는 강력한 **자기 수정 메커니즘**도 포함됩니다. 시스템이 막다른 골목(예: 관련 없는 문서 검색, 잘못된 쿼리 발생)에 도달하면 다음과 같은 작업을 수행할 수 있습니다:
 
-## Boundaries of Agency
+- **반복 및 재쿼리:** 가치 낮은 응답을 반환하는 대신, 모델은 새로운 검색 전략을 시도하고, 데이터베이스 쿼리를 다시 작성하거나, 다른 데이터 세트를 살펴봅니다.
+- **진단 도구 사용:** 시스템은 추론 단계를 디버깅하거나 검색된 데이터의 정확성을 확인하는 데 도움이 되도록 설계된 추가 기능을 호출할 수 있습니다. Azure AI Tracing과 같은 도구는 강력한 관찰 가능성과 모니터링을 가능하게 하는 데 중요합니다.
+- **인간의 감독에 의존:** 위험이 높거나 반복적으로 실패하는 시나리오의 경우, 모델은 불확실성을 표시하고 인간의 지침을 요청할 수 있습니다. 인간이 교정 피드백을 제공하면 모델은 그 교훈을 앞으로 진행하면서 통합할 수 있습니다.
 
-Despite its autonomy within a task, Agentic RAG is not analogous to Artificial General Intelligence. Its “agentic” capabilities are confined to the tools, data sources, and policies provided by human developers. It can’t invent its own tools or step outside the domain boundaries that have been set. Rather, it excels at dynamically orchestrating the resources at hand.
-Key differences from more advanced AI forms include:
+이러한 반복적이고 동적인 접근 방식을 통해 모델은 지속적으로 개선할 수 있으며, 단발성 시스템이 아니라 주어진 세션 중 실수로부터 학습하는 시스템임을 보장합니다.
 
-1. **Domain-Specific Autonomy:** Agentic RAG systems are focused on achieving user-defined goals within a known domain, employing strategies like query rewriting or tool selection to improve outcomes.
-2. **Infrastructure-Dependent:** The system’s capabilities hinge on the tools and data integrated by developers. It can’t surpass these boundaries without human intervention.
-3. **Respect for Guardrails:** Ethical guidelines, compliance rules, and business policies remain very important. The agent’s freedom is always constrained by safety measures and oversight mechanisms (hopefully?)
+![자기 수정 메커니즘](./images/self-correction.png)
 
-## Practical Use Cases and Value
+---
 
-Agentic RAG shines in scenarios requiring iterative refinement and precision:
+## 🧱 에이전시의 경계
 
-1. **Correctness-First Environments:** In compliance checks, regulatory analysis, or legal research, the agentic model can repeatedly verify facts, consult multiple sources, and rewrite queries until it produces a thoroughly vetted answer.
-2. **Complex Database Interactions:** When dealing with structured data where queries might often fail or need adjustment, the system can autonomously refine its queries using Azure SQL or Microsoft Fabric OneLake, ensuring the final retrieval aligns with the user’s intent.
-3. **Extended Workflows:** Longer-running sessions might evolve as new information surfaces. Agentic RAG can continuously incorporate new data, shifting strategies as it learns more about the problem space.
+작업 내에서의 자율성에도 불구하고, Agentic RAG는 인공 일반 지능(AGI)과 유사하지 않습니다. "에이전틱" 기능은 인간 개발자가 제공한 도구, 데이터 소스 및 정책에 국한됩니다. 자체 도구를 발명하거나 설정된 도메인 경계를 벗어날 수 없습니다. 오히려 가용한 리소스를 동적으로 오케스트레이션하는 데 탁월합니다.
 
-## Governance, Transparency, and Trust
+더 발전된 AI 형태와의 주요 차이점은 다음과 같습니다:
 
-As these systems become more autonomous in their reasoning, governance and transparency are crucial:
+1. **도메인별 자율성:** Agentic RAG 시스템은 알려진 도메인 내에서 사용자 정의 목표를 달성하는 데 초점을 맞추며, 결과를 개선하기 위해 쿼리 재작성이나 도구 선택과 같은 전략을 사용합니다.
+2. **인프라 의존성:** 시스템의 기능은 개발자가 통합한 도구와 데이터에 달려 있습니다. 인간의 개입 없이는 이러한 경계를 넘어설 수 없습니다.
+3. **가드레일 준수:** 윤리 지침, 규정 준수 규칙, 비즈니스 정책은 여전히 매우 중요합니다. 에이전트의 자유는 항상 안전 조치와 감독 메커니즘에 의해 제한됩니다.
 
-- **Explainable Reasoning:** The model can provide an audit trail of the queries it made, the sources it consulted, and the reasoning steps it took to reach its conclusion. Tools like Azure AI Content Safety and Azure AI Tracing / GenAIOps can help maintain transparency and mitigate risks.
-- **Bias Control and Balanced Retrieval:** Developers can tune retrieval strategies to ensure balanced, representative data sources are considered, and regularly audit outputs to detect bias or skewed patterns using custom models for advanced data science organizations using Azure Machine Learning.
-- **Human Oversight and Compliance:** For sensitive tasks, human review remains essential. Agentic RAG doesn’t replace human judgment in high-stakes decisions—it augments it by delivering more thoroughly vetted options.
+---
 
-Having tools that provide a clear record of actions is essential. Without them, debugging a multi-step process can be very difficult. See the following example from Literal AI (company behind Chainlit) for an Agent run:
+## 💼 실제 사용 사례 및 가치
 
-![AgentRunExample](./images/AgentRunExample.png)
+Agentic RAG는 반복적인 개선과 정밀성이 필요한 시나리오에서 빛을 발합니다:
 
-## Conclusion
+1. **정확성 우선 환경:** 규정 준수 점검, 규제 분석, 법률 연구에서 에이전틱 모델은 사실을 반복적으로 확인하고, 여러 출처를 참조하고, 철저히 검증된 답변을 생성할 때까지 쿼리를 다시 작성할 수 있습니다.
+2. **복잡한 데이터베이스 상호작용:** 쿼리가 자주 실패하거나 조정이 필요한 구조화된 데이터를 다룰 때, 시스템은 Azure SQL 또는 Microsoft Fabric OneLake를 사용하여 쿼리를 자율적으로 개선하고 최종 검색이 사용자의 의도와 일치하도록 보장할 수 있습니다.
+3. **확장된 워크플로우:** 새로운 정보가 표면화됨에 따라 장기 실행 세션이 진화할 수 있습니다. Agentic RAG는 새로운 데이터를 지속적으로 통합하고, 문제 공간에 대해 더 많이 학습함에 따라 전략을 전환할 수 있습니다.
 
-Agentic RAG represents a natural evolution in how AI systems handle complex, data-intensive tasks. By adopting a looped interaction pattern, autonomously selecting tools, and refining queries until achieving a high-quality result, the system moves beyond static prompt-following into a more adaptive, context-aware decision-maker. While still bounded by human-defined infrastructures and ethical guidelines, these agentic capabilities enable richer, more dynamic, and ultimately more useful AI interactions for both enterprises and end-users.
+---
 
-### Got More Questions about Agentic RAG?
+## 📋 거버넌스, 투명성 및 신뢰
 
-Join the [Azure AI Foundry Discord](https://aka.ms/ai-agents/discord) to meet with other learners, attend office hours and get your AI Agents questions answered.
+이러한 시스템이 추론에서 더 자율화됨에 따라 **거버넌스와 투명성**이 매우 중요해집니다:
 
-## Additional Resources
+- **설명 가능한 추론:** 모델은 수행한 쿼리, 참조한 출처, 결론에 도달하기 위해 취한 추론 단계에 대한 감사 추적을 제공할 수 있습니다. Azure AI Content Safety 및 Azure AI Tracing / GenAIOps와 같은 도구는 투명성을 유지하고 위험을 완화하는 데 도움이 될 수 있습니다.
+- **편향 제어 및 균형 잡힌 검색:** 개발자는 균형 잡히고 대표적인 데이터 소스가 고려되도록 검색 전략을 조정하고, Azure Machine Learning을 사용하는 고급 데이터 과학 조직을 위한 사용자 정의 모델을 사용하여 출력을 정기적으로 감사하여 편향이나 왜곡된 패턴을 감지할 수 있습니다.
+- **인간의 감독 및 규정 준수:** 민감한 작업의 경우 인간 검토가 여전히 필수적입니다. Agentic RAG는 높은 위험도의 결정에서 인간의 판단을 대체하는 것이 아니라, 더 철저히 검증된 옵션을 제공함으로써 이를 보강합니다.
 
-- <a href="https://learn.microsoft.com/training/modules/use-own-data-azure-openai" target="_blank">Implement Retrieval Augmented Generation (RAG) with Azure OpenAI Service: Learn how to use your own data with the Azure OpenAI Service. This Microsoft Learn module provides a comprehensive guide on implementing RAG</a>
-- <a href="https://learn.microsoft.com/azure/ai-studio/concepts/evaluation-approach-gen-ai" target="_blank">Evaluation of generative AI applications with Azure AI Foundry: This article covers the evaluation and comparison of models on publicly available datasets, including Agentic AI applications and RAG architectures</a>
-- <a href="https://weaviate.io/blog/what-is-agentic-rag" target="_blank">What is Agentic RAG | Weaviate</a>
-- <a href="https://ragaboutit.com/agentic-rag-a-complete-guide-to-agent-based-retrieval-augmented-generation/" target="_blank">Agentic RAG: A Complete Guide to Agent-Based Retrieval Augmented Generation – News from generation RAG</a>
-- <a href="https://huggingface.co/learn/cookbook/agent_rag" target="_blank">Agentic RAG: turbocharge your RAG with query reformulation and self-query! Hugging Face Open-Source AI Cookbook</a>
-- <a href="https://youtu.be/aQ4yQXeB1Ss?si=2HUqBzHoeB5tR04U" target="_blank">Adding Agentic Layers to RAG</a>
-- <a href="https://www.youtube.com/watch?v=zeAyuLc_f3Q&t=244s" target="_blank">The Future of Knowledge Assistants: Jerry Liu</a>
-- <a href="https://www.youtube.com/watch?v=AOSjiXP1jmQ" target="_blank">How to Build Agentic RAG Systems</a>
-- <a href="https://ignite.microsoft.com/sessions/BRK102?source=sessions" target="_blank">Using Azure AI Foundry Agent Service to scale your AI agents</a>
+작업에 대한 명확한 기록을 제공하는 도구를 갖추는 것이 필수적입니다. 그렇지 않으면 다단계 프로세스를 디버깅하는 것이 매우 어려울 수 있습니다. Chainlit의 모회사인 Literal AI의 Agent 실행 예시를 참조하세요:
 
-### Academic Papers
+![Agent 실행 예시](./images/AgentRunExample.png)
 
-- <a href="https://arxiv.org/abs/2303.17651" target="_blank">2303.17651 Self-Refine: Iterative Refinement with Self-Feedback</a>
-- <a href="https://arxiv.org/abs/2303.11366" target="_blank">2303.11366 Reflexion: Language Agents with Verbal Reinforcement Learning</a>
-- <a href="https://arxiv.org/abs/2305.11738" target="_blank">2305.11738 CRITIC: Large Language Models Can Self-Correct with Tool-Interactive Critiquing</a>
-- <a href="https://arxiv.org/abs/2501.09136" target="_blank">2501.09136 Agentic Retrieval-Augmented Generation: A Survey on Agentic RAG</a>
+---
 
-## Previous Lesson
+## 🏁 결론
 
-[Tool Use Design Pattern](../04-tool-use/README.md)
+Agentic RAG는 AI 시스템이 복잡하고 데이터 집약적인 작업을 처리하는 방식의 자연스러운 진화를 나타냅니다. 루프형 상호작용 패턴을 채택하고, 도구를 자율적으로 선택하고, 고품질 결과를 얻을 때까지 쿼리를 개선함으로써 시스템은 정적인 프롬프트 추종을 넘어 더 적응력 있고 컨텍스트를 인식하는 의사 결정자로 발전합니다. 여전히 인간이 정의한 인프라와 윤리 지침에 의해 제한되지만, 이러한 에이전틱 기능은 기업과 최종 사용자 모두에게 더 풍부하고, 더 역동적이며, 궁극적으로 더 유용한 AI 상호작용을 가능하게 합니다.
 
-## Next Lesson
+---
 
-[Building Trustworthy AI Agents](../06-building-trustworthy-agents/README.md)
+## ❓ Agentic RAG에 대해 더 궁금한 점이 있나요?
+
+[Azure AI Foundry Discord](https://aka.ms/ai-agents/discord)에 참여하여 다른 학습자들을 만나고, 오피스 아워에 참여하고 AI Agents에 대한 질문에 대한 답변을 받아보세요.
+
+---
+
+## 📚 추가 자료
+
+- <a href="https://learn.microsoft.com/training/modules/use-own-data-azure-openai" target="_blank">Azure OpenAI 서비스로 검색 증강 생성(RAG) 구현 (영문)</a>
+- <a href="https://learn.microsoft.com/azure/ai-studio/concepts/evaluation-approach-gen-ai" target="_blank">Azure AI Foundry를 사용한 생성형 AI 애플리케이션 평가 (영문)</a>
+- <a href="https://weaviate.io/blog/what-is-agentic-rag" target="_blank">What is Agentic RAG | Weaviate (영문)</a>
+- <a href="https://ragaboutit.com/agentic-rag-a-complete-guide-to-agent-based-retrieval-augmented-generation/" target="_blank">Agentic RAG: A Complete Guide to Agent-Based Retrieval Augmented Generation (영문)</a>
+- <a href="https://huggingface.co/learn/cookbook/agent_rag" target="_blank">Agentic RAG: 쿼리 재구성 및 자체 쿼리로 RAG 강화하기 (Hugging Face 오픈소스 AI cookbook) (영문)</a>
+- <a href="https://youtu.be/aQ4yQXeB1Ss?si=2HUqBzHoeB5tR04U" target="_blank">Adding Agentic Layers to RAG (YouTube) (영문)</a>
+- <a href="https://www.youtube.com/watch?v=zeAyuLc_f3Q&t=244s" target="_blank">The Future of Knowledge Assistants: Jerry Liu (YouTube) (영문)</a>
+- <a href="https://www.youtube.com/watch?v=AOSjiXP1jmQ" target="_blank">How to Build Agentic RAG Systems (YouTube) (영문)</a>
+- <a href="https://ignite.microsoft.com/sessions/BRK102?source=sessions" target="_blank">Using Azure AI Foundry Agent Service to scale your AI agents (Microsoft Ignite) (영문)</a>
+
+### 학술 논문
+
+- <a href="https://arxiv.org/abs/2303.17651" target="_blank">2303.17651 Self-Refine: 자기 피드백을 통한 반복적 개선 (영문)</a>
+- <a href="https://arxiv.org/abs/2303.11366" target="_blank">2303.11366 Reflexion: 언어 에이전트의 언어적 강화 학습 (영문)</a>
+- <a href="https://arxiv.org/abs/2305.11738" target="_blank">2305.11738 CRITIC: 대규모 언어 모델이 도구 상호작용 비평을 통해 자기 수정할 수 있는가? (영문)</a>
+- <a href="https://arxiv.org/abs/2501.09136" target="_blank">2501.09136 Agentic Retrieval-Augmented Generation: Agentic RAG에 대한 조사 (영문)</a>
+
+---
+
+## 📚 레슨 목차
+
+### ⬅️ 이전 레슨
+
+[4강: 도구 사용 디자인 패턴](../04-tool-use/README.md)
+
+### ➡️ 다음 레슨
+
+[6강: 신뢰할 수 있는 AI Agent 구축하기](../06-building-trustworthy-agents/README.md)
+
+---
+
+*이 가이드가 여러분의 Agentic RAG 이해에 도움이 되길 바랍니다!* 🔍

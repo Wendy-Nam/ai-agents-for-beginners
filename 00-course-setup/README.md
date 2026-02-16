@@ -1,317 +1,245 @@
-# Course Setup
+# 🚀 AI Agents 학습 시작하기 - 완벽한 셋업 가이드
 
-## Introduction
+안녕하세요! AI Agents의 세계에 오신 것을 진심으로 환영합니다! 😊
 
-This lesson will cover how to run the code samples of this course.
+이 가이드는 Microsoft의 "AI Agents for Beginners" 코스를 시작하기 위한 모든 준비 과정을 친절하게 안내해드릴게요. 더 이상 복잡한 설정에 지치지 마세요! 저희가 차근차근 도와드릴게요.
 
-## Join Other Learners and Get Help
+---
 
-Before you begin cloning your repo, join the [AI Agents For Beginners Discord channel](https://aka.ms/ai-agents/discord) to get any help with setup, any questions about the course, or to connect with other learners.
+## 🤝 함께 배우기 (혼자 하지 마세요!)
 
-## Clone or Fork this Repo
+시작하기 전에 **AI Agents 커뮤니티**에 참여하세요! 혼자 공부하다가 막히면 언제든지 도움을 받을 수 있어요.
 
-To begin, please clone or fork the GitHub Repository. This will make your own version of the course material so that you can run, test, and tweak the code!
+**🎯 Discord 채널 참여하기**: [AI Agents For Beginners Discord](https://aka.ms/ai-agents/discord)
 
-This can be done by clicking the link to <a href="https://github.com/microsoft/ai-agents-for-beginners/fork" target="_blank">fork the repo</a>
+- 설정 문제, 코스 질문, 다른 학습자들과 소통 모두 가능!
+- 전 세계 사람들과 함께 배우면 2배 빨라져요!
 
-You should now have your own forked version of this course in the following link:
+---
 
-![Forked Repo](./images/forked-repo.png)
+## 📥 코스 자료 받기 (나만의 버전 만들기)
 
-### Shallow Clone (recommended for workshop / Codespaces)
+### 왜 Fork 해야 할까요?
 
-  >The full repository can be large (~3 GB) when you download full history and all files. If you're only attending the workshop or only need a few lesson folders, a shallow clone (or a sparse clone) avoids most of that download by truncating history and/or skipping blobs.
+- **나만의 공간**: 자유롭게 코드 수정하고 실험할 수 있어요
+- **실습 결과 저장**: 내 학습 진행 상황을 기록할 수 있어요
+- **안전한 실험**: 원본 코드를 망가뜨릴 걱정 없어요!
 
-#### Quick shallow clone — minimal history, all files
+### 쉬운 Fork 방법
 
-Replace `<your-username>` in the below commands with your fork URL (or the upstream URL if you prefer).
+1. **[여기 클릭해서 Fork](https://github.com/microsoft/ai-agents-for-beginners/fork)**
+2. 자동으로 당신의 GitHub에 복사될 거예요
 
-To clone only the latest commit history (small download):
+이제 아래처럼 여러분만의 저장소가 생겼을 거예요!
 
-```bash|powershell
-git clone --depth 1 https://github.com/<your-username>/ai-agents-for-beginners.git
+![Fork된 저장소](./images/forked-repo.png)
+
+### ⚡ 빠른 다운로드 (워크숍/코드스페이스용)
+
+전체 리포지토리는 크기가 커요 (약 3GB!). 몇 개의 레슨만 필요하다면 **Shallow Clone**으로 용량을 아낄 수 있어요.
+
+#### 🔥 가장 빠른 방법 - 최신 버전만
+
+```bash
+# 본인 GitHub 이름으로 변경해주세요!
+git clone --depth 1 https://github.com/본인-이름/ai-agents-for-beginners.git
 ```
 
-To clone a specific branch:
+#### 🎯 특정 레슨만 다운로드
 
-```bash|powershell
-git clone --depth 1 --branch <branch-name> https://github.com/<your-username>/ai-agents-for-beginners.git
+```bash
+git clone --depth 1 --branch 브랜치이름 https://github.com/본인-이름/ai-agents-for-beginners.git
 ```
 
-#### Partial (sparse) clone — minimal blobs + only selected folders
+#### 💾 부분 다운로드 - 내가 필요한 폴더만!
 
-This uses partial clone and sparse-checkout (requires Git 2.25+ and recommended modern Git with partial clone support):
-
-```bash|powershell
-git clone --depth 1 --filter=blob:none --sparse https://github.com/<your-username>/ai-agents-for-beginners.git
-```
-
-Traverse into the repo folder:
-
-```bash|powershell
+```bash
+# Git 2.25+ 버전 필요
+git clone --depth 1 --filter=blob:none --sparse https://github.com/본인-이름/ai-agents-for-beginners.git
 cd ai-agents-for-beginners
-```
 
-Then specify which folders you want (example below shows two folders):
-
-```bash|powershell
+# 필요한 폴더만 선택 (예: 2개 폴더만)
 git sparse-checkout set 00-course-setup 01-intro-to-ai-agents
 ```
 
-After cloning and verifying the files, if you only need files and want to free space (no git history), please delete the repository metadata (💀irreversible — you will lose all Git functionality: no commits, pulls, pushes, or history access).
+#### 🌟 GitHub Codespaces 추천
+
+- 로컬 다운로드 없이 바로 시작!
+- [GitHub Codespaces](https://github.com/codespaces)에서 새 Codespace 생성
+- 위의 shallow/sparse clone 명령어 실행해서 필요한 폴더만 가져오기
+
+> 💡 **팁**: 다운로드 후 `.git` 폴더를 지우면 공간을 더 확보할 수 있어요. (단, 이 경우 Git 기능은 사라집니다)
+>
+> ```bash
+> rm -rf .git
+> ```
+
+---
+
+## 🎮 코드 실행하기 (실제 시작!)
+
+이 코스는 **Jupyter Notebook**으로 실습합니다. 클릭만 하면 바로 AI Agent를 만들 수 있어요!
+
+### 🆓 무료로 시작하기 (GitHub 계정만 필요)
+
+1. **Semantic Kernel + GitHub Models** (`*semantic-kernel.ipynb`)
+
+   - 가장 쉬운 입문용
+   - Microsoft의 최신 프레임워크
+2. **AutoGen + GitHub Models** (`*autogen.ipynb`)
+
+   - 여러 Agent가 협력하는 기술
+   - 복잡한 시나리오에 좋아요
+
+### 💼 전문가용 (Azure 구독 필요)
+
+3. **Azure AI Foundry + Azure AI Agent Service** (`*azureaiagent.ipynb`)
+   - 실제 서비스 출시용
+   - Production 환경에서 사용
+
+**💡 팁**: 세 가지 모두 체험해보고 나한테 맞는 것 선택하세요!
+
+---
+
+## ⚙️ 필요한 도구 설치하기
+
+### Python 3.12+
+
+- **Python 3.12**가 필요해요. 아직 없으면 [python.org](https://www.python.org/downloads/)에서 설치해 주세요.
+- 가상 환경을 만들고 활성화하는 걸 추천해요:
+
+  ```bash
+  python -m venv venv
+  # Windows
+  venv\Scripts\activate
+  # macOS/Linux
+  source venv/bin/activate
+  ```
+
+### .NET 10+ (선택사항)
+
+.NET 예제를 실행하려면 [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)를 설치해 주세요.
 
 ```bash
-# zsh/bash
-rm -rf .git
+dotnet --list-sdks   # 설치 확인
 ```
 
-```powershell
-# PowerShell
-Remove-Item -Recurse -Force .git
-```
+### 필수 패키지 설치
 
-#### Using GitHub Codespaces (recommended to avoid local large downloads)
+저장소 루트에서 아래 명령어를 실행하면 필요한 Python 패키지가 모두 설치됩니다:
 
-- Create a new Codespace for this repo via the [GitHub UI](https://github.com/codespaces).  
-
-- In the terminal of the newly created codespace, run one of the shallow/sparse clone commands above to bring only the lesson folders you need into the Codespace workspace.
-- Optional: after cloning inside Codespaces, remove .git to reclaim extra space (see removal commands above).
-- Note: If you prefer to open the repo directly in Codespaces (without an extra clone), be aware Codespaces will construct the devcontainer environment and may still provision more than you need. Cloning a shallow copy inside a fresh Codespace gives you more control over disk usage.
-
-#### Tips
-
-- Always replace the clone URL with your fork if you want to edit/commit.
-- If you later need more history or files, you can fetch them or adjust sparse-checkout to include additional folders.
-
-## Running the Code
-
-This course offers a series of Jupyter Notebooks that you can run with to get hands-on experience building AI Agents.
-
-The code samples use either:
-
-**Requires GitHub Account - Free**:
-
-1) Semantic Kernel Agent Framework + GitHub Models Marketplace. Labelled as (semantic-kernel.ipynb)
-2) AutoGen Framework + GitHub Models Marketplace. Labeled as (autogen.ipynb)
-
-**Requires Azure Subscription**:
-
-3) Azure AI Foundry + Azure AI Agent Service. Labelled as (azureaiagent.ipynb)
-
-We encourage you to try out all three types of examples to see which one works best for you.
-
-Whichever option you choose, it will determine which setup steps you need to follow below:
-
-## Requirements
-
-- Python 3.12+
-  - **NOTE**: If you don't have Python3.12 installed, ensure you install it.  Then create your venv using python3.12 to ensure the correct versions are installed from the requirements.txt file.
-  
-    >Example
-
-    Create Python venv directory:
-
-    ```bash|powershell
-    python -m venv venv
-    ```
-
-    Then activate venv environment for:
-
-    ```bash
-    # zsh/bash
-    source venv/bin/activate
-    ```
-  
-    ```dos
-    # Command Prompt for Windows
-    venv\Scripts\activate
-    ```
-
-- .NET 10+: For the sample codes using .NET, ensure you install [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) or later. Then, check your installed .NET SDK version:
-
-    ```bash|powershell
-    dotnet --list-sdks
-    ```
-
-- A GitHub Account - For Access to the GitHub Models Marketplace
-- Azure Subscription - For Access to Azure AI Foundry
-- Azure AI Foundry Account - For Access to the Azure AI Agent Service
-
-We have included a `requirements.txt` file in the root of this repository that contains all the required Python packages to run the code samples.
-
-You can install them by running the following command in your terminal at the root of the repository:
-
-```bash|powershell
+```bash
 pip install -r requirements.txt
 ```
 
-We recommend creating a Python virtual environment to avoid any conflicts and issues.
+---
 
-## Setup VSCode
+## 💻 VSCode 설정
 
-Make sure that you are using the right version of Python in VSCode.
+VSCode를 사용한다면, Python 인터프리터를 올바른 버전(3.12)으로 설정해 주세요.
 
-![image](https://github.com/user-attachments/assets/a85e776c-2edb-4331-ae5b-6bfdfb98ee0e)
+![올바른 Python 버전 선택](./images/vscode-python-version.png)
 
-## Set Up for Samples using GitHub Models 
+---
 
-### Step 1: Retrieve Your GitHub Personal Access Token (PAT)
+## 🆓 GitHub Models 샘플 실행 준비하기
 
-This course leverages the GitHub Models Marketplace, providing free access to Large Language Models (LLMs) that you will use to build AI Agents.
+### Step 1: GitHub Personal Access Token (PAT) 발급받기
 
-To use the GitHub Models, you will need to create a [GitHub Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
+이 코스는 GitHub Models Marketplace를 통해 무료로 LLM을 사용할 수 있어요. 토큰이 필요합니다.
 
-This can be done by going to your <a href="https://github.com/settings/personal-access-tokens" target="_blank">Personal Access Tokens settings</a> in your GitHub Account.
+1. [GitHub 개인 액세스 토큰 설정](https://github.com/settings/personal-access-tokens)으로 이동
+2. **Fine-grained tokens** 선택 → **Generate new token** 클릭
+3. 토큰 이름과 만료일 입력 (보안을 위해 30일 이하 권장)
+4. 저장소 접근 범위를 **방금 Fork한 자신의 저장소**로 제한
+5. 권한(Permissions)에서 **Account** 탭 → **Models** 추가
+6. 토큰 생성 후 **안전한 곳에 저장** (비밀번호 관리자 추천)
 
-Please follow the [Principle of Least Privilege](https://docs.github.com/en/get-started/learning-to-code/storing-your-secrets-safely) when creating your token. This means you should only give the token the permissions it needs to run the code samples in this course.
+![토큰 생성 과정](./images/token-creation-steps.png)
 
-1. Select the `Fine-grained tokens` option on the left side of your screen by traversing to the **Developer settings**
-
-   ![Developer settings](./images/profile_developer_settings.png)
-
-   Then select `Generate new token`.
-
-   ![Generate Token](./images/fga_new_token.png)
-
-2. Enter a descriptive name for your token that reflects its purpose, making it easy to identify later.
-
-    🔐 Token Duration Recommendation
-
-    Recommended duration: 30 days
-    For a more secure posture, you can opt for a shorter period—such as 7 days 🛡️
-    It’s a great way to set a personal target and complete the course while your learning momentum is high 🚀.
-
-    ![Token Name and Expiration](./images/token-name-expiry-date.png)
-
-3. Limit the token's scope to your fork of this repository.
-
-    ![Limit scope to fork repository](./images/token_repository_limit.png)
-
-4. Restrict the token's permissions: Under **Permissions**, click **Account** tab, and click the "+ Add permissions" button. A dropdown will appear. Please search for **Models** and check the box for it.
-
-    ![Add Models Permission](./images/add_models_permissions.png)
-
-5. Verify the permissions required before generating the token. ![Verify Permissions](./images/verify_permissions.png)
-
-6. Before generating the token, ensure you are ready to store the token in a secure place like a password manager vault, as it will not be shown again after you create it. ![Store Token Securely](./images/store_token_securely.png)
-
-Copy your new token that you have just created. You will now add this to your `.env` file included in this course.
-
-### Step 2: Create Your `.env` File
-
-To create your `.env` file run the following command in your terminal.
+### Step 2: `.env` 파일 만들기
 
 ```bash
-# zsh/bash
+# Windows PowerShell
+Copy-Item .env.example .env
+# macOS/Linux
 cp .env.example .env
 ```
 
-```powershell
-# PowerShell
-Copy-Item .env.example .env
-```
+`.env` 파일을 열고 `GITHUB_TOKEN=` 부분에 발급받은 토큰을 붙여넣으세요.
 
-This will copy the example file and create a `.env` in your directory and where you fill in the values for the environment variables.
+![GitHub 토큰 입력](./images/github_token_field.png)
 
-With your token copied, open the `.env` file in your favorite text editor and paste your token into the `GITHUB_TOKEN` field.
+이제 GitHub Models를 사용하는 샘플을 실행할 준비가 되었어요!
 
-![GitHub Token Field](./images/github_token_field.png)
+---
 
-You should now be able to run the code samples of this course.
+## 💼 Azure AI Foundry 샘플 실행 준비하기
 
-## Set Up for Samples using Azure AI Foundry and Azure AI Agent Service
+### Step 1: Azure Project Endpoint 가져오기
 
-### Step 1: Retrieve Your Azure Project Endpoint
+1. [Azure AI Foundry](https://ai.azure.com)에서 프로젝트를 생성하세요. (도움이 필요하면 [허브 및 프로젝트 생성 가이드](https://learn.microsoft.com/azure/ai-foundry/concepts/ai-resources) 참고)
+2. 프로젝트의 **개요(Overview)** 페이지에서 **프로젝트 연결 문자열(Connection string)**을 복사하세요.
 
-Follow the steps to creating a hub and project in Azure AI Foundry found here: [Hub resources overview](https://learn.microsoft.com/azure/ai-foundry/concepts/ai-resources)
+![프로젝트 연결 문자열](./images/project-endpoint.png)
 
-Once you have created your project, you will need to retrieve the connection string for your project.
+### Step 2: `.env` 파일에 프로젝트 엔드포인트 추가
 
-This can be done by going to the **Overview** page of your project in the Azure AI Foundry portal.
+`.env` 파일을 열고 `PROJECT_ENDPOINT=` 부분에 복사한 연결 문자열을 붙여넣으세요.
 
-![Project Connection String](./images/project-endpoint.png)
+### Step 3: Azure에 로그인 (키 없는 인증)
 
-### Step 2: Create Your `.env` File
-
-To create your `.env` file run the following command in your terminal.
+보안을 위해 Azure CLI로 로그인하여 키 없이 인증할 거예요.
 
 ```bash
-# zsh/bash
-cp .env.example .env
+az login --use-device-code
 ```
 
-```powershell
-# PowerShell
-Copy-Item .env.example .env
-```
+화면의 지시에 따라 로그인하고, 구독을 선택하세요.
 
-This will copy the example file and create a `.env` in your directory and where you fill in the values for the environment variables.
+---
 
-With your token copied, open the `.env` file in your favorite text editor and paste your token into the `PROJECT_ENDPOINT` field.
+## 🧩 추가 환경 변수 (Agentic RAG 레슨용)
 
-### Step 3: Sign in to Azure
+5단원(Agentic RAG)에서는 Azure Search와 Azure OpenAI를 사용하는 예제가 있어요. 필요한 정보를 `.env` 파일에 추가해 주세요.
 
-As a security best practice, we'll use [keyless authentication](https://learn.microsoft.com/azure/developer/ai/keyless-connections?tabs=csharp%2Cazure-cli?WT.mc_id=academic-105485-koreyst) to authenticate to Azure OpenAI with Microsoft Entra ID. 
+| 변수명                                     | 설명                     | 찾는 위치                                                                                                    |
+| ------------------------------------------ | ------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| `AZURE_SUBSCRIPTION_ID`                  | 구독 ID                  | 프로젝트 개요의**프로젝트 세부 정보**                                                                  |
+| `AZURE_AI_PROJECT_NAME`                  | 프로젝트 이름            | 프로젝트 개요 상단                                                                                           |
+| `AZURE_OPENAI_SERVICE`                   | OpenAI 서비스 이름       | 프로젝트 개요의**포함된 기능** 탭                                                                      |
+| `AZURE_OPENAI_RESOURCE_GROUP`            | 리소스 그룹              | 관리 센터 > 프로젝트 속성                                                                                    |
+| `GLOBAL_LLM_SERVICE`                     | AI Services 연결 이름    | 관리 센터 > 연결된 리소스                                                                                    |
+| `AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME` | 임베딩 모델 배포명       | 모델 + 엔드포인트 페이지                                                                                     |
+| `AZURE_OPENAI_CHAT_DEPLOYMENT_NAME`      | 채팅 모델 배포명         | 모델 + 엔드포인트 페이지                                                                                     |
+| `AZURE_OPENAI_ENDPOINT`                  | OpenAI 엔드포인트        | Azure Portal > AI Services > 키 및 엔드포인트                                                                |
+| `AZURE_OPENAI_API_KEY`                   | OpenAI API 키            | Azure Portal > AI Services > 키 및 엔드포인트                                                                |
+| `AZURE_SEARCH_SERVICE_ENDPOINT`          | Search 서비스 엔드포인트 | Azure Portal > Search 서비스 > 개요                                                                          |
+| `AZURE_SEARCH_API_KEY`                   | Search API 키            | Azure Portal > Search 서비스 > 설정 > 키                                                                     |
+| `AZURE_OPENAI_API_VERSION`               | API 버전                 | [공식 문서](https://learn.microsoft.com/azure/ai-services/openai/api-version-deprecation#latest-ga-api-release) |
 
-Next, open a terminal and run `az login --use-device-code` to sign in to your Azure account.
-
-Once you've logged in, select your subscription in the terminal.
-
-## Additional Environment Variables - Azure Search and Azure OpenAI 
-
-For the Agentic RAG Lesson - Lesson 5 - there are samples that use Azure Search and Azure OpenAI.
-
-If you want to run these samples, you will need to add the following environment variables to your `.env` file:
-
-### Overview Page (Project)
-
-- `AZURE_SUBSCRIPTION_ID` - Check **Project details** on the **Overview** page of your project.
-
-- `AZURE_AI_PROJECT_NAME` - Look at the top of the **Overview** page for your project.
-
-- `AZURE_OPENAI_SERVICE` - Find this in the **Included capabilities** tab for **Azure OpenAI Service** on the **Overview** page.
-
-### Management Center
-
-- `AZURE_OPENAI_RESOURCE_GROUP` - Go to **Project properties** on the **Overview** page of the **Management Center**.
-
-- `GLOBAL_LLM_SERVICE` - Under **Connected resources**, find the **Azure AI Services** connection name. If not listed, check the **Azure portal** under your resource group for the AI Services resource name.
-
-### Models + Endpoints Page
-
-- `AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME` - Select your embedding model (e.g., `text-embedding-ada-002`) and note the **Deployment name** from the model details.
-
-- `AZURE_OPENAI_CHAT_DEPLOYMENT_NAME` - Select your chat model (e.g., `gpt-4o-mini`) and note the **Deployment name** from the model details.
-
-### Azure Portal
-
-- `AZURE_OPENAI_ENDPOINT` - Look for **Azure AI services**, click on it, then go to **Resource Management**, **Keys and Endpoint**, scroll down to the "Azure OpenAI endpoints", and copy the one that says "Language APIs".
-
-- `AZURE_OPENAI_API_KEY` - From the same screen, copy KEY 1 or KEY 2.
-
-- `AZURE_SEARCH_SERVICE_ENDPOINT` - Find your **Azure AI Search** resource, click it, and see **Overview**.
-
-- `AZURE_SEARCH_API_KEY` - Then go to **Settings** and then **Keys** to copy the primary or secondary admin key.
-
-### External Webpage
-
-- `AZURE_OPENAI_API_VERSION` - Visit the [API version lifecycle](https://learn.microsoft.com/azure/ai-services/openai/api-version-deprecation#latest-ga-api-release) page under **Latest GA API release**.
-
-### Setup keyless authentication
-
-Rather than hardcode your credentials, we'll use a keyless connection with Azure OpenAI. To do so, we'll import `DefaultAzureCredential` and later call the `DefaultAzureCredential` function to get the credential.
+### 키 없는 인증 코드 예시 (Python)
 
 ```python
-# Python
 from azure.identity import DefaultAzureCredential, InteractiveBrowserCredential
+credential = DefaultAzureCredential()
 ```
 
-## Stuck Somewhere?
+---
 
-If you have any issues running this setup, hop into our <a href="https://discord.gg/kzRShWzttr" target="_blank">Azure AI Community Discord</a> or <a href="https://github.com/microsoft/ai-agents-for-beginners/issues?WT.mc_id=academic-105485-koreyst" target="_blank">create an issue</a>.
+## 🆘 도움이 필요하신가요?
 
-## Next Lesson
+설정 중에 막히는 부분이 있다면, 주저하지 말고 커뮤니티에 물어보세요!
 
-You are now ready to run the code for this course. Happy learning more about the world of AI Agents! 
+- 💬 [Azure AI Community Discord](https://discord.gg/kzRShWzttr)
+- 🐛 [GitHub Issues](https://github.com/microsoft/ai-agents-for-beginners/issues)
 
-[Introduction to AI Agents and Agent Use Cases](../01-intro-to-ai-agents/README.md)
+---
+
+## 📚 다음 레슨으로 고고!
+
+이제 모든 준비가 끝났어요! 본격적으로 AI Agents의 세계로 떠나볼까요?
+
+👉 [1강: AI Agents 소개 및 활용 사례](../01-intro-to-ai-agents/README.md)
+
+행복한 코딩 되세요! 🎉

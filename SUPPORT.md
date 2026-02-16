@@ -1,25 +1,26 @@
-# TODO: The maintainer of this repo has not yet edited this file
 
-**REPO OWNER**: Do you want Customer Service & Support (CSS) support for this product/project?
+# TODO: 이 저장소의 관리자가 아직 이 파일을 편집하지 않았습니다
 
-- **No CSS support:** Fill out this template with information about how to file issues and get help.
-- **Yes CSS support:** Fill out an intake form at [aka.ms/onboardsupport](https://aka.ms/onboardsupport). CSS will work with/help you to determine next steps.
-- **Not sure?** Fill out an intake as though the answer were "Yes". CSS will help you decide.
+**저장소 소유자**: 이 제품/프로젝트에 대해 CSS(Customer Service & Support) 지원이 필요하신가요?
 
-*Then remove this first heading from this SUPPORT.MD file before publishing your repo.*
+- **CSS 지원 불필요**: 이슈를 제기하고 도움을 받는 방법에 대한 정보로 이 템플릿을 작성해 주세요.
+- **CSS 지원 필요**: [aka.ms/onboardsupport](https://aka.ms/onboardsupport)에서 인테이크 양식을 작성해 주세요. CSS가 다음 단계를 결정하는 데 도움을 드릴 것입니다.
+- **잘 모르겠다면?**: "예"라고 가정하고 인테이크 양식을 작성해 주세요. CSS가 결정을 도와드릴 것입니다.
 
-## Support
+*그런 다음 저장소를 게시하기 전에 이 SUPPORT.MD 파일에서 첫 번째 제목을 삭제하세요.*
 
-## How to file issues and get help  
+## 지원
 
-This project uses GitHub Issues to track bugs and feature requests. Please search the existing
-issues before filing new issues to avoid duplicates.  For new issues, file your bug or
-feature request as a new Issue.
+## 이슈 제기 및 도움 받는 방법
 
-For help and questions about using this project, please **REPO MAINTAINER: INSERT INSTRUCTIONS HERE
-FOR HOW TO ENGAGE REPO OWNERS OR COMMUNITY FOR HELP. COULD BE A STACK OVERFLOW TAG OR OTHER
-CHANNEL. WHERE WILL YOU HELP PEOPLE?**.
+이 프로젝트는 버그 및 기능 요청을 추적하기 위해 GitHub Issues를 사용합니다. 중복을 피하기 위해 새 이슈를 제기하기 전에 기존 이슈를 검색해 주세요. 새 이슈의 경우 버그나 기능 요청을 새 Issue로 등록해 주세요.
 
-## Microsoft Support Policy  
+이 프로젝트 사용에 대한 도움과 질문은 **저장소 관리자: 저장소 소유자나 커뮤니티에 도움을 요청하는 방법에 대한 지침을 여기에 삽입하세요. Stack Overflow 태그나 다른 채널이 될 수 있습니다. 어디서 사람들을 도와줄 건가요?**.
 
-Support for this **PROJECT or PRODUCT** is limited to the resources listed above.
+## Microsoft 지원 정책
+
+이 **프로젝트 또는 제품**에 대한 지원은 위에 나열된 리소스로 제한됩니다.
+
+---
+
+*이 글이 도움이 되셨나요? 질문이나 더 필요한 번역이 있으시면 언제든지 말씀해 주세요!* 😊

@@ -1,102 +1,176 @@
-# Azure AI Agent Service Development
 
-In this exercise, you use the Azure AI Agent service tools in the [Azure AI Foundry portal](https://ai.azure.com/?WT.mc_id=academic-105485-koreyst) to create a agent for Flight Booking. The agent will be able to interact with users and provide information about flights.
+# ✈️ Azure AI Agent Service 개발 실습 - 나만의 항공편 예약 AI 만들기
 
-## Prerequisites
+안녕하세요! 이번 실습에서는 **Azure AI Agent Service**를 사용하여 실제로 동작하는 **항공편 예약 Agent**를 만들어볼 거예요! 🎉
 
-To complete this exercise, you need the following:
-1. An Azure account with an active subscription. [Create an account for free](https://azure.microsoft.com/free/?WT.mc_id=academic-105485-koreyst).
-2. You need permissions to create an Azure AI Foundry hub or have one created for you.
-    - If your role is Contributor or Owner, you can follow the steps in this tutorial.
+여러분이 만든 Agent는 사용자와 대화하면서 항공편 정보를 제공하고, 좌석을 확인하고, 실시간 항공편 상태도 알려줄 수 있어요. 마치 진짜 여행사 직원처럼 말이죠!
 
-## Create an Azure AI Foundry hub
+---
 
-> **Note:** Azure AI Foundry was formerly known as Azure AI Studio.
+## 🎬 시작하기 전에
 
-1. Follow these guidelines from the [Azure AI Foundry](https://learn.microsoft.com/en-us/azure/ai-studio/?WT.mc_id=academic-105485-koreyst) blog post for creating an Azure AI Foundry hub.
-2.  When your project is created, close any tips that are displayed and review the project page in Azure AI Foundry portal, which should look similar to the following image:
+이 실습은 [Azure AI Foundry 포털](https://ai.azure.com/?WT.mc_id=academic-105485-koreyst)에서 진행됩니다. Azure AI Foundry는 AI 모델과 서비스를 쉽게 만들고 관리할 수 있는 올인원 플랫폼이에요.
 
-    ![Azure AI Foundry Project](./images/azure-ai-foundry.png)
+---
 
-## Deploy a model
+## 📋 사전 준비사항
 
-1. In the pane on the left for your project, in the **My assets** section, select the **Models + endpoints** page.
-2. In the **Models + endpoints** page, in the **Model deployments** tab, in the **+ Deploy model** menu, select **Deploy base model**.
-3. Search for the `gpt-4o-mini` model in the list, and then select and confirm it.
+실습을 시작하기 전에 다음 항목이 준비되었는지 확인해주세요:
 
-    > **Note**: Reducing the TPM helps avoid over-using the quota available in the subscription you are using.
+1. **Azure 계정** (활성 구독 필요)
 
-    ![Model Deployed](./images/model-deployment.png)
+   - 아직 계정이 없으신가요? [무료로 만들기](https://azure.microsoft.com/free/?WT.mc_id=academic-105485-koreyst)에서 30만 원 상당의 크레딧을 받고 시작할 수 있어요!
+2. **Azure AI Foundry 허브 생성 권한**
 
-## Create an agent
+   - Azure에서 **Contributor** 또는 **Owner** 역할이 있으면 직접 만들 수 있어요
+   - 권한이 없다면 관리자에게 생성을 요청하세요
 
-Now that you have deployed a model, you can create an agent. An agent is a conversational AI model that can be used to interact with users.
+> 💡 **팁**: 회사 Azure 계정을 사용한다면 관리자에게 실습용 리소스 그룹 생성을 요청하는 게 가장 빠릅니다!
 
-1. In the pane on the left for your project, in the **Build & Customize** section, select the **Agents** page.
-2. Click **+ Create agent** to create a new agent. Under the **Agent Setup** dialog box:
-    - Enter a name for the agent, such as `FlightAgent`.
-    - Ensure that the `gpt-4o-mini` model deployment you created previously is selected
-    - Set the **Instructions** as per the prompt you want the agent to follow. Here is an example:
-    ```
-    You are FlightAgent, a virtual assistant specialized in handling flight-related queries. Your role includes assisting users with searching for flights, retrieving flight details, checking seat availability, and providing real-time flight status. Follow the instructions below to ensure clarity and effectiveness in your responses:
+---
 
-    ### Task Instructions:
-    1. **Recognizing Intent**:
-       - Identify the user's intent based on their request, focusing on one of the following categories:
-         - Searching for flights
-         - Retrieving flight details using a flight ID
-         - Checking seat availability for a specified flight
-         - Providing real-time flight status using a flight number
-       - If the intent is unclear, politely ask users to clarify or provide more details.
-        
-    2. **Processing Requests**:
-        - Depending on the identified intent, perform the required task:
-        - For flight searches: Request details such as origin, destination, departure date, and optionally return date.
-        - For flight details: Request a valid flight ID.
-        - For seat availability: Request the flight ID and date and validate inputs.
-        - For flight status: Request a valid flight number.
-        - Perform validations on provided data (e.g., formats of dates, flight numbers, or IDs). If the information is incomplete or invalid, return a friendly request for clarification.
+## 🏗️ 1단계: Azure AI Foundry 허브 만들기
 
-    3. **Generating Responses**:
-    - Use a tone that is friendly, concise, and supportive.
-    - Provide clear and actionable suggestions based on the output of each task.
-    - If no data is found or an error occurs, explain it to the user gently and offer alternative actions (e.g., refine search, try another query).
-    
-    ```
-> [!NOTE]
-> For a detailed prompt, you can check out [this repository](https://github.com/ShivamGoyal03/RoamMind) for more information.
-    
-> Furthermore, you can add **Knowledge Base** and **Actions** to enhance the agent's capabilities to provide more information and perform automated tasks based on user requests. For this exercise, you can skip these steps.
-    
-![Agent Setup](./images/agent-setup.png)
+> **참고:** Azure AI Foundry는 예전에 Azure AI Studio라는 이름으로 불렸어요. 이름만 바뀌었을 뿐 기능은 동일하니 걱정 마세요!
 
-3. To create a new multi-AI agent, simply click **New Agent**. The newly created agent will then be displayed on the Agents page.
+1. [Azure AI Foundry 시작 가이드](https://learn.microsoft.com/ko-kr/azure/ai-studio/?WT.mc_id=academic-105485-koreyst)를 따라 허브를 만들어주세요.
+2. 프로젝트가 생성되면 나타나는 각종 팁들은 닫아주시고, 프로젝트 페이지를 확인해보세요. 아래 이미지와 비슷한 화면이 보일 거예요:
 
+   ![Azure AI Foundry 프로젝트](./images/azure-ai-foundry.png)
 
-## Test the agent
+   > 🎉 **축하합니다!** 첫 번째 단계를 성공적으로 마치셨어요!
+   >
 
-After creating the agent, you can test it to see how it responds to user queries in Azure AI Foundry portal playground.
+---
 
-1. At the top of the **Setup** pane for your agent, select **Try in playground**.
-2. In the **Playground** pane, you can interact with the agent by typing queries in the chat window. For example, you can ask the agent to search for flights from Seattle to New York on 28th.
+## 🧠 2단계: AI 모델 배포하기
 
-    > **Note**: The agent may not provide accurate responses, as no real-time data is being used in this exercise. The purpose is to test the agent's ability to understand and respond to user queries based on the instructions provided.
+이제 Agent의 두뇌가 될 AI 모델을 배포할 차례예요.
 
-    ![Agent Playground](./images/agent-playground.png)
+1. 프로젝트 왼쪽 메뉴에서 **내 자산** 섹션의 **모델 + 엔드포인트** 페이지로 이동하세요.
+2. **모델 배포** 탭에서 **+ 모델 배포** 메뉴를 클릭하고 **기본 모델 배포**를 선택하세요.
+3. 목록에서 `gpt-4o-mini` 모델을 검색하고 선택한 후 확인해주세요.
 
-3. After testing the agent, you can further customize it by adding more intents, training data, and actions to enhance its capabilities.
+   > **참고**: TPM(분당 토큰 수)을 낮게 설정하면 구독 할당량을 초과하는 것을 방지할 수 있어요. 실습용이니까 적당히 낮춰도 괜찮아요!
+   >
 
-## Clean up resources
+   ![모델 배포 완료](./images/model-deployment.png)
 
-When you have finished testing the agent, you can delete it to avoid incurring additional costs.
-1. Open the [Azure portal](https://portal.azure.com) and view the contents of the resource group where you deployed the hub resources used in this exercise.
-2. On the toolbar, select **Delete resource group**.
-3. Enter the resource group name and confirm that you want to delete it.
+   > ✅ **모델 배포 완료!** 이제 Agent가 사용할 똑똑한 두뇌가 준비되었어요.
+   >
 
-## Resources
+---
 
-- [Azure AI Foundry documentation](https://learn.microsoft.com/en-us/azure/ai-studio/?WT.mc_id=academic-105485-koreyst)
-- [Azure AI Foundry portal](https://ai.azure.com/?WT.mc_id=academic-105485-koreyst)
-- [Getting Started with Azure AI Studio](https://techcommunity.microsoft.com/blog/educatordeveloperblog/getting-started-with-azure-ai-studio/4095602?WT.mc_id=academic-105485-koreyst)
-- [Fundamentals of AI agents on Azure](https://learn.microsoft.com/en-us/training/modules/ai-agent-fundamentals/?WT.mc_id=academic-105485-koreyst)
-- [Azure AI Discord](https://aka.ms/AzureAI/Discord)
+## 🤖 3단계: Agent 만들기
+
+드디어 Agent를 만들 시간이에요! 이 단계가 가장 재미있답니다.
+
+1. 왼쪽 메뉴에서 **빌드 및 사용자 지정** 섹션의 **Agents** 페이지로 이동하세요.
+2. **+ Agent 만들기**를 클릭하고 다음 정보를 입력하세요:
+
+   - **이름**: `FlightAgent` (또는 원하는 이름)
+   - **모델**: 아까 배포한 `gpt-4o-mini` 선택
+   - **지침**: 아래 프롬프트를 복사해서 붙여넣기
+
+   ```
+   당신은 FlightAgent이며, 항공편 관련 문의를 전문적으로 처리하는 가상 비서입니다. 사용자의 항공편 검색, 세부 정보 조회, 좌석 가용성 확인, 실시간 항공편 상태 제공을 도와주세요.
+
+   ### 작업 지침:
+   1. **의도 파악하기**:
+      - 사용자 요청에서 다음 의도 중 하나를 파악하세요:
+        - 항공편 검색
+        - 항공편 ID로 상세 정보 조회
+        - 특정 항공편 좌석 가용성 확인
+        - 항공편 번호로 실시간 상태 확인
+      - 의도가 불명확하면 정중하게 자세한 정보를 요청하세요.
+
+   2. **요청 처리하기**:
+      - 파악된 의도에 따라 필요한 정보를 요청하세요:
+        - 항공편 검색: 출발지, 도착지, 출발일 (선택적으로 귀국일)
+        - 항공편 상세: 유효한 항공편 ID
+        - 좌석 가용성: 항공편 ID와 날짜
+        - 항공편 상태: 유효한 항공편 번호
+      - 입력된 데이터(날짜 형식, 항공편 번호 등)의 유효성을 검사하고, 잘못된 경우 친절하게 다시 요청하세요.
+
+   3. **응답 생성하기**:
+      - 친절하고 간결하며 도움되는 어조를 사용하세요.
+      - 각 작업 결과에 따라 명확하고 실행 가능한 제안을 제공하세요.
+      - 데이터를 찾을 수 없거나 오류가 발생하면 부드럽게 설명하고 대안을 제시하세요.
+   ```
+
+   > [!참고]
+   > 더 자세한 프롬프트가 궁금하다면 [이 저장소](https://github.com/ShivamGoyal03/RoamMind)를 확인해보세요!
+   >
+
+   > 추가로 **지식 베이스**와 **작업**을 추가하면 Agent가 더 많은 정보를 제공하고 자동화된 작업을 수행할 수 있어요. 이번 실습에서는 이 부분은 건너뛸게요.
+   >
+
+   ![Agent 설정](./images/agent-setup.png)
+3. **새 Agent** 버튼을 클릭하면 Agent가 생성되고 Agents 페이지에 표시됩니다.
+
+   > 🎊 **축하합니다!** 당신만의 첫 AI Agent가 탄생했어요!
+   >
+
+---
+
+## 🎮 4단계: Agent 테스트하기
+
+Agent가 잘 만들어졌는지 테스트해볼 시간이에요. 우리 Agent가 얼마나 똑똑한지 확인해보세요!
+
+1. Agent **설정** 창 상단의 **플레이그라운드에서 사용해 보기**를 클릭하세요.
+2. 채팅 창에 질문을 입력해서 Agent와 대화해보세요. 예를 들어:
+
+   - "시애틀에서 뉴욕 가는 28일 항공편 찾아줘"
+   - "AA1234 항공편 상태 알려줘"
+   - "내일 뉴욕행 비행기 좌석 있어?"
+
+   > **참고**: 이 실습에서는 실제 데이터를 사용하지 않기 때문에 Agent의 답변이 100% 정확하지 않을 수 있어요. 지금 중요한 건 Agent가 우리가 설정한 지침대로 사용자의 의도를 이해하고 적절히 응답하는지 확인하는 거예요!
+   >
+
+   ![Agent 플레이그라운드](./images/agent-playground.png)
+3. 테스트가 끝나면 더 많은 의도, 학습 데이터, 작업을 추가해서 Agent를 더 똑똑하게 만들 수 있어요.
+
+---
+
+## 🧹 5단계: 리소스 정리하기
+
+실습이 끝났다면 불필요한 비용이 발생하지 않도록 리소스를 정리해주세요.
+
+1. [Azure 포털](https://portal.azure.com)을 열고, 이 실습에서 사용한 리소스 그룹을 찾으세요.
+2. 상단 도구 모음에서 **리소스 그룹 삭제**를 선택하세요.
+3. 리소스 그룹 이름을 입력하고 삭제를 확인하세요.
+
+> 💡 **앞으로도 계속 실습할 계획이라면** 리소스를 그대로 두셔도 됩니다. 하지만 매일 사용하지 않을 거라면 삭제하는 게 경제적이에요!
+
+---
+
+## 📚 더 알아보기
+
+Azure AI Agent Service에 대해 더 알고 싶다면 아래 자료들을 확인해보세요:
+
+- 📖 [Azure AI Foundry 공식 문서](https://learn.microsoft.com/ko-kr/azure/ai-studio/?WT.mc_id=academic-105485-koreyst)
+- 🎯 [Azure AI Foundry 포털](https://ai.azure.com/?WT.mc_id=academic-105485-koreyst)
+- 🚀 [Azure AI Studio 시작하기](https://techcommunity.microsoft.com/blog/educatordeveloperblog/getting-started-with-azure-ai-studio/4095602?WT.mc_id=academic-105485-koreyst)
+- 📝 [Azure AI Agent 기본 사항 학습 모듈](https://learn.microsoft.com/ko-kr/training/modules/ai-agent-fundamentals/?WT.mc_id=academic-105485-koreyst)
+- 💬 [Azure AI Discord 커뮤니티](https://aka.ms/AzureAI/Discord)
+
+---
+
+## 🎉 마무리
+
+축하합니다! 🎊 여러분은 이제:
+
+- ✅ Azure AI Foundry 허브를 만들고
+- ✅ AI 모델을 배포하고
+- ✅ 나만의 AI Agent를 만들고
+- ✅ Agent와 대화하며 테스트해보는
+
+모든 과정을 성공적으로 완료했습니다!
+
+이제 여러분은 어떤 AI Agent를 만들어볼 건가요? 여행 예약 Agent 외에도, 음식 추천 Agent, 일정 관리 Agent, 학습 도우미 Agent... 상상력이 닿는 곳 어디든 여러분의 AI Agent가 함께할 수 있어요!
+
+**궁금한 점이 있다면 Discord 커뮤니티에 들러서 물어보세요. 항상 여러분을 환영합니다!** 🤝
+
+---
+
+*이 가이드는 여러분의 성공적인 실습을 응원하며 만들어졌습니다. 다음 레슨에서 만나요!* 🚀

@@ -1,60 +1,82 @@
-# AI Agents for Beginners - Study Guide & Course Summary
 
-This guide provides a summary of the "AI Agents for Beginners" course and explains key concepts, frameworks, and design patterns for building AI Agents.
+# AI Agents for Beginners - 학습 가이드 & 코스 요약
 
-## 1. Introduction to AI Agents
+이 가이드는 "AI Agents for Beginners" 코스의 요약본으로, AI Agent를 구축하기 위한 핵심 개념, 프레임워크, 디자인 패턴을 설명합니다.
 
-**What are AI Agents?**
-AI Agents are systems that extend the capabilities of Large Language Models (LLMs) by giving them access to **tools**, **knowledge**, and **memory**. Unlike a standard LLM chatbot that only generates text based on training data, an AI Agent can:
-- **Perceive** its environment (via sensors or inputs).
-- **Reason** about how to solve a problem.
-- **Act** to change the environment (via actuators or tool execution).
+---
 
-**Key Components of an Agent:**
-- **Environment**: The space where the agent operates (e.g., a booking system).
-- **Sensors**: Mechanisms to gather information (e.g., reading an API).
-- **Actuators**: Mechanisms to perform actions (e.g., sending an email).
-- **Brain (LLM)**: The reasoning engine that plans and decides which actions to take.
+## 1. AI Agents 소개
 
-## 2. Agentic Frameworks
+**AI Agent란 무엇인가요?**
+AI Agent는 대규모 언어 모델(LLM)의 기능을 확장하여 **도구(tools)**, **지식(knowledge)**, **메모리(memory)** 에 접근할 수 있게 해주는 시스템입니다. 단순히 학습 데이터를 바탕으로 텍스트를 생성하는 일반 LLM 챗봇과 달리, AI Agent는 다음을 수행할 수 있습니다:
 
-The course covers three primary frameworks for building agents:
+- **환경을 인식**합니다 (센서나 입력을 통해).
+- 문제를 해결하는 방법을 **추론**합니다.
+- 환경에 **행동**을 취합니다 (도구 실행을 통해).
 
-| Framework | Focus | Best For |
-|-----------|-------|----------|
-| **Semantic Kernel** | Production-ready SDK for .NET/Python | Enterprise applications, integrating AI with existing code. |
-| **AutoGen** | Multi-agent collaboration | Complex scenarios requiring multiple specialized agents talking to each other. |
-| **Azure AI Agent Service** | Managed cloud service | Secure, scalable deployment with built-in state management. |
+**Agent의 핵심 구성 요소:**
 
-## 3. Agentic Design Patterns
+- **환경(Environment)**: Agent가 작동하는 공간 (예: 예약 시스템)
+- **센서(Sensors)**: 정보를 수집하는 메커니즘 (예: API 읽기)
+- **액추에이터(Actuators)**: 행동을 수행하는 메커니즘 (예: 이메일 전송)
+- **두뇌(Brain, LLM)**: 어떤 행동을 취할지 계획하고 결정하는 추론 엔진
 
-Design patterns help structure how agents operate to solve problems reliably.
+---
 
-### **Tool Use Pattern** (Lesson 4)
-This pattern enables agents to interact with the outside world.
-- **Concept**: The agent is provided with a "schema" (a list of available functions and their parameters). The LLM decides *which* tool to call and with *what* arguments based on the user's request.
-- **Flow**: User Request -> LLM -> **Tool Selection** -> **Tool Execution** -> LLM (with tool output) -> Final Response.
-- **Use Cases**: Retrieving real-time data (weather, stock prices), performing calculations, executing code.
+## 2. Agentic 프레임워크
 
-### **Planning Pattern** (Lesson 7)
-This pattern enables agents to solve complex, multi-step tasks.
-- **Concept**: The agent breaks down a high-level goal into a sequence of smaller subtasks.
-- **Approaches**:
-  - **Task Decomposition**: Splitting "Plan a trip" into "Book flight", "Book hotel", "Rent car".
-  - **Iterative Planning**: Re-evaluating the plan based on the output of previous steps (e.g., if the flight is full, choose a different date).
-- **Implementation**: Often involves a "Planner" agent that generates a structured plan (e.g., JSON) which is then executed by other agents.
+이 코스에서는 Agent를 구축하기 위한 세 가지 주요 프레임워크를 다룹니다:
 
-## 4. Design Principles
+| 프레임워크                       | 초점                            | 가장 적합한 용도                                        |
+| -------------------------------- | ------------------------------- | ------------------------------------------------------- |
+| **Semantic Kernel**        | 프로덕션 준비된 .NET/Python SDK | 엔터프라이즈 애플리케이션, 기존 코드에 AI 통합          |
+| **AutoGen**                | 다중 Agent 협업                 | 여러 전문 Agent가 서로 대화해야 하는 복잡한 시나리오    |
+| **Azure AI Agent Service** | 관리형 클라우드 서비스          | 보안과 확장성이 중요하고 내장된 상태 관리가 필요한 배포 |
 
-When designing agents, consider three dimensions:
-- **Space**: Agents should connect people and knowledge, be accessible but unobtrusive.
-- **Time**: Agents should learn from the *Past*, provide relevant nudges in the *Now*, and adapt for the *Future*.
-- **Core**: Embrace uncertainty but establish trust through transparency and user control.
+---
 
-## 5. Summary of Key Lessons
+## 3. Agentic 디자인 패턴
 
-- **Lesson 1**: Agents are systems, not just models. They perceive, reason, and act.
-- **Lesson 2**: Frameworks like Semantic Kernel and AutoGen abstract the complexity of tool calling and state management.
-- **Lesson 3**: Design with transparency and user control in mind.
-- **Lesson 4**: Tools are the "hands" of the agent. Schema definition is crucial for the LLM to understand how to use them.
-- **Lesson 7**: Planning is the "executive function" of the agent, enabling it to tackle complex workflows.
+디자인 패턴은 Agent가 문제를 안정적으로 해결할 수 있도록 작동 방식을 구조화하는 데 도움을 줍니다.
+
+### **도구 사용 패턴** (4단원)
+
+이 패턴은 Agent가 외부 세계와 상호작용할 수 있게 해줍니다.
+
+- **개념**: Agent에 사용 가능한 함수와 그 매개변수 목록인 "스키마(schema)"가 제공됩니다. LLM은 사용자 요청에 따라 **어떤 도구를 호출**할지, **어떤 인수**로 호출할지 결정합니다.
+- **흐름**: 사용자 요청 → LLM → **도구 선택** → **도구 실행** → LLM(도구 결과 포함) → 최종 응답
+- **활용 사례**: 실시간 데이터 조회(날씨, 주식 가격), 계산 수행, 코드 실행
+
+### **계획 패턴** (7단원)
+
+이 패턴은 Agent가 복잡한 다단계 작업을 해결할 수 있게 해줍니다.
+
+- **개념**: Agent는 높은 수준의 목표를 더 작은 하위 작업들의 순서로 분해합니다.
+- **접근 방식**:
+  - **작업 분해(Task Decomposition)**: "여행 계획하기"를 "항공권 예약", "호텔 예약", "렌터카 예약"으로 분할
+  - **반복적 계획(Iterative Planning)**: 이전 단계의 결과에 따라 계획을 재평가 (예: 항공편이 매진되면 다른 날짜 선택)
+- **구현**: 종종 구조화된 계획(예: JSON)을 생성하는 "플래너(Planner)" Agent가 있고, 그 계획을 다른 Agent들이 실행하는 방식으로 구현됩니다.
+
+---
+
+## 4. 설계 원칙
+
+Agent를 설계할 때는 세 가지 차원을 고려해야 합니다:
+
+- **공간(Space)**: Agent는 사람과 지식을 연결해야 하며, 접근 가능하되 방해가 되지 않아야 합니다.
+- **시간(Time)**: Agent는 **과거(Past)** 로부터 학습하고, **현재(Now)** 에 적절한 조언을 제공하며, **미래(Future)** 를 위해 적응해야 합니다.
+- **핵심(Core)**: 불확실성을 수용하되, 투명성과 사용자 제어를 통해 신뢰를 구축해야 합니다.
+
+---
+
+## 5. 주요 단원 요약
+
+- **1단원**: Agent는 단순한 모델이 아닌 시스템입니다. 인식하고, 추론하고, 행동합니다.
+- **2단원**: Semantic Kernel, AutoGen 같은 프레임워크는 도구 호출과 상태 관리의 복잡성을 추상화합니다.
+- **3단원**: 투명성과 사용자 제어를 염두에 두고 설계해야 합니다.
+- **4단원**: 도구는 Agent의 "손"입니다. LLM이 도구를 올바르게 사용할 수 있도록 스키마 정의가 매우 중요합니다.
+- **7단원**: 계획 수립은 Agent의 "집행 기능"으로, 복잡한 워크플로우를 처리할 수 있게 해줍니다.
+
+---
+
+이 요약본이 AI Agents의 기본 개념과 패턴을 이해하는 데 도움이 되길 바랍니다! 더 자세한 내용은 각 단원의 강의 자료를 참고해 주세요.

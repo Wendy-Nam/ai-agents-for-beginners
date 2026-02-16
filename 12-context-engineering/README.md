@@ -1,157 +1,145 @@
 # Context Engineering for AI Agents
 
-[![Context Engineering](./images/lesson-12-thumbnail.png)](https://youtu.be/F5zqRV7gEag)
 
-> _(Click the image above to view video of this lesson)_
+# 🧠 AI 에이전트를 위한 컨텍스트 엔지니어링 - 정보의 홍수 속에서 길을 찾다
 
-Understanding the complexity of the application you are building an AI agent for is important to making a reliable one. We need to build AI Agents that effectively manage information to address complex needs beyond prompt engineering.
+[![컨텍스트 엔지니어링](./images/lesson-12-thumbnail.png)](https://youtu.be/F5zqRV7gEag)
 
-In this lesson, we will look at what context engineering is and its role in building AI agents.
+> _(👆 이미지를 클릭하면 이번 레슨의 강의 영상을 볼 수 있어요!)_
 
-## Introduction
+AI 에이전트를 만들 때, 그 에이전트가 적용될 애플리케이션의 복잡성을 이해하는 것은 신뢰할 수 있는 에이전트를 만드는 데 매우 중요합니다. 단순한 프롬프트 엔지니어링을 넘어, 복잡한 요구사항을 해결하기 위해 정보를 효과적으로 관리하는 AI 에이전트를 구축해야 합니다.
 
-This lesson will cover:
+이번 레슨에서는 **컨텍스트 엔지니어링**이 무엇인지, 그리고 AI 에이전트 구축에서의 역할에 대해 자세히 알아봅니다.
 
-• **What Context Engineering is** and why it's different from prompt engineering.
+## 🧐 소개
 
-• **Strategies for effective Context Engineering**, including how to write, select, compress, and isolate information.
+이번 레슨에서는 다음 내용을 다룹니다:
 
-• **Common Context Failures** that can derail your AI agent and how to fix them.
+- **컨텍스트 엔지니어링**이 무엇이며, 프롬프트 엔지니어링과 어떻게 다른지 알아봅니다.
+- 효과적인 컨텍스트 엔지니어링을 위한 **전략**, 즉 정보를 작성하고, 선택하고, 압축하고, 격리하는 방법을 알아봅니다.
+- AI 에이전트를 무너뜨릴 수 있는 **일반적인 컨텍스트 실패 사례**와 이를 해결하는 방법을 알아봅니다.
 
-## Learning Goals
+## 📚 학습 목표
 
-After completing this lesson, you will know understand how to:
+이번 레슨을 완료하면 다음을 이해하고 수행할 수 있게 됩니다:
 
-• **Define context engineering** and differentiate it from prompt engineering.
+- 컨텍스트 엔지니어링을 정의하고 프롬프트 엔지니어링과 구분할 수 있습니다.
+- LLM 애플리케이션에서 컨텍스트의 핵심 구성 요소를 식별할 수 있습니다.
+- 컨텍스트를 작성, 선택, 압축 및 격리하는 전략을 적용하여 에이전트 성능을 향상시킬 수 있습니다.
+- 컨텍스트 오염, 산만, 혼란, 충돌과 같은 일반적인 컨텍스트 실패를 인식하고 완화 기술을 구현할 수 있습니다.
 
-• **Identify the key components of context** in Large Language Model (LLM) applications.
+---
 
-• **Apply strategies for writing, selecting, compressing, and isolating context** to improve agent performance.
+## 🤔 컨텍스트 엔지니어링이란 무엇인가?
 
-• **Recognize common context failures** such as poisoning, distraction, confusion, and clash, and implement mitigation techniques.
+AI 에이전트에게 **컨텍스트**는 특정 행동을 수행하도록 계획을 세우는 동력입니다. **컨텍스트 엔지니어링**은 AI 에이전트가 작업의 다음 단계를 완료하는 데 필요한 **올바른 정보**를 확보하도록 하는 실천 방법입니다. 컨텍스트 윈도우는 크기가 제한되어 있으므로, 에이전트 빌더로서 우리는 컨텍스트 윈도우에 정보를 추가, 제거, 압축하는 시스템과 프로세스를 구축해야 합니다.
 
-## What is Context Engineering?
+## 🆚 프롬프트 엔지니어링 vs 컨텍스트 엔지니어링
 
-For AI Agents, context is what drives the planning of an AI Agent to take certain actions. Context Engineering is the practice of making sure the AI Agent has the right information to complete the next step of the task. The context window is limited in size, so as agent builders we need to build systems and processes to manage adding, removing, and condensing the information in the context window.
+**프롬프트 엔지니어링**은 일련의 규칙을 통해 AI 에이전트를 효과적으로 안내하는 **단일 정적 명령어 집합**에 초점을 맞춥니다. 반면 **컨텍스트 엔지니어링**은 초기 프롬프트를 포함하여 **동적인 정보 집합을 관리**하여 AI 에이전트가 시간이 지남에 따라 필요한 정보를 지속적으로 확보하도록 하는 방법입니다. 컨텍스트 엔지니어링의 핵심 아이디어는 이 과정을 **반복 가능하고 신뢰할 수 있게** 만드는 것입니다.
 
-### Prompt Engineering vs Context Engineering
+## 📦 컨텍스트의 유형
 
-Prompt engineering is focused on a single set of static instructions to effectively guide the AI Agents with a set of rules.  Context engineering is how to manage a dynamic set of information, including the initial prompt, to ensure that the AI Agent has what it needs over time. The main idea around context engineering is to make this process repeatable and reliable.
+![컨텍스트의 유형](./images/types-of-context.png)
 
-### Types of Context
+컨텍스트는 단일한 것이 아니라는 점을 기억하는 것이 중요합니다. AI 에이전트가 필요로 하는 정보는 다양한 출처에서 올 수 있으며, 에이전트가 이러한 출처에 접근할 수 있도록 보장하는 것은 우리의 몫입니다.
 
-[![Types of Context](./images/context-types.png)](https://youtu.be/F5zqRV7gEag)
+AI 에이전트가 관리해야 할 컨텍스트 유형은 다음과 같습니다:
 
-It is important to remember that context is not just one thing. The information  that the AI Agent needs can come from a variety of different sources and it is up to us to ensure the agent has access to these sources:
+- **지침(Instructions)**: 에이전트의 "규칙"과 같습니다 – 프롬프트, 시스템 메시지, 퓨샷 예시(몇 가지 예시를 보여주는 것), 사용할 수 있는 도구에 대한 설명 등이 포함됩니다. 여기서 프롬프트 엔지니어링의 초점이 컨텍스트 엔지니어링과 결합됩니다.
+- **지식(Knowledge)**: 사실, 데이터베이스에서 검색된 정보, 에이전트가 축적한 장기 기억 등을 포함합니다. 에이전트가 다양한 지식 저장소와 데이터베이스에 접근해야 하는 경우 RAG(검색 증강 생성) 시스템을 통합하는 것이 포함됩니다.
+- **도구(Tools)**: 에이전트가 호출할 수 있는 외부 함수, API, MCP 서버에 대한 정의와 이를 사용하여 얻은 피드백(결과)을 포함합니다.
+- **대화 기록(Conversation History)**: 사용자와 진행 중인 대화입니다. 시간이 지남에 따라 이러한 대화는 더 길고 복잡해지며 컨텍스트 윈도우에서 공간을 차지하게 됩니다.
+- **사용자 선호도(User Preferences)**: 시간이 지남에 따라 학습된 사용자의 선호(좋아함/싫어함)에 대한 정보입니다. 이러한 정보는 저장되었다가 사용자를 돕기 위한 주요 결정을 내릴 때 호출될 수 있습니다.
 
-The types of context an AI agent might need to manage include:
+---
 
-• **Instructions:** These are like the agent's "rules" – prompts, system messages, few-shot examples (showing the AI how to do something), and descriptions of tools it can use. This is where the focus of prompt engineering combines with context engineering.
+## 🛠️ 효과적인 컨텍스트 엔지니어링을 위한 전략
 
-• **Knowledge:** This covers facts, information retrieved from databases, or long-term memories the agent has accumulated. This includes integrating a Retrieval Augmented Generation (RAG) system if an agent needs access to different knowledge stores and databases.
+### 계획 전략
 
-• **Tools:** These are the definitions of external functions, APIs and MCP Servers that the agent can call, along with the feedback (results) it gets from using them.
+![컨텍스트 엔지니어링 모범 사례](./images/context-engineering-best-practices.png)
 
-• **Conversation History:** The ongoing dialogue with a user. As time passes, these conversations become longer and more complex which means they take up space in the context window.
+좋은 컨텍스트 엔지니어링은 좋은 계획에서 시작됩니다. 다음은 컨텍스트 엔지니어링 개념을 적용하는 방법을 생각하는 데 도움이 되는 접근 방식입니다:
 
-• **User Preferences:** Information learned about a user's likes or dislikes over time. These could be stored and called upon when making key decisions to help the user.
+1.  **명확한 결과 정의하기**: AI 에이전트에 할당될 작업의 결과를 명확하게 정의해야 합니다. "AI 에이전트가 작업을 완료했을 때 세상은 어떤 모습일까?"라는 질문에 답하세요. 즉, 사용자가 AI 에이전트와 상호작용한 후 어떤 변화, 정보, 또는 응답을 얻게 되어야 할까요?
+2.  **컨텍스트 매핑하기**: AI 에이전트의 결과를 정의했다면, "AI 에이전트가 이 작업을 완료하는 데 어떤 정보가 필요할까?"라는 질문에 답해야 합니다. 이렇게 하면 해당 정보가 어디에 위치할 수 있는지에 대한 컨텍스트 매핑을 시작할 수 있습니다.
+3.  **컨텍스트 파이프라인 생성하기**: 이제 정보가 어디에 있는지 알았으니, "에이전트가 이 정보를 어떻게 얻을 수 있을까?"라는 질문에 답해야 합니다. 이는 RAG 사용, MCP 서버 활용 및 기타 도구를 포함한 다양한 방식으로 수행될 수 있습니다.
 
-## Strategies for Effective Context Engineering
+### 실용적인 전략
 
-### Planning Strategies
+계획도 중요하지만, 일단 정보가 에이전트의 컨텍스트 윈도우로 흘러들어오기 시작하면 이를 관리하기 위한 실용적인 전략이 필요합니다:
 
-[![Context Engineering Best Practices](./images/best-practices.png)](https://youtu.be/F5zqRV7gEag)
+#### 컨텍스트 관리
 
-Good context engineering starts with good planning. Here is an approach that will help you start to think about how to apply the concept of context engineering:
+일부 정보는 컨텍스트 윈도우에 자동으로 추가되지만, 컨텍스트 엔지니어링은 이 정보에 대해 보다 적극적인 역할을 수행하는 것을 의미하며, 이는 몇 가지 전략을 통해 수행될 수 있습니다:
 
-1. **Define Clear Results** - The results of the tasks that AI Agents will be assigned should be clearly defined. Answer the question - "What will the world look like when the AI Agent is done with its task?" In other words, what change, information, or response should the user have after interacting with the AI Agent.
-2. **Map the Context** - Once you have defined the results of the AI Agent, you need to answer the question of "What information does the AI Agent need in order to complete this task?". This way you can start to map the context of where that information can be located.
-3. **Create Context Pipelines** - Now that you know where the information is, you need to answer the question "How will the Agent get this information?". This can be done in a variety of ways including RAG, use of MCP servers and other tools.
+- **에이전트 스크래치패드 (Agent Scratchpad)**
+  이를 통해 AI 에이전트는 단일 세션 동안 현재 작업 및 사용자 상호작용에 대한 관련 정보를 메모할 수 있습니다. 이는 컨텍스트 윈도우 외부의 파일이나 런타임 객체에 존재해야 하며, 에이전트는 이 세션 중 필요할 때 나중에 검색할 수 있습니다.
 
-### Practical Strategies
+- **메모리 (Memories)**
+  스크래치패드는 단일 세션의 컨텍스트 윈도우 외부에서 정보를 관리하는 데 유용합니다. **메모리**를 사용하면 에이전트가 여러 세션에 걸쳐 관련 정보를 저장하고 검색할 수 있습니다. 여기에는 요약, 사용자 선호도, 향후 개선을 위한 피드백 등이 포함될 수 있습니다.
 
-Planning is important but once the information starts to flow into our agent's context window, we need to have practical strategies to manage it:
+- **컨텍스트 압축 (Compressing Context)**
+  컨텍스트 윈도우가 커져서 한계에 가까워지면 **요약** 또는 **정리(trimming)** 와 같은 기술을 사용할 수 있습니다. 여기에는 가장 관련성이 높은 정보만 유지하거나 오래된 메시지를 제거하는 것이 포함됩니다.
 
-#### Managing Context
+- **다중 에이전트 시스템 (Multi-Agent Systems)**
+  다중 에이전트 시스템을 개발하는 것은 컨텍스트 엔지니어링의 한 형태입니다. 각 에이전트는 자체 컨텍스트 윈도우를 갖기 때문입니다. 해당 컨텍스트를 다른 에이전트와 어떻게 공유하고 전달할 것인지도 이러한 시스템을 구축할 때 계획해야 할 또 다른 사항입니다.
 
-While some information will be added to the context window automatically, context engineering is about taking a more active role of this information which can be done by a few strategies:
+- **샌드박스 환경 (Sandbox Environments)**
+  에이전트가 일부 코드를 실행하거나 문서에서 대량의 정보를 처리해야 하는 경우, 결과를 처리하는 데 많은 토큰이 소모될 수 있습니다. 이 모든 것을 컨텍스트 윈도우에 저장하는 대신, 에이전트는 이 코드를 실행하고 결과 및 기타 관련 정보만 읽을 수 있는 샌드박스 환경을 사용할 수 있습니다.
 
- 1. **Agent Scratchpad**
- This allows for an AI Agent to takes notes of relevant information about the current tasks and user interactions during a single session. This should exist outside of the context window in a file or runtime object that the agent can later retrieve during this session if needed.
+- **런타임 상태 객체 (Runtime State Objects)**
+  이는 에이전트가 특정 정보에 접근해야 하는 상황을 관리하기 위해 정보 컨테이너를 생성하는 것입니다. 복잡한 작업의 경우, 이를 통해 에이전트가 각 하위 작업의 결과를 단계별로 저장할 수 있어 컨텍스트가 해당 특정 하위 작업에만 연결된 상태를 유지할 수 있습니다.
 
- 2. **Memories**
- Scratchpads are good for managing information outside of the context window of a single session. Memories enable agents to store and retrieve relevant information across multiple sessions. This could include summaries, user preferences and feedback for improvements in the future.
+---
 
- 3. **Compressing Context**
-  Once the context window grows and is nearing its limit, techniques such as summarization and trimming can be used. This includes either keeping only the most relevant information or removing older messages.
-  
- 4. **Multi-Agent Systems**
-  Developing multi-agent system is a form of context engineering because each agent has its own context window. How that context is shared and passed to different agents is another thing to plan out when building these systems.
-  
- 5. **Sandbox Environments**
-  If an agent needs to run some code or process large amounts of information in a document, this can take a large amount of tokens to process the results. Instead of having this all stored in the context window, the agent can use a sandbox environment that is able to run this code and only read the results and other relevant information.
-  
- 6. **Runtime State Objects**
-   This is done by creating containers of information to manage situations when the Agent needs to have access to certain information. For a complex task, this would enable an Agent to store the results of each subtask step by step, allowing the context to remain connected only to that specific subtask.
-  
-### Example of Context Engineering
+## ✈️ 컨텍스트 엔지니어링 예시
 
-Let's say we want an AI agent to **"Book me a trip to Paris."**
+AI 에이전트에게 "파리 여행 예약해 줘"라고 요청한다고 가정해 봅시다.
 
-• A simple  agent using only prompt engineering might just respond: **"Okay, when would you like to go to Paris?**". It only processed your direct question at the time that the user asked.
+- **프롬프트 엔지니어링만 사용하는 단순한 에이전트**는 아마도 "네, 언제 파리에 가고 싶으신가요?"라고만 응답할 것입니다. 사용자가 질문한 시점의 직접적인 질문만 처리했을 뿐입니다.
+- **앞서 배운 컨텍스트 엔지니어링 전략을 사용하는 에이전트**는 훨씬 더 많은 일을 할 것입니다. 응답하기 전에 그 시스템은 다음과 같은 작업을 수행할 수 있습니다:
+  - 사용 가능한 날짜를 확인하기 위해 **캘린더를 확인**(실시간 데이터 검색)
+  - 선호하는 항공사, 예산, 직항 선호 여부 등 과거 여행 선호도를 **장기 기억에서 불러오기**
+  - 항공편 및 호텔 예약을 위한 **사용 가능한 도구 식별**
 
-• An agent using  the context engineering strategies covered would do much more. Before even responding, its system might:
+그러면 응답은 다음과 같이 될 수 있습니다: "안녕하세요 [사용자 이름]님! 10월 첫째 주에 일정이 비어 있네요. 평소 예산 [예산] 내에서 [선호하는 항공사] 직항 항공편을 찾아볼까요?" 이처럼 풍부하고 컨텍스트를 인식하는 응답은 컨텍스트 엔지니어링의 힘을 보여줍니다.
 
-  ◦ **Check your calendar** for available dates (retrieving real-time data).
+---
 
- ◦ **Recall past travel preferences** (from long-term memory) like your preferred airline, budget, or whether you prefer direct flights.
+## 🚨 일반적인 컨텍스트 실패 사례
 
- ◦ **Identify available tools** for flight and hotel booking.
+### 컨텍스트 오염 (Context Poisoning)
 
-- Then, an example response could be:  "Hey [Your Name]! I see you're free the first week of October. Shall I look for direct flights to Paris on [Preferred Airline] within your usual budget of [Budget]?". This richer, context-aware response demonstrates the power of context engineering.
+- **무엇인가요?**: 환각(hallucination, LLM이 생성한 허위 정보)이나 오류가 컨텍스트에 들어와 반복적으로 참조되면서, 에이전트가 불가능한 목표를 추구하거나 무의미한 전략을 개발하게 되는 경우입니다.
+- **어떻게 해결하나요?**: 컨텍스트 검증 및 격리를 구현합니다. 정보가 장기 메모리에 추가되기 전에 검증합니다. 잠재적인 오염이 감지되면 새 컨텍스트 스레드를 시작하여 잘못된 정보가 확산되는 것을 방지합니다.
+- **여행 예약 예시**: 에이전트가 실제로 국제선 항공편을 제공하지 않는 작은 지역 공항에서 먼 국제 도시로 가는 직항 항공편을 환각으로 생성합니다. 이 존재하지 않는 항공편 세부 정보가 컨텍스트에 저장됩니다. 나중에 에이전트에게 예약을 요청하면 이 불가능한 경로에 대한 티켓을 계속 찾으려고 시도하여 반복적인 오류가 발생합니다.
+- **해결책**: 항공편 세부 정보를 에이전트의 작업 컨텍스트에 추가하기 전에 실시간 API로 항공편 존재 여부와 경로를 확인하는 단계를 구현합니다. 검증에 실패하면 잘못된 정보는 "격리"되고 더 이상 사용되지 않습니다.
 
-## Common Context Failures
+### 컨텍스트 산만 (Context Distraction)
 
-### Context Poisoning
+- **무엇인가요?**: 컨텍스트가 너무 커져서 모델이 훈련 중에 학습한 내용을 사용하는 대신 축적된 기록에 너무 집중하게 되어, 반복적이거나 도움이 되지 않는 행동을 하게 되는 경우입니다. 모델은 컨텍스트 윈도우가 가득 차기 전에도 실수하기 시작할 수 있습니다.
+- **어떻게 해결하나요?**: 컨텍스트 요약을 사용합니다. 축적된 정보를 주기적으로 짧은 요약으로 압축하여 중요한 세부 정보는 유지하고 중복된 기록은 제거합니다. 이는 초점을 "재설정"하는 데 도움이 됩니다.
+- **여행 예약 예시**: 오랫동안 다양한 꿈의 여행지에 대해 논의해 왔고, 2년 전 배낭여행에 대한 자세한 이야기도 포함되어 있습니다. 마침내 "다음 달에 저렴한 항공편 찾아줘"라고 요청했을 때, 에이전트는 오래되고 관련 없는 세부 정보에 빠져 배낭여행 장비나 과거 일정에 대해 계속 묻고 현재 요청은 무시합니다.
+- **해결책**: 일정 횟수의 대화가 오가거나 컨텍스트가 너무 커진 후에는 에이전트가 대화의 가장 최근 및 관련 부분(현재 여행 날짜와 목적지에 초점)을 요약하고, 이 압축된 요약을 다음 LLM 호출에 사용하여 관련성이 낮은 과거 채팅을 버려야 합니다.
 
-**What it is:** When a hallucination (false information generated by the LLM) or an error enters the context and is repeatedly referenced, causing the agent to pursue impossible goals or develop nonsense strategies.
+### 컨텍스트 혼란 (Context Confusion)
 
-**What to do:** Implement **context validation** and **quarantine**. Validate information before it's added to long-term memory. If potential poisoning is detected, start fresh context threads to prevent the bad information from spreading.
+- **무엇인가요?**: 너무 많은 사용 가능한 도구 형태의 불필요한 컨텍스트가 모델로 하여금 잘못된 응답을 생성하거나 관련 없는 도구를 호출하게 하는 경우입니다. 특히 소형 모델이 이런 경향에 취약합니다.
+- **어떻게 해결하나요?**: RAG 기술을 사용하여 도구 장착 관리(tool loadout management)를 구현합니다. 도구 설명을 벡터 데이터베이스에 저장하고 각 특정 작업에 가장 관련성이 높은 도구만 선택합니다. 연구에 따르면 도구 선택을 30개 미만으로 제한하는 것이 좋습니다.
+- **여행 예약 예시**: 에이전트가 `항공편_예약`, `호텔_예약`, `렌터카_예약`, `투어_찾기`, `환율_변환기`, `날씨_예보`, `레스토랑_예약` 등 수십 개의 도구에 접근할 수 있습니다. 사용자가 "파리에서 가장 좋은 이동 수단은 뭐예요?"라고 묻습니다. 너무 많은 도구 때문에 에이전트는 혼란을 겪고 파리 내에서 `항공편_예약`을 호출하거나, 대중교통을 선호함에도 불구하고 `렌터카_예약`을 시도할 수 있습니다. 도구 설명이 중복되거나 최상의 도구를 식별하지 못하기 때문입니다.
+- **해결책**: 도구 설명에 RAG를 사용합니다. 파리 이동 수단에 대해 질문하면 시스템은 질문에 따라 `렌터카_예약` 또는 `대중교통_정보`와 같은 가장 관련성 높은 도구만 동적으로 검색하여 LLM에 초점화된 도구 세트를 제공합니다.
 
-**Travel Booking Example:** Your agent hallucinates a **direct flight from a small local airport to a distant international city** that doesn't actually offer international flights. This non-existent flight detail gets saved into the context. Later, when you ask the agent to book, it keeps trying to find tickets for this impossible route, leading to repeated errors.
+### 컨텍스트 충돌 (Context Clash)
 
-**Solution:** Implement a step that **validates flight existence and routes with a real-time API** _before_ adding the flight detail to the agent's working context. If the validation fails, the erroneous information is "quarantined" and not used further.
+- **무엇인가요?**: 컨텍스트 내에 상충되는 정보가 존재하여 일관되지 않은 추론이나 잘못된 최종 응답으로 이어지는 경우입니다. 이는 정보가 단계적으로 도착할 때 자주 발생하며, 초기의 잘못된 가정이 컨텍스트에 남아 있게 됩니다.
+- **어떻게 해결하나요?**: 컨텍스트 정리(pruning) 및 오프로딩(offloading)을 사용합니다. 정리는 새로운 세부 정보가 도착함에 따라 오래되거나 상충되는 정보를 제거하는 것을 의미합니다. 오프로딩은 모델이 주요 컨텍스트를 어지럽히지 않고 정보를 처리할 수 있는 별도의 "스크래치패드" 작업 공간을 제공합니다.
+- **여행 예약 예시**: 처음에 에이전트에게 "이코노미 클래스를 타고 싶어요"라고 말합니다. 나중에 대화에서 마음을 바꿔 "사실 이번 여행은 비즈니스 클래스로 가자"라고 말합니다. 두 지침이 모두 컨텍스트에 남아 있으면 에이전트는 상충되는 검색 결과를 받거나 어떤 선호도를 우선시해야 할지 혼란스러워할 수 있습니다.
+- **해결책**: 컨텍스트 정리를 구현합니다. 새 지침이 이전 지침과 모순될 때, 이전 지침은 컨텍스트에서 제거되거나 명시적으로 재정의됩니다. 또는 에이전트가 결정하기 전에 스크래치패드를 사용하여 상충되는 선호도를 조정함으로써 최종적이고 일관된 지침만이 에이전트의 행동을 안내하도록 할 수 있습니다.
 
-### Context Distraction
+---
 
-**What it is:** When the context becomes so large that the model focuses too much on the accumulated history instead of using what it learned during training, leading to repetitive or unhelpful actions. Models may begin making mistakes even before the context window is full.
+## ❓ 컨텍스트 엔지니어링에 대해 더 궁금한 점이 있나요?
 
-**What to do:** Use **context summarization**. Periodically compress accumulated information into shorter summaries, keeping important details while removing redundant history. This helps "reset" the focus.
-
-**Travel Booking Example:** You've been discussing various dream travel destinations for a long time, including a detailed recounting of your backpacking trip from two years ago. When you finally ask to **"find me a cheap flight for** **next month****,"** the agent gets bogged down in the old, irrelevant details and keeps asking about your backpacking gear or past itineraries, neglecting your current request.
-
-**Solution:** After a certain number of turns or when the context grows too large, the agent should **summarize the most recent and relevant parts of the conversation** – focusing on your current travel dates and destination – and use that condensed summary for the next LLM call, discarding the less relevant historical chat.
-
-### Context Confusion
-
-**What it is:** When unnecessary context, often in the form of too many available tools, causes the model to generate bad responses or call irrelevant tools. Smaller models are especially prone to this.
-
-**What to do:** Implement **tool loadout management** using RAG techniques. Store tool descriptions in a vector database and select _only_ the most relevant tools for each specific task. Research shows limiting tool selections to fewer than 30.
-
-**Travel Booking Example:** Your agent has access to dozens of tools: `book_flight`, `book_hotel`, `rent_car`, `find_tours`, `currency_converter`, `weather_forecast`, `restaurant_reservations`, etc. You ask, **"What's the best way to get around Paris?"** Due to the sheer number of tools, the agent gets confused and attempts to call `book_flight` _within_ Paris, or `rent_car` even though you prefer public transport, because the tool descriptions might overlap or it simply can't discern the best one.
-
-**Solution:** Use **RAG over tool descriptions**. When you ask about getting around Paris, the system dynamically retrieves _only_ the most relevant tools like `rent_car` or `public_transport_info` based on your query, presenting a focused "loadout" of tools to the LLM.
-
-### Context Clash
-
-**What it is:** When conflicting information exists within the context, leading to inconsistent reasoning or bad final responses. This often happens when information arrives in stages, and early, incorrect assumptions remain in the context.
-
-**What to do:** Use **context pruning** and **offloading**. Pruning means removing outdated or conflicting information as new details arrive. Offloading gives the model a separate "scratchpad" workspace to process information without cluttering the main context.
-
-**Travel Booking Example:** You initially tell your agent, **"I want to fly economy class."** Later in the conversation, you change your mind and say, **"Actually, for this trip, let's go business class."** If both instructions remain in the context, the agent might receive conflicting search results or get confused about which preference to prioritize.
-
-**Solution:** Implement **context pruning**. When a new instruction contradicts an old one, the older instruction is removed or explicitly overridden in the context. Alternatively, the agent can use a **scratchpad** to reconcile conflicting preferences before deciding, ensuring only the final, consistent instruction guides its actions.
-
-## Got More Questions About Context Engineering?
-
-Join the [Azure AI Foundry Discord](https://aka.ms/ai-agents/discord) to meet with other learners, attend office hours and get your AI Agents questions answered.
+[Azure AI Foundry Discord](https://aka.ms/ai-agents/discord)에 참여하여 다른 학습자들을 만나고, 오피스 아워에 참여하고 AI Agents에 대한 질문에 대한 답변을 받아보세요.

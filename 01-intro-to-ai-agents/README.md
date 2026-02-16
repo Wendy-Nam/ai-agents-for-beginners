@@ -1,119 +1,144 @@
 
-[![Intro to AI Agents](./images/lesson-1-thumbnail.png)](https://youtu.be/3zgm60bXmQk?si=QA4CW2-cmul5kk3D)
+[![AI Agents 소개](./images/lesson-1-thumbnail.png)](https://youtu.be/3zgm60bXmQk?si=QA4CW2-cmul5kk3D)
 
-> _(Click the image above to view video of this lesson)_
+> _(👆 이미지를 클릭하면 강의 영상을 볼 수 있어요!)_
 
+# 🤖 AI Agents 첫 만남 - 세상을 바꾸는 지능형 비서들
 
-# Introduction to AI Agents and Agent Use Cases
+안녕하세요! **AI Agents의 신비한 세계**에 첫 발을 내딛게 되셨네요! 🎉
 
-Welcome to the "AI Agents for Beginners" course! This course provides fundamental knowledge and applied samples for building AI Agents.
+여기서 당신은 AI Agent가 무엇인지, 어떻게 작동하는지, 그리고 어떻게 세상을 바꿀 수 있는지 배우게 될 거예요. 더 이상 어려운 기술 설명은 안녕! 친구처럼 차근차근 알려드릴게요.
 
-Join the <a href="https://discord.gg/kzRShWzttr" target="_blank">Azure AI Discord Community</a> to meet other learners and AI Agent Builders and ask any questions you have about this course.
+---
 
-To start this course, we begin by getting a better understanding of what AI Agents are and how we can use them in the applications and workflows we build.
+## 🤝 함께 배우기
 
-## Introduction
+혼자 공부하기 싫으신가요? 다 같이 배워요!
 
-This lesson covers:
+**🎯 AI 커뮤니티 참여하기**: [Azure AI Discord Community](https://discord.gg/kzRShWzttr)
 
-- What are AI Agents and what are the different types of agents?
-- What use cases are best for AI Agents and how can they help us?
-- What are some of the basic building blocks when designing Agentic Solutions?
+- 다른 학습자들과 만나고 이야기 나눠요
+- AI Agent 개발자들에게 직접 질문해 보세요
+- 주간 오피스 아워에 참여해서 궁금증을 해결하세요
 
-## Learning Goals
-After completing this lesson, you should be able to:
+---
 
-- Understand AI Agent concepts and how they differ from other AI solutions.
-- Apply AI Agents most efficiently.
-- Design Agentic solutions productively for both users and customers.
+## 📌 이번 강의에서 배울 내용
 
-## Defining AI Agents and Types of AI Agents
+이번 레슨에서는 다음 내용을 다룰 예정이에요:
 
-### What are AI Agents?
+- **AI Agent란 정확히 무엇이고**, 어떤 종류가 있을까?
+- **AI Agent는 어디에 가장 잘 어울릴까?** 어떤 문제를 해결할 수 있을까?
+- **Agent 솔루션을 설계할 때** 꼭 알아야 할 기본 구성 요소는 무엇일까?
 
-AI Agents are **systems** that enable **Large Language Models(LLMs)** to **perform actions** by extending their capabilities by giving LLMs **access to tools** and **knowledge**.
+## 🎯 학습 목표
 
-Let's break this definition into smaller parts:
+이 강의를 마치면 여러분은 다음을 할 수 있게 됩니다:
 
-- **System** - It's important to think about agents not as just a single component but as a system of many components. At the basic level, the components of an AI Agent are:
-  - **Environment** - The defined space where the AI Agent is operating. For example, if we had a travel booking AI Agent, the environment could be the travel booking system that the AI Agent uses to complete tasks.
-  - **Sensors** - Environments have information and provide feedback. AI Agents use sensors to gather and interpret this information about the current state of the environment. In the Travel Booking Agent example, the travel booking system can provide information such as hotel availability or flight prices.
-  - **Actuators** - Once the AI Agent receives the current state of the environment, for the current task the agent determines what action to perform to change the environment. For the travel booking agent, it might be to book an available room for the user.
+- AI Agent의 개념을 이해하고, 다른 AI 솔루션과 무엇이 다른지 설명할 수 있어요
+- AI Agent를 **어디에 적용해야 가장 효과적인지** 판단할 수 있어요
+- 사용자와 고객 모두에게 도움이 되는 **생산적인 Agent 솔루션**을 설계할 수 있어요
 
-![What Are AI Agents?](./images/what-are-ai-agents.png)
+---
 
-**Large Language Models** - The concept of agents existed before the creation of LLMs. The advantage of building AI Agents with LLMs is their ability to interpret human language and data. This ability enables LLMs to interpret environmental information and define a plan to change the environment.
+## 🧠 AI Agent란 무엇인가? 그리고 어떤 종류가 있을까?
 
-**Perform Actions** - Outside of AI Agent systems, LLMs are limited to situations where the action is generating content or information based on a user's prompt. Inside AI Agent systems, LLMs can accomplish tasks by interpreting the user's request and using tools that are available in their environment.
+### AI Agent의 정의
 
-**Access To Tools** - What tools the LLM has access to is defined by 1) the environment it's operating in and 2) the developer of the AI Agent. For our travel agent example, the agent's tools are limited by the operations available in the booking system, and/or the developer can limit the agent's tool access to flights.
+AI Agent는 **대규모 언어 모델(LLM)**이 **행동을 수행**할 수 있도록 **도구**와 **지식**에 대한 접근을 제공하는 **시스템**입니다.
 
-**Memory+Knowledge** - Memory can be short-term in the context of the conversation between the user and the agent. Long-term, outside of the information provided by the environment, AI Agents can also retrieve knowledge from other systems, services, tools, and even other agents. In the travel agent example, this knowledge could be the information on the user's travel preferences located in a customer database.
+이 정의를 좀 더 쉽게 풀어볼게요:
 
-### The different types of agents
-
-Now that we have a general definition of AI Agents, let us look at some specific agent types and how they would be applied to a travel booking AI agent.
-
-| **Agent Type**                | **Description**                                                                                                                       | **Example**                                                                                                                                                                                                                   |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Simple Reflex Agents**      | Perform immediate actions based on predefined rules.                                                                                  | Travel agent interprets the context of the email and forwards travel complaints to customer service.                                                                                                                          |
-| **Model-Based Reflex Agents** | Perform actions based on a model of the world and changes to that model.                                                              | Travel agent prioritizes routes with significant price changes based on access to historical pricing data.                                                                                                             |
-| **Goal-Based Agents**         | Create plans to achieve specific goals by interpreting the goal and determining actions to reach it.                                  | Travel agent books a journey by determining necessary travel arrangements (car, public transit, flights) from the current location to the destination.                                                                                |
-| **Utility-Based Agents**      | Consider preferences and weigh tradeoffs numerically to determine how to achieve goals.                                               | Travel agent maximizes utility by weighing convenience vs. cost when booking travel.                                                                                                                                          |
-| **Learning Agents**           | Improve over time by responding to feedback and adjusting actions accordingly.                                                        | Travel agent improves by using customer feedback from post-trip surveys to make adjustments to future bookings.                                                                                                               |
-| **Hierarchical Agents**       | Feature multiple agents in a tiered system, with higher-level agents breaking tasks into subtasks for lower-level agents to complete. | Travel agent cancels a trip by dividing the task into subtasks (for example, canceling specific bookings) and having lower-level agents complete them, reporting back to the higher-level agent.                                     |
-| **Multi-Agent Systems (MAS)** | Agents complete tasks independently, either cooperatively or competitively.                                                           | Cooperative: Multiple agents book specific travel services such as hotels, flights, and entertainment. Competitive: Multiple agents manage and compete over a shared hotel booking calendar to book customers into the hotel. |
-
-## When to Use AI Agents
-
-In the earlier section, we used the Travel Agent use-case to explain how the different types of agents can be used in different scenarios of travel booking. We will continue to use this application throughout the course.
-
-Let's look at the types of use cases that AI Agents are best used for:
-
-![When to use AI Agents?](./images/when-to-use-ai-agents.png)
+- **시스템(System)** - Agent는 단순한 구성요소 하나가 아니라 여러 구성요소가 모인 시스템이에요. AI Agent의 기본 구성요소는 다음과 같습니다:
+  - **환경(Environment)** - AI Agent가 활동하는 공간이에요. 예를 들어 여행 예약 AI Agent가 있다면, 환경은 여행 예약 시스템이 될 수 있겠죠.
+  - **센서(Sensors)** - 환경은 정보를 가지고 있고 피드백을 줘요. AI Agent는 센서를 통해 현재 환경의 상태를 파악해요. 여행 예약 Agent라면, 호텔에 빈 방이 있는지, 항공권 가격이 얼마인지 등의 정보를 수집하겠죠.
+  - **액추에이터(Actuators)** - 환경의 상태를 파악했다면, 이제 어떤 행동을 할지 결정해야 해요. 여행 Agent라면 사용자를 위해 방을 예약하는 행동을 할 수 있어요.
 
 
-- **Open-Ended Problems** - allowing the LLM to determine needed steps to complete a task because it can't always be hardcoded into a workflow.
-- **Multi-Step Processes** - tasks that require a level of complexity in which the AI Agent needs to use tools or information over multiple turns instead of single shot retrieval.  
-- **Improvement Over Time** - tasks where the agent can improve over time by receiving feedback from either its environment or users in order to provide better utility.
+![AI Agent란 무엇인가?](./images/what-are-ai-agents.png)
 
-We cover more considerations of using AI Agents in the Building Trustworthy AI Agents lesson.
+- **대규모 언어 모델(LLM)** - 사실 Agent라는 개념은 LLM이 나오기 훨씬 전부터 있었어요. 그런데 LLM으로 Agent를 만들면 좋은 점이 뭘까요? 바로 **인간의 언어와 데이터를 이해하는 능력** 때문이에요! LLM 덕분에 Agent가 환경 정보를 해석하고, 환경을 바꾸기 위한 계획을 스스로 세울 수 있게 된 거죠.
+- **행동 수행(Perform Actions)** - 평범한 LLM은 사용자의 질문에 답변하는 정도로 역할이 제한돼요. 하지만 AI Agent 시스템 안에서는 달라요! 사용자의 요청을 해석하고, 환경에서 사용할 수 있는 도구들을 활용해서 실제로 **작업을 완료**할 수 있어요.
+- **도구 접근(Access To Tools)** - LLM이 사용하는 도구는 1) Agent가 활동하는 환경과 2) 개발자가 정해줘요. 여행 Agent 예시에서 도구는 예약 시스템의 기능일 수도 있고, 개발자가 항공권 예약으로만 제한한 기능일 수도 있어요.
+- **메모리와 지식(Memory+Knowledge)** - 메모리는 사용자와 Agent가 대화하는 동안의 **단기 기억**일 수도 있고, 환경에서 제공하는 정보 외에 다른 시스템이나 서비스, 도구, 심지어 다른 Agent들로부터 가져오는 **장기 지식**일 수도 있어요. 여행 Agent라면 고객 데이터베이스에 저장된 사용자의 여행 선호도를 활용할 수 있겠죠.
 
-## Basics of Agentic Solutions
+### 다양한 Agent 유형
 
-### Agent Development
+이제 AI Agent의 일반적인 정의를 알았으니, 구체적인 Agent 유형들을 살펴볼까요? 계속해서 여행 예약 Agent 예시를 들어볼게요.
 
-The first step in designing an AI Agent system is to define the tools, actions, and behaviors. In this course, we focus on using the **Azure AI Agent Service** to define our Agents. It offers features like:
+| **Agent 유형**           | **설명**                                                                     | **예시**                                                                                           |
+| ------------------------------ | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| **단순 반사 Agent**      | 미리 정해진 규칙에 따라 바로 행동해요                                              | 여행 Agent가 이메일 내용을 보고 불만 사항이면 바로 고객 서비스에 전달                                    |
+| **모델 기반 반사 Agent** | 세상에 대한 모델과 그 모델의 변화에 따라 행동해요                                  | 과거 가격 데이터를 분석해서 가격 변동이 큰 여행지를 우선 알려줌                                          |
+| **목표 기반 Agent**      | 목표를 해석하고, 그 목표를 달성하기 위한 계획을 세워요                             | "여행 가고 싶어요"라는 말을 듣고 현재 위치에서 목적지까지 어떻게 갈지(자동차, 대중교통, 비행기) 결정     |
+| **효용 기반 Agent**      | 선호도를 고려하고, 여러 선택지를 숫자로 비교해서 가장 효율적인 방법을 찾아요       | 여행 예약 시 편의성과 비용을 저울질해서 최적의 선택을 제안                                               |
+| **학습 Agent**           | 피드백을 받고 행동을 조정하면서 점점 발전해요                                      | 여행 후 설문조사 결과를 바탕으로 다음 예약 서비스를 개선                                                 |
+| **계층적 Agent**         | 여러 Agent를 계층적으로 구성해서, 상위 Agent가 작업을 나누고 하위 Agent가 실행해요 | "이 예약 취소해줘"라는 작업을 받으면 하위 Agent에게 전달해서 처리하게 함                                 |
+| **다중 Agent 시스템**    | Agent들이 서로 독립적으로, 협력하거나 경쟁하면서 작업을 완료해요                   | 협력: 호텔, 항공, 액티비티 예약을 각각 다른 Agent가 담당 / 경쟁: 여러 Agent가 같은 호텔 예약을 놓고 경쟁 |
 
-- Selection of Open Models such as OpenAI, Mistral, and Llama
-- Use of Licensed Data through providers such as Tripadvisor
-- Use of standardized OpenAPI 3.0 tools
+---
 
-### Agentic Patterns
+## 🎯 AI Agent는 언제 사용해야 할까?
 
-Communication with LLMs is through prompts. Given the semi-autonomous nature of AI Agents, it isn't always possible or required to manually reprompt the LLM after a change in the environment. We use **Agentic Patterns** that allow us to prompt the LLM over multiple steps in a more scalable way.
+앞에서는 여행 예약이라는 구체적인 예시로 다양한 Agent 유형을 살펴봤어요. 그럼 이제 일반적으로 AI Agent는 어떤 경우에 가장 효과적일까요?
 
-This course is divided into some of the current popular Agentic patterns.
+![AI Agent는 언제 사용할까?](./images/when-to-use-ai-agents.png)
 
-### Agentic Frameworks
+- **정해진 답이 없는 열린 문제** - LLM이 스스로 작업을 완료하는 데 필요한 단계를 결정하도록 할 때 좋아요. 일일이 하드코딩할 수 없는 복잡한 문제에 적합하죠.
+- **여러 단계가 필요한 과정** - 한 번에 끝나는 단순한 검색이 아니라, 여러 번에 걸쳐 도구나 정보를 사용해야 하는 복잡한 작업에 적합해요.
+- **시간이 지날수록 발전하는 작업** - 환경이나 사용자로부터 피드백을 받아서 점점 더 나아질 수 있는 작업에 완벽해요.
 
-Agentic Frameworks allow developers to implement agentic patterns through code. These frameworks offer templates, plugins, and tools for better AI Agent collaboration. These benefits provide abilities for better observability and troubleshooting of AI Agent systems.
+> 💡 **신뢰할 수 있는 AI Agent 만들기**에 대한 더 자세한 내용은 별도 강의에서 다룰 예정이니 기대해 주세요!
 
-In this course, we will explore the research-driven AutoGen framework and the production-ready Agent framework from Semantic Kernel.
+---
 
-## Sample Codes
+## 🏗️ Agent 솔루션의 기초
+
+### Agent 개발하기
+
+AI Agent 시스템을 설계하는 첫 단계는 Agent가 사용할 **도구, 행동, 동작**을 정의하는 거예요.
+
+이 코스에서는 주로 **Azure AI Agent Service**를 사용해서 Agent를 정의할 거예요. 이 서비스가 제공하는 멋진 기능들을 소개할게요:
+
+- OpenAI, Mistral, Llama 등 다양한 오픈 모델 중에서 선택할 수 있어요
+- Tripadvisor 같은 외부 서비스의 라이선스 데이터도 사용 가능해요
+- 표준화된 OpenAPI 3.0 도구를 사용할 수 있어요
+
+### Agentic 패턴
+
+LLM과의 대화는 프롬프트를 통해 이루어져요. 그런데 AI Agent는 어느 정도 자율적으로 움직이기 때문에, 환경이 변할 때마다 사람이 일일이 다시 프롬프트를 입력할 수는 없겠죠? 그래서 우리는 더 확장성 있는 방식으로 여러 단계에 걸쳐 LLM을 프롬프트할 수 있는 **Agentic 패턴**을 사용합니다.
+
+이 코스는 지금 가장 인기 있는 Agentic 패턴들을 하나씩 배워가는 방식으로 구성되어 있어요.
+
+### Agentic 프레임워크
+
+Agentic 프레임워크는 개발자가 코드를 통해 Agentic 패턴을 구현할 수 있게 도와주는 도구예요. 이런 프레임워크들은 AI Agent들이 더 잘 협력하고 문제를 해결할 수 있도록 템플릿, 플러그인, 도구들을 제공합니다. 또한 AI Agent 시스템을 더 잘 관찰하고 문제를 해결할 수 있는 기능도 제공해 준답니다.
+
+이 코스에서는 연구 중심의 **AutoGen** 프레임워크와 프로덕션에 바로 적용 가능한 **Semantic Kernel** 프레임워크를 모두 경험해 볼 거예요.
+
+---
+
+## 💻 샘플 코드
 
 - Python: [Agent Framework](./code_samples/01-python-agent-framework.ipynb)
 - .NET: [Agent Framework](./code_samples/01-dotnet-agent-framework.md)
 
-## Got More Questions about AI Agents?
+---
 
-Join the [Azure AI Foundry Discord](https://aka.ms/ai-agents/discord) to meet with other learners, attend office hours and get your AI Agents questions answered.
+## ❓ AI Agent에 대해 더 궁금한 점이 있나요?
 
-## Previous Lesson
+[Azure AI Foundry Discord](https://aka.ms/ai-agents/discord)에 참여해서 다른 학습자들도 만나고, 오피스 아워에 참여해서 전문가들에게 직접 질문해 보세요!
 
-[Course Setup](../00-course-setup/README.md)
+---
 
-## Next Lesson
+## 📚 이전 강의
 
-[Exploring Agentic Frameworks](../02-explore-agentic-frameworks/README.md)
+[코스 설정하기](../00-course-setup/README.md)
+
+## 📖 다음 강의
+
+[Agentic 프레임워크 살펴보기](../02-explore-agentic-frameworks/README.md)
+
+---
+
+첫 걸음을 내딛느라 수고하셨어요! 🎉 다음 강의에서 만나요!

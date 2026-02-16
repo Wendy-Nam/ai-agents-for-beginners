@@ -1,205 +1,216 @@
-[![Trustworthy AI Agents](./images/lesson-6-thumbnail.png)](https://youtu.be/iZKkMEGBCUQ?si=Q-kEbcyHUMPoHp8L)
 
-> _(Click the image above to view video of this lesson)_
+[![신뢰할 수 있는 AI Agent](./images/lesson-6-thumbnail.png)](https://youtu.be/iZKkMEGBCUQ?si=Q-kEbcyHUMPoHp8L)
 
-# Building Trustworthy AI Agents
+> _(👆 이미지를 클릭하면 이번 레슨의 강의 영상을 볼 수 있어요!)_
 
-## Introduction
+# 🛡️ 신뢰할 수 있는 AI Agent 구축하기 - 안전하고 믿음직한 AI 만들기
 
-This lesson will cover:
+## 🧐 소개
 
-- How to build and deploy safe and effective AI Agents
-- Important security considerations when developing AI Agents.
-- How to maintain data and user privacy when developing AI Agents.
+이번 레슨에서는 다음 내용을 다룰 예정이에요:
 
-## Learning Goals
+- 안전하고 효과적인 AI Agent를 구축하고 배포하는 방법
+- AI Agent 개발 시 고려해야 할 중요한 보안 고려 사항
+- AI Agent 개발 시 데이터와 사용자 프라이버시를 유지하는 방법
 
-After completing this lesson, you will know how to:
+## 📚 학습 목표
 
-- Identify and mitigate risks when creating AI Agents.
-- Implement security measures to ensure that data and access are properly managed.
-- Create AI Agents that maintain data privacy and provide a quality user experience.
+이번 레슨을 완료하면 다음을 할 수 있게 됩니다:
 
-## Safety
+- AI Agent 생성 시 발생할 수 있는 위험을 식별하고 완화할 수 있습니다.
+- 데이터와 접근 권한이 적절하게 관리되도록 보안 조치를 구현할 수 있습니다.
+- 데이터 프라이버시를 유지하면서도 품질 높은 사용자 경험을 제공하는 AI Agent를 만들 수 있습니다.
 
-Let's first look at building safe agentic applications. Safety means that the AI agent performs as designed. As builders of agentic applications, we have methods and tools to maximize safety:
+---
 
-### Building a System Message Framework
+## 🛡️ 안전성 (Safety) - AI Agent의 기본 덕목
 
-If you have ever built an AI application using Large Language Models (LLMs), you know the importance of designing a robust system prompt or system message. These prompts establish the meta rules, instructions, and guidelines for how the LLM will interact with the user and data.
+먼저 안전한 에이전틱 애플리케이션을 구축하는 방법부터 알아보겠습니다. 여기서 '안전성'이란 AI Agent가 설계된 대로 **의도된 목적에 맞게 동작**한다는 것을 의미해요. 에이전틱 애플리케이션을 만드는 개발자로서 우리는 안전성을 최대화하기 위한 다양한 방법과 도구들을 활용할 수 있습니다.
 
-For AI Agents, the system prompt is even more important as the AI Agents will need highly specific instructions to complete the tasks we have designed for them.
+### 시스템 메시지 프레임워크 구축하기
 
-To create scalable system prompts, we can use a system message framework for building one or more agents in our application:
+대규모 언어 모델(LLM)을 사용하여 AI 애플리케이션을 구축해 본 적이 있다면, 견고한 **시스템 프롬프트(System Prompt)** 또는 **시스템 메시지(System Message)** 를 설계하는 것이 얼마나 중요한지 잘 아실 거예요. 이러한 프롬프트는 LLM이 사용자 및 데이터와 어떻게 상호작용할지에 대한 메타 규칙, 지침, 가이드라인을 설정합니다.
 
-![Building a System Message Framework](./images/system-message-framework.png)
+AI Agent의 경우, 시스템 프롬프트의 중요성은 더욱 커집니다. Agent는 우리가 설계한 작업을 완료하기 위해 매우 구체적인 지침을 필요로 하기 때문입니다.
 
-#### Step 1: Create a Meta System Message 
+확장 가능한 시스템 프롬프트를 만들기 위해, 우리는 하나 이상의 Agent를 위한 시스템 프롬프트를 생성하는 **시스템 메시지 프레임워크(System Message Framework)** 를 사용할 수 있습니다.
 
-The meta prompt will be used by an LLM to generate the system prompts for the agents we create. We design it as a template so that we can efficiently create multiple agents if needed.
+![시스템 메시지 프레임워크 구축하기](./images/system-message-framework.png)
 
-Here is an example of a meta system message we would give to the LLM:
+#### 1단계: 메타 시스템 메시지 (Meta System Message) 만들기
 
-```plaintext
-You are an expert at creating AI agent assistants. 
-You will be provided a company name, role, responsibilities and other
-information that you will use to provide a system prompt for.
-To create the system prompt, be descriptive as possible and provide a structure that a system using an LLM can better understand the role and responsibilities of the AI assistant. 
-```
+메타 프롬프트는 LLM이 우리가 만들 Agent들의 시스템 프롬프트를 생성하는 데 사용됩니다. 이를 템플릿 형태로 설계하면 필요에 따라 여러 Agent를 효율적으로 생성할 수 있습니다.
 
-#### Step 2: Create a basic prompt
-
-The next step is to create a basic prompt to describe the AI Agent. You should include the role of the agent, the tasks the agent will complete, and any other responsibilities of the agent.
-
-Here is an example:
+다음은 LLM에 제공할 메타 시스템 메시지의 예시입니다:
 
 ```plaintext
-You are a travel agent for Contoso Travel that is great at booking flights for customers. To help customers you can perform the following tasks: lookup available flights, book flights, ask for preferences in seating and times for flights, cancel any previously booked flights and alert customers on any delays or cancellations of flights.  
+당신은 AI 에이전트 어시스턴트를 만드는 전문가입니다.
+회사 이름, 역할, 책임 및 기타 정보를 제공받을 것이며,
+이를 바탕으로 AI 어시스턴트의 시스템 프롬프트를 작성해야 합니다.
+시스템 프롬프트를 만들 때는 가능한 한 설명적으로 작성하고,
+LLM을 사용하는 시스템이 AI 어시스턴트의 역할과 책임을 더 잘 이해할 수 있도록 구조화하세요.
 ```
 
-#### Step 3: Provide Basic System Message to LLM
+#### 2단계: 기본 프롬프트 (Basic Prompt) 만들기
 
-Now we can optimize this system message by providing the meta system message as the system message and our basic system message.
+다음 단계는 AI Agent를 설명하는 기본 프롬프트를 만드는 것입니다. Agent의 역할, 완료할 작업, 그리고 Agent의 다른 책임들을 포함해야 합니다.
 
-This will produce a system message that is better designed for guiding our AI agents:
+예시는 다음과 같습니다:
+
+```plaintext
+당신은 Contoso Travel의 여행 에이전트로, 고객을 위한 항공편 예약에 능숙합니다. 고객을 돕기 위해 다음과 같은 작업을 수행할 수 있습니다: 이용 가능한 항공편 조회, 항공편 예약, 좌석 및 항공편 시간에 대한 선호도 묻기, 이전에 예약한 항공편 취소, 항공편 지연이나 취소 시 고객에게 알리기.
+```
+
+#### 3단계: 기본 시스템 메시지를 LLM에 제공하기
+
+이제 메타 시스템 메시지를 시스템 메시지로, 우리가 만든 기본 시스템 메시지를 사용자 메시지로 LLM에 제공하여 이 시스템 메시지를 최적화할 수 있습니다.
+
+그러면 AI Agent를 안내하는 데 더 적합하게 설계된 시스템 메시지가 생성됩니다:
 
 ```markdown
-**Company Name:** Contoso Travel  
-**Role:** Travel Agent Assistant
+**회사 이름:** Contoso Travel
+**역할:** 여행 에이전트 어시스턴트
 
-**Objective:**  
-You are an AI-powered travel agent assistant for Contoso Travel, specializing in booking flights and providing exceptional customer service. Your main goal is to assist customers in finding, booking, and managing their flights, all while ensuring that their preferences and needs are met efficiently.
+**목표:**
+당신은 Contoso Travel의 AI 기반 여행 에이전트 어시스턴트로, 항공편 예약과 탁월한 고객 서비스 제공을 전문으로 합니다. 주요 목표는 고객이 항공편을 찾고, 예약하고, 관리하는 것을 돕고, 동시에 그들의 선호도와 요구 사항이 효율적으로 충족되도록 하는 것입니다.
 
-**Key Responsibilities:**
+**주요 책임:**
 
-1. **Flight Lookup:**
-    
-    - Assist customers in searching for available flights based on their specified destination, dates, and any other relevant preferences.
-    - Provide a list of options, including flight times, airlines, layovers, and pricing.
-2. **Flight Booking:**
-    
-    - Facilitate the booking of flights for customers, ensuring that all details are correctly entered into the system.
-    - Confirm bookings and provide customers with their itinerary, including confirmation numbers and any other pertinent information.
-3. **Customer Preference Inquiry:**
-    
-    - Actively ask customers for their preferences regarding seating (e.g., aisle, window, extra legroom) and preferred times for flights (e.g., morning, afternoon, evening).
-    - Record these preferences for future reference and tailor suggestions accordingly.
-4. **Flight Cancellation:**
-    
-    - Assist customers in canceling previously booked flights if needed, following company policies and procedures.
-    - Notify customers of any necessary refunds or additional steps that may be required for cancellations.
-5. **Flight Monitoring:**
-    
-    - Monitor the status of booked flights and alert customers in real-time about any delays, cancellations, or changes to their flight schedule.
-    - Provide updates through preferred communication channels (e.g., email, SMS) as needed.
+1.  **항공편 조회:**
+    - 고객이 지정한 목적지, 날짜 및 기타 관련 선호도에 따라 이용 가능한 항공편을 검색하도록 지원합니다.
+    - 항공편 시간, 항공사, 경유지, 가격을 포함한 옵션 목록을 제공합니다.
+2.  **항공편 예약:**
+    - 고객을 위한 항공편 예약을 진행하고, 모든 세부 사항이 시스템에 올바르게 입력되었는지 확인합니다.
+    - 예약을 확인하고 확인 번호 및 기타 관련 정보가 포함된 여행 일정을 고객에게 제공합니다.
+3.  **고객 선호도 문의:**
+    - 좌석(예: 통로, 창가, 다리 공간이 넉넉한 좌석) 및 선호하는 항공편 시간(예: 오전, 오후, 저녁)에 대해 고객에게 적극적으로 질문합니다.
+    - 이러한 선호도를 기록하여 향후 참고하고 그에 따라 제안을 조정합니다.
+4.  **항공편 취소:**
+    - 필요한 경우 이전에 예약된 항공편 취소를 지원하며, 회사 정책 및 절차를 따릅니다.
+    - 취소에 필요한 환불이나 추가 단계가 있을 경우 고객에게 알립니다.
+5.  **항공편 모니터링:**
+    - 예약된 항공편의 상태를 모니터링하고 항공편 일정에 지연, 취소 또는 변경 사항이 있을 경우 실시간으로 고객에게 알립니다.
+    - 필요에 따라 선호하는 통신 채널(예: 이메일, SMS)을 통해 업데이트를 제공합니다.
 
-**Tone and Style:**
+**톤 및 스타일:**
 
-- Maintain a friendly, professional, and approachable demeanor in all interactions with customers.
-- Ensure that all communication is clear, informative, and tailored to the customer's specific needs and inquiries.
+- 모든 고객 상호 작용에서 친근하고, 전문적이며, 친근한 태도를 유지합니다.
+- 모든 커뮤니케이션이 명확하고 유익하며 고객의 특정 요구와 문의에 맞춰지도록 합니다.
 
-**User Interaction Instructions:**
+**사용자 상호작용 지침:**
 
-- Respond to customer queries promptly and accurately.
-- Use a conversational style while ensuring professionalism.
-- Prioritize customer satisfaction by being attentive, empathetic, and proactive in all assistance provided.
+- 고객 문의에 신속하고 정확하게 응답합니다.
+- 전문성을 유지하면서 대화 스타일을 사용합니다.
+- 모든 지원에서 세심하고, 공감하며, 능동적으로 대응하여 고객 만족도를 최우선으로 합니다.
 
-**Additional Notes:**
+**추가 참고 사항:**
 
-- Stay updated on any changes to airline policies, travel restrictions, and other relevant information that could impact flight bookings and customer experience.
-- Use clear and concise language to explain options and processes, avoiding jargon where possible for better customer understanding.
+- 항공편 예약 및 고객 경험에 영향을 미칠 수 있는 항공사 정책, 여행 제한 및 기타 관련 정보의 변경 사항을 최신 상태로 유지합니다.
+- 옵션과 프로세스를 설명할 때 명확하고 간결한 언어를 사용하고, 가능한 경우 전문 용어를 피하여 고객이 더 잘 이해할 수 있도록 합니다.
 
-This AI assistant is designed to streamline the flight booking process for customers of Contoso Travel, ensuring that all their travel needs are met efficiently and effectively.
-
+이 AI 어시스턴트는 Contoso Travel 고객을 위한 항공편 예약 프로세스를 간소화하여 모든 여행 요구 사항이 효율적이고 효과적으로 충족되도록 설계되었습니다.
 ```
 
-#### Step 4: Iterate and Improve
+#### 4단계: 반복 및 개선 (Iterate and Improve)
 
-The value of this system message framework is to be able to scale creating system messages from multiple agents easier as well as improving your system messages over time. It is rare you will have a system message that works the first time for your complete use case. Being able to make small tweaks and improvements by changing the basic system message and running it through the system will allow you to compare and evaluate results.
+이 시스템 메시지 프레임워크의 가치는 여러 Agent에 대한 시스템 메시지 생성을 확장하고 시간이 지남에 따라 시스템 메시지를 개선할 수 있다는 점입니다. 처음부터 완벽한 시스템 메시지를 만드는 경우는 드뭅니다. 기본 시스템 메시지를 조금씩 수정하고 이 시스템에 다시 입력함으로써 결과를 비교하고 평가하여 지속적으로 개선할 수 있습니다.
 
-## Understanding Threats
+---
 
-To build trustworthy AI agents, it is important to understand and mitigate the risks and threats to your AI agent. Let's look at only some of the different threats to AI agents and how you can better plan and prepare for them.
+## 🚨 위협 이해하기 (Understanding Threats)
 
-![Understanding Threats](./images/understanding-threats.png)
+신뢰할 수 있는 AI Agent를 구축하려면 AI Agent에 대한 다양한 위험과 위협을 이해하고 완화하는 것이 중요합니다. AI Agent에 대한 다양한 위협과 이에 더 잘 대비하고 계획할 수 있는 방법을 살펴보겠습니다.
 
-### Task and Instruction
+![위협 이해하기](./images/understanding-threats.png)
 
-**Description:** Attackers attempt to change the instructions or goals of the AI agent through prompting or manipulating inputs.
+### 작업 및 지침 위협 (Task and Instruction)
 
-**Mitigation**: Execute validation checks and input filters to detect potentially dangerous prompts before they are processed by the AI Agent. Since these attacks typically require frequent interaction with the Agent, limiting the number of turns in a conversation is another way to prevent these types of attacks.
+- **설명:** 공격자가 프롬프트 엔지니어링이나 입력 조작을 통해 AI Agent의 지침이나 목표를 변경하려고 시도합니다.
+- **완화 방법:** AI Agent가 처리하기 전에 잠재적으로 위험한 프롬프트를 탐지하기 위한 유효성 검사 및 입력 필터를 실행합니다. 이러한 공격은 일반적으로 Agent와의 빈번한 상호작용을 필요로 하므로, 대화 횟수를 제한하는 것도 이러한 유형의 공격을 방지하는 또 다른 방법입니다.
 
-### Access to Critical Systems
+### 중요 시스템 접근 위협 (Access to Critical Systems)
 
-**Description**: If an AI agent has access to systems and services that store sensitive data, attackers can compromise the communication between the agent and these services. These can be direct attacks or indirect attempts to gain information about these systems through the agent.
+- **설명:** AI Agent가 민감한 데이터를 저장하는 시스템 및 서비스에 접근할 수 있는 경우, 공격자는 Agent와 이러한 서비스 간의 통신을 손상시킬 수 있습니다. 이는 직접적인 공격이거나 Agent를 통해 이러한 시스템에 대한 정보를 얻으려는 간접적인 시도일 수 있습니다.
+- **완화 방법:** AI Agent는 이러한 유형의 공격을 방지하기 위해 필요한 경우에만 시스템에 접근할 수 있어야 합니다. Agent와 시스템 간의 통신도 안전해야 합니다. 인증 및 접근 제어를 구현하는 것도 이 정보를 보호하는 또 다른 방법입니다.
 
-**Mitigation**: AI agents should have access to systems on a need-only basis to prevent these types of attacks. Communication between the agent and system should also be secure. Implementing authentication and access control is another way to protect this information.
+### 리소스 및 서비스 과부하 위협 (Resource and Service Overloading)
 
-### Resource and Service Overloading
+- **설명:** AI Agent는 작업을 완료하기 위해 다양한 도구와 서비스에 접근할 수 있습니다. 공격자는 AI Agent를 통해 대량의 요청을 보내 이러한 서비스를 공격할 수 있으며, 이는 시스템 장애나 높은 비용을 초래할 수 있습니다.
+- **완화 방법:** AI Agent가 서비스에 요청할 수 있는 횟수를 제한하는 정책을 구현합니다. AI Agent에 대한 대화 턴 수와 요청을 제한하는 것도 이러한 유형의 공격을 방지하는 또 다른 방법입니다.
 
-**Description:** AI agents can access different tools and services to complete tasks. Attackers can use this ability to attack these services by sending a high volume of requests through the AI Agent, which may result in system failures or high costs.
+### 지식 베이스 오염 위협 (Knowledge Base Poisoning)
 
-**Mitigation:** Implement policies to limit the number of requests an AI agent can make to a service. Limiting the number of conversation turns and requests to your AI agent is another way to prevent these types of attacks.
+- **설명:** 이러한 유형의 공격은 AI Agent 자체를 직접적으로 겨냥하지 않고 AI Agent가 사용할 지식 베이스 및 기타 서비스를 대상으로 합니다. 여기에는 AI Agent가 작업을 완료하는 데 사용할 데이터나 정보를 손상시켜 사용자에게 편향되거나 의도하지 않은 응답을 유도하는 것이 포함될 수 있습니다.
+- **완화 방법:** AI Agent가 워크플로우에서 사용할 데이터에 대한 정기적인 검증을 수행합니다. 이 데이터에 대한 접근이 안전하고 신뢰할 수 있는 개인에 의해서만 변경되도록 하여 이러한 유형의 공격을 방지합니다.
 
-### Knowledge Base Poisoning
+### 연쇄 오류 위협 (Cascading Errors)
 
-**Description:** This type of attack does not target the AI agent directly but targets the knowledge base and other services that the AI agent will use. This could involve corrupting the data or information that the AI agent will use to complete a task, leading to biased or unintended responses to the user.
+- **설명:** AI Agent는 작업을 완료하기 위해 다양한 도구와 서비스에 접근합니다. 공격자에 의해 유발된 오류는 AI Agent가 연결된 다른 시스템의 장애로 이어져 공격이 더 광범위해지고 문제 해결이 어려워질 수 있습니다.
+- **완화 방법:** 이를 방지하는 한 가지 방법은 AI Agent를 Docker 컨테이너와 같은 제한된 환경에서 작동시켜 직접적인 시스템 공격을 방지하는 것입니다. 특정 시스템이 오류로 응답할 때 대체 메커니즘과 재시도 로직을 만드는 것도 더 큰 시스템 장애를 방지하는 또 다른 방법입니다.
 
-**Mitigation:** Perform regular verification of the data that the AI agent will be using in its workflows. Ensure that access to this data is secure and only changed by trusted individuals to avoid this type of attack.
+---
 
-### Cascading Errors
+## 👤 사람-개입 루프 (Human-in-the-Loop)
 
-**Description:** AI agents access various tools and services to complete tasks. Errors caused by attackers can lead to failures of other systems that the AI agent is connected to, causing the attack to become more widespread and harder to troubleshoot.
+신뢰할 수 있는 AI Agent 시스템을 구축하는 또 다른 효과적인 방법은 **사람-개입 루프(Human-in-the-loop)** 를 사용하는 것입니다. 이는 실행 중에 사용자가 Agent에게 피드백을 제공할 수 있는 흐름을 만듭니다. 사용자는 사실상 다중 Agent 시스템에서 하나의 Agent 역할을 하며, 실행 중인 프로세스에 대한 승인 또는 종료를 제공합니다.
 
-**Mitigation**: One method to avoid this is to have the AI Agent operate in a limited environment, such as performing tasks in a Docker container, to prevent direct system attacks. Creating fallback mechanisms and retry logic when certain systems respond with an error is another way to prevent larger system failures.
+![사람-개입 루프](./images/human-in-the-loop.png)
 
-## Human-in-the-Loop
-
-Another effective way to build trustworthy AI Agent systems is using a Human-in-the-loop. This creates a flow where users are able to provide feedback to the Agents during the run. Users essentially act as agents in a multi-agent system and by providing approval or termination of the running process.
-
-![Human in The Loop](./images/human-in-the-loop.png)
-
-Here is a code snippet using AutoGen to show how this concept is implemented:
+다음은 AutoGen을 사용하여 이 개념을 구현하는 방법을 보여주는 코드 스니펫입니다:
 
 ```python
 
-# Create the agents.
+# Agent 생성
 model_client = OpenAIChatCompletionClient(model="gpt-4o-mini")
 assistant = AssistantAgent("assistant", model_client=model_client)
-user_proxy = UserProxyAgent("user_proxy", input_func=input)  # Use input() to get user input from console.
+user_proxy = UserProxyAgent("user_proxy", input_func=input)  # 콘솔에서 사용자 입력을 받기 위해 input() 사용
 
-# Create the termination condition which will end the conversation when the user says "APPROVE".
+# 사용자가 "APPROVE"라고 말하면 대화를 종료하는 종료 조건 생성
 termination = TextMentionTermination("APPROVE")
 
-# Create the team.
+# 팀 생성
 team = RoundRobinGroupChat([assistant, user_proxy], termination_condition=termination)
 
-# Run the conversation and stream to the console.
-stream = team.run_stream(task="Write a 4-line poem about the ocean.")
-# Use asyncio.run(...) when running in a script.
+# 대화 실행 및 콘솔로 스트리밍
+stream = team.run_stream(task="바다에 관한 4행시를 써줘.")
+# 스크립트에서 실행할 때는 asyncio.run(...)을 사용하세요.
 await Console(stream)
 
 ```
 
-## Conclusion
+---
 
-Building trustworthy AI agents requires careful design, robust security measures, and continuous iteration. By implementing structured meta prompting systems, understanding potential threats, and applying mitigation strategies, developers can create AI agents that are both safe and effective. Additionally, incorporating a human-in-the-loop approach ensures that AI agents remain aligned with user needs while minimizing risks. As AI continues to evolve, maintaining a proactive stance on security, privacy, and ethical considerations will be key to fostering trust and reliability in AI-driven systems.
+## 🏁 결론
 
-### Got More Questions about Building Trustworthy AI Agents?
+신뢰할 수 있는 AI Agent를 구축하려면 신중한 설계, 강력한 보안 조치, 그리고 지속적인 반복 개선이 필요합니다. 구조화된 메타 프롬프팅 시스템을 구현하고, 잠재적인 위협을 이해하며, 완화 전략을 적용함으로써 개발자는 안전하고 효과적인 AI Agent를 만들 수 있습니다. 또한, 사람-개입 루프 방식을 통합하면 위험을 최소화하면서 AI Agent가 사용자 요구에 부합하도록 유지할 수 있습니다. AI가 계속 발전함에 따라 보안, 프라이버시, 윤리적 고려 사항에 대한 선제적인 태도를 유지하는 것이 AI 기반 시스템에 대한 신뢰와 안정성을 높이는 핵심이 될 것입니다.
 
-Join the [Azure AI Foundry Discord](https://aka.ms/ai-agents/discord) to meet with other learners, attend office hours and get your AI Agents questions answered.
+---
 
-## Additional Resources
+## ❓ 신뢰할 수 있는 AI Agent 구축에 대해 더 궁금한 점이 있나요?
 
-- <a href="https://learn.microsoft.com/azure/ai-studio/responsible-use-of-ai-overview" target="_blank">Responsible AI overview</a>
-- <a href="https://learn.microsoft.com/azure/ai-studio/concepts/evaluation-approach-gen-ai" target="_blank">Evaluation of generative AI models and AI applications</a>
-- <a href="https://learn.microsoft.com/azure/ai-services/openai/concepts/system-message?context=%2Fazure%2Fai-studio%2Fcontext%2Fcontext&tabs=top-techniques" target="_blank">Safety system messages</a>
-- <a href="https://blogs.microsoft.com/wp-content/uploads/prod/sites/5/2022/06/Microsoft-RAI-Impact-Assessment-Template.pdf?culture=en-us&country=us" target="_blank">Risk Assessment Template</a>
+[Azure AI Foundry Discord](https://aka.ms/ai-agents/discord)에 참여하여 다른 학습자들을 만나고, 오피스 아워에 참여하고 AI Agents에 대한 질문에 대한 답변을 받아보세요.
 
-## Previous Lesson
+---
 
-[Agentic RAG](../05-agentic-rag/README.md)
+## 📚 추가 자료
 
-## Next Lesson
+- <a href="https://learn.microsoft.com/azure/ai-studio/responsible-use-of-ai-overview" target="_blank">책임 있는 AI 개요 (영문)</a>
+- <a href="https://learn.microsoft.com/azure/ai-studio/concepts/evaluation-approach-gen-ai" target="_blank">생성형 AI 모델 및 AI 애플리케이션 평가 (영문)</a>
+- <a href="https://learn.microsoft.com/azure/ai-services/openai/concepts/system-message?context=%2Fazure%2Fai-studio%2Fcontext%2Fcontext&tabs=top-techniques" target="_blank">안전 시스템 메시지 (영문)</a>
+- <a href="https://blogs.microsoft.com/wp-content/uploads/prod/sites/5/2022/06/Microsoft-RAI-Impact-Assessment-Template.pdf?culture=en-us&country=us" target="_blank">위험 평가 템플릿 (PDF) (영문)</a>
 
-[Planning Design Pattern](../07-planning-design/README.md)
+---
+
+## 📚 레슨 목차
+
+### ⬅️ 이전 레슨
+
+[5강: Agentic RAG (에이전틱 검색 증강 생성)](../05-agentic-rag/README.md)
+
+### ➡️ 다음 레슨
+
+[7강: 계획(Planning) 디자인 패턴](../07-planning-design/README.md)
+
+---
+
+*이 가이드가 여러분의 AI Agent를 더욱 안전하고 신뢰할 수 있게 만드는 데 도움이 되길 바랍니다!* 🛡️

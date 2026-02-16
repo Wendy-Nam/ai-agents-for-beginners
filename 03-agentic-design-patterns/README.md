@@ -1,111 +1,139 @@
-[![How to Design Good AI Agents](./images/lesson-3-thumbnail.png)](https://youtu.be/m9lM8qqoOEA?si=4KimounNKvArQQ0K)
 
-> _(Click the image above to view video of this lesson)_
-# AI Agentic Design Principles
+[![좋은 AI Agent 디자인 방법](./images/lesson-3-thumbnail.png)](https://youtu.be/m9lM8qqoOEA?si=4KimounNKvArQQ0K)
 
-## Introduction
+> _(👆 이미지를 클릭하면 이번 레슨의 강의 영상을 볼 수 있어요!)_
 
-There are many ways to think about building AI Agentic Systems. Given that ambiguity is a feature and not a bug in Generative AI design, it’s sometimes difficult for engineers to figure out where to even start. We have created a set of human-centric UX Design Principles to enable developers to build customer-centric agentic systems to solve their business needs. These design principles are not a prescriptive architecture but rather a starting point for teams who are defining and building out agent experiences.
+# 🎨 AI Agent 디자인 원칙 - 사용자를 위한 설계 철학
 
-In general, agents should:
+## 🧠 소개
 
-- Broaden and scale human capacities (brainstorming, problem-solving, automation, etc.)
-- Fill in knowledge gaps (get me up-to-speed on knowledge domains, translation, etc.)
-- Facilitate and support collaboration in the ways we as individuals prefer to work with others
-- Make us better versions of ourselves (e.g., life coach/task master, helping us learn emotional regulation and mindfulness skills, building resilience, etc.)
+AI Agent 시스템을 구축하는 방법에는 정말 다양한 관점이 있어요. 생성형 AI 디자인에서 **모호함은 버그가 아니라 특징**이라는 점을 고려할 때, 엔지니어들은 종종 어디서부터 시작해야 할지 막막하게 느껴집니다. 저희는 개발자들이 비즈니스 요구를 해결하는 **사용자 중심의 Agent 시스템**을 구축할 수 있도록 인간 중심의 UX 디자인 원칙을 만들었어요. 이 디자인 원칙들은 정해진 아키텍처가 아니라, 팀이 Agent 경험을 정의하고 구축할 때 출발점이 되어줍니다.
 
-## This Lesson Will Cover
+일반적으로 Agent는 다음과 같은 역할을 해야 해요:
 
-- What are the Agentic Design Principles
-- What are some guidelines to follow while implementing these design principles
-- What are some examples of using the design principles
+- 인간의 능력을 확장하고 규모를 넓혀줍니다 (아이디어 구상, 문제 해결, 자동화 등).
+- 지식 격차를 메워줍니다 (새로운 지식 도메인에 빠르게 적응, 번역 등).
+- 우리가 타인과 협업할 때 선호하는 방식대로 협업을 지원하고 촉진합니다.
+- 우리 자신을 더 나은 버전으로 만듭니다 (예: 인생 코치/일정 관리, 감정 조절과 마음 챙김 기술 학습, 회복탄력성 구축 등).
 
-## Learning Goals
+## 📚 이번 레슨에서 배울 내용
 
-After completing this lesson, you will be able to:
+- Agent 디자인 원칙이란 무엇인가?
+- 이 디자인 원칙들을 구현할 때 따라야 할 가이드라인은 무엇인가?
+- 디자인 원칙을 사용한 실제 예시는 무엇이 있는가?
 
-1. Explain what the Agentic Design Principles are
-2. Explain the guidelines for using the Agentic Design Principles
-3. Understand how to build an agent using the Agentic Design Principles
+## 🎯 학습 목표
 
-## The Agentic Design Principles
+이번 레슨을 완료하면 다음을 할 수 있게 됩니다:
 
-![Agentic Design Principles](./images/agentic-design-principles.png)
+1. Agent 디자인 원칙이 무엇인지 설명할 수 있다.
+2. Agent 디자인 원칙을 사용하기 위한 가이드라인을 설명할 수 있다.
+3. Agent 디자인 원칙을 적용하여 Agent를 구축하는 방법을 이해한다.
 
-### Agent (Space)
+---
 
-This is the environment in which the agent operates. These principles inform how we design agents for engaging in physical and digital worlds.
+## 🏛️ Agent 디자인 원칙
 
-- **Connecting, not collapsing** – help connect people to other people, events, and actionable knowledge to enable collaboration and connection.
-- Agents help connect events, knowledge, and people.
-- Agents bring people closer together. They are not designed to replace or belittle people.
-- **Easily accessible yet occasionally invisible** – agent largely operates in the background and only nudges us when it is relevant and appropriate.
-  - Agent is easily discoverable and accessible for authorized users on any device or platform.
-  - Agent supports multimodal inputs and outputs (sound, voice, text, etc.).
-  - Agent can seamlessly transition between foreground and background; between proactive and reactive, depending on its sensing of user needs.
-  - Agent may operate in invisible form, yet its background process path and collaboration with other Agents are transparent to and controllable by the user.
+![Agent 디자인 원칙](./images/agentic-design-principles.png)
 
-### Agent (Time)
+### 🧭 공간 (Space) – Agent가 활동하는 환경
 
-This is how the agent operates over time. These principles inform how we design agents interacting across the past, present, and future.
+Agent가 물리적, 디지털 세계에서 활동하는 방식을 설계하는 원칙입니다.
 
-- **Past**: Reflecting on history that includes both state and context.
-  - Agent provides more relevant results based on analysis of richer historical data beyond only the event, people, or states.
-  - Agent creates connections from past events and actively reflects on memory to engage with current situations.
-- **Now**: Nudging more than notifying.
-  - Agent embodies a comprehensive approach to interacting with people. When an event happens, the Agent goes beyond static notification or other static formality. Agent can simplify flows or dynamically generate cues to direct the user’s attention at the right moment.
-  - Agent delivers information based on contextual environment, social and cultural changes and tailored to user intent.
-  - Agent interaction can be gradual, evolving/growing in complexity to empower users over the long term.
-- **Future**: Adapting and evolving.
-  - Agent adapts to various devices, platforms, and modalities.
-  - Agent adapts to user behavior, accessibility needs, and is freely customizable.
-  - Agent is shaped by and evolves through continuous user interaction.
+- **연결, 단절 금지** – 사람과 사람, 이벤트, 실행 가능한 지식을 연결하여 협업과 관계를 돕습니다.
+  - Agent는 이벤트, 지식, 사람을 연결하는 다리 역할을 합니다.
+  - Agent는 사람들을 더 가깝게 만듭니다. 사람을 대체하거나 폄하하려는 목적이 아닙니다.
+- **쉽게 접근 가능하지만 때로는 보이지 않게** – Agent는 대부분 백그라운드에서 작동하며, 관련성이 있고 적절할 때만 우리를 살짝 깨워줍니다.
+  - Agent는 권한이 있는 사용자라면 어떤 기기나 플랫폼에서도 쉽게 찾고 접근할 수 있어야 합니다.
+  - Agent는 다중 모드 입력과 출력(소리, 음성, 텍스트 등)을 지원해야 합니다.
+  - Agent는 사용자 필요를 감지하여 전경과 배경 사이를 자연스럽게 전환하고, 능동적(proactive)이었다가 반응적(reactive)으로 전환할 수 있어야 합니다.
+  - Agent는 보이지 않는 형태로 작동할 수 있지만, 백그라운드 프로세스 경로와 다른 Agent와의 협업 과정은 사용자에게 투명하게 공개되고 제어 가능해야 합니다.
 
-### Agent (Core)
+### ⏳ 시간 (Time) – 시간의 흐름에 따른 Agent 운영
 
-These are the key elements in the core of an agent’s design.
+Agent가 과거, 현재, 미래에 걸쳐 상호작용하는 방식을 설계하는 원칙입니다.
 
-- **Embrace uncertainty but establish trust**.
-  - A certain level of Agent uncertainty is expected. Uncertainty is a key element of agent design.
-  - Trust and transparency are foundational layers of Agent design.
-  - Humans are in control of when the Agent is on/off and Agent status is clearly visible at all times.
+- **과거 (Past)**: 상태와 맥락을 포함한 역사를 반영합니다.
+  - Agent는 단순한 이벤트, 사람, 상태를 넘어 더 풍부한 과거 데이터를 분석하여 더 관련성 높은 결과를 제공합니다.
+  - Agent는 과거 이벤트 간의 연결을 만들고, 기억을 적극적으로 반영하여 현재 상황에 대처합니다.
+- **현재 (Now)**: 알림(notifying)보다는 리마인더(nudging)에 가깝습니다.
+  - Agent는 사람과 상호작용하는 포괄적인 접근 방식을 구현합니다. 이벤트가 발생하면 단순한 정적 알림 이상의 반응을 보입니다. Agent는 흐름을 단순화하거나, 적절한 순간에 사용자의 주의를 끌 수 있는 동적 신호를 생성할 수 있습니다.
+  - Agent는 상황적 환경, 사회적·문화적 변화에 기반하여 정보를 전달하고 사용자 의도에 맞게 조정합니다.
+  - Agent와의 상호작용은 점진적일 수 있으며, 장기적으로 사용자의 역량을 강화하기 위해 복잡성이 진화하고 성장합니다.
+- **미래 (Future)**: 적응하고 진화합니다.
+  - Agent는 다양한 기기, 플랫폼, 모달리티에 적응합니다.
+  - Agent는 사용자 행동, 접근성 요구에 적응하며, 자유롭게 사용자 지정할 수 있습니다.
+  - Agent는 지속적인 사용자 상호작용을 통해 형성되고 진화합니다.
 
-## The Guidelines to Implement These Principles
+### 🎯 핵심 (Core) – Agent 설계의 핵심 요소
 
-When you’re using the previous design principles, use the following guidelines:
+- **불확실성을 수용하되 신뢰를 구축하라**.
+  - 어느 정도의 Agent 불확실성은 예상됩니다. 불확실성은 Agent 설계의 핵심 요소입니다.
+  - 신뢰와 투명성은 Agent 설계의 기초 계층입니다.
+  - 인간은 Agent의 켜짐/꺼짐을 제어할 수 있으며, Agent 상태는 항상 명확하게 표시되어야 합니다.
 
-1. **Transparency**: Inform the user that AI is involved, how it functions (including past actions), and how to give feedback and modify the system.
-2. **Control**: Enable the user to customize, specify preferences and personalize, and have control over the system and its attributes (including the ability to forget).
-3. **Consistency**: Aim for consistent, multi-modal experiences across devices and endpoints. Use familiar UI/UX elements where possible (e.g., microphone icon for voice interaction) and reduce the customer’s cognitive load as much as possible (e.g., aim for concise responses, visual aids, and ‘Learn More’ content).
+---
 
-## How To Design a Travel Agent using These Principles and Guidelines
+## 📋 디자인 원칙을 구현하기 위한 가이드라인
 
-Imagine you are designing a Travel Agent, here is how you could think about using the Design Principles and Guidelines:
+앞서 설명한 디자인 원칙을 사용할 때는 다음 가이드라인을 따르세요:
 
-1. **Transparency** – Let the user know that the Travel Agent is an AI-enabled Agent. Provide some basic instructions on how to get started (e.g., a “Hello” message, sample prompts). Clearly document this on the product page. Show the list of prompts a user has asked in the past. Make it clear how to give feedback (thumbs up and down, Send Feedback button, etc.). Clearly articulate if the Agent has usage or topic restrictions.
-2. **Control** – Make sure it’s clear how the user can modify the Agent after it’s been created with things like the System Prompt. Enable the user to choose how verbose the Agent is, its writing style, and any caveats on what the Agent should not talk about. Allow the user to view and delete any associated files or data, prompts, and past conversations.
-3. **Consistency** – Make sure the icons for Share Prompt, add a file or photo and tag someone or something are standard and recognizable. Use the paperclip icon to indicate file upload/sharing with the Agent, and an image icon to indicate graphics upload.
+1. **투명성 (Transparency)**: 사용자에게 AI가 관여하고 있음을 알리고, Agent의 작동 방식(과거 행동 포함), 피드백을 주고 시스템을 수정하는 방법을 명확히 전달하세요.
+2. **통제권 (Control)**: 사용자가 Agent를 사용자 정의하고, 선호도를 지정하고, 개인화하고, 시스템과 그 속성을 제어할 수 있도록 하세요 (정보 삭제 기능 포함).
+3. **일관성 (Consistency)**: 기기와 엔드포인트 전반에 걸쳐 일관된 다중 모드 경험을 목표로 하세요. 가능하면 친숙한 UI/UX 요소(예: 음성 상호작용을 위한 마이크 아이콘)를 사용하고, 사용자의 인지 부하를 최대한 줄이세요 (예: 간결한 응답, 시각적 보조 자료, '더 알아보기' 콘텐츠).
 
-## Sample Codes
+---
 
-- Python: [Agent Framework](./code_samples/03-python-agent-framework.ipynb)
-- .NET: [Agent Framework](./code_samples/03-dotnet-agent-framework.md)
+## ✈️ 여행 Agent 설계 예시: 원칙과 가이드라인 적용하기
 
+당신이 여행 Agent를 설계한다고 상상해 보세요. 디자인 원칙과 가이드라인을 어떻게 적용할 수 있을까요?
 
-## Got More Questions about AI Agentic Design Patterns?
+1. **투명성 (Transparency)**
+   - 사용자에게 이 여행 Agent가 AI 기반 Agent임을 알려주세요. 시작하는 방법에 대한 기본 지침(예: "안녕하세요" 메시지, 샘플 프롬프트)을 제공하세요. 이 내용을 제품 페이지에 명확히 문서화하세요.
+   - 사용자가 과거에 요청한 프롬프트 목록을 보여주세요.
+   - 피드백을 주는 방법(좋아요/싫어요, 피드백 보내기 버튼 등)을 명확히 하세요.
+   - Agent에 사용 제한이나 주제 제한이 있다면 명확히 알려주세요.
+2. **통제권 (Control)**
+   - 사용자가 Agent 생성 후 시스템 프롬프트 등을 통해 Agent를 수정할 수 있는 방법을 명확히 하세요.
+   - 사용자가 Agent의 답변 상세 수준, 글쓰기 스타일, Agent가 언급하지 말아야 할 주제를 선택할 수 있게 하세요.
+   - 사용자가 관련 파일이나 데이터, 프롬프트, 과거 대화 내역을 보고 삭제할 수 있게 하세요.
+3. **일관성 (Consistency)**
+   - 프롬프트 공유 아이콘, 파일/사진 첨부 아이콘, 다른 사람/무언가 태그 아이콘은 표준적이고 알아보기 쉬운 것을 사용하세요.
+   - 파일 업로드/공유를 나타낼 때는 📎(클립) 아이콘을, 이미지 업로드를 나타낼 때는 🖼️(이미지) 아이콘을 사용하세요.
 
-Join the [Azure AI Foundry Discord](https://aka.ms/ai-agents/discord) to meet with other learners, attend office hours and get your AI Agents questions answered.
+---
 
-## Additional Resources
+## 💻 샘플 코드
 
-- <a href="https://openai.com" target="_blank">Practices for Governing Agentic AI Systems | OpenAI</a>
-- <a href="https://microsoft.com" target="_blank">The HAX Toolkit Project - Microsoft Research</a>
-- <a href="https://responsibleaitoolbox.ai" target="_blank">Responsible AI Toolbox</a>
+- Python: [Agent 프레임워크](./code_samples/03-python-agent-framework.ipynb)
+- .NET: [Agent 프레임워크](./code_samples/03-dotnet-agent-framework.md)
 
-## Previous Lesson
+---
 
-[Exploring Agentic Frameworks](../02-explore-agentic-frameworks/README.md)
+## ❓ AI Agent 디자인 패턴에 대해 더 궁금한 점이 있나요?
 
-## Next Lesson
+[Azure AI Foundry Discord](https://aka.ms/ai-agents/discord)에 참여하여 다른 학습자들을 만나고, 오피스 아워에 참여하고 AI Agents에 대한 질문에 대한 답변을 받아보세요.
 
-[Tool Use Design Pattern](../04-tool-use/README.md)
+---
+
+## 📚 추가 자료
+
+- <a href="https://openai.com" target="_blank">Practices for Governing Agentic AI Systems | OpenAI (영문)</a>
+- <a href="https://microsoft.com" target="_blank">The HAX Toolkit Project - Microsoft Research (영문)</a>
+- <a href="https://responsibleaitoolbox.ai" target="_blank">Responsible AI Toolbox (영문)</a>
+
+---
+
+## 📚 다른 레슨들
+
+### ⬅️ 이전 레슨
+
+[2강: Agent 프레임워크 탐험하기](../02-explore-agentic-frameworks/README.md)
+
+### ➡️ 다음 레슨
+
+[4강: 도구 사용(Tool Use) 디자인 패턴](../04-tool-use/README.md)
+
+---
+
+*이 가이드는 여러분이 사용자를 진심으로 생각하는 AI Agent를 설계하는 데 도움이 되길 바랍니다!* 🎨

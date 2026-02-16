@@ -1,41 +1,41 @@
-<!-- BEGIN MICROSOFT SECURITY.MD V0.0.9 BLOCK -->
+# 보안
 
-# Security
+Microsoft는 당사의 소프트웨어 제품과 서비스의 보안을 매우 중요하게 생각합니다. 이에는 [Microsoft](https://github.com/Microsoft), [Azure](https://github.com/Azure), [DotNet](https://github.com/dotnet), [AspNet](https://github.com/aspnet) 및 [Xamarin](https://github.com/xamarin)을 포함한 GitHub 조직을 통해 관리되는 모든 소스 코드 저장소가 포함됩니다.
 
-Microsoft takes the security of our software products and services seriously, which includes all source code repositories managed through our GitHub organizations, which include [Microsoft](https://github.com/Microsoft), [Azure](https://github.com/Azure), [DotNet](https://github.com/dotnet), [AspNet](https://github.com/aspnet) and [Xamarin](https://github.com/xamarin).
+Microsoft 소유의 저장소에서 [Microsoft의 보안 취약점 정의](https://aka.ms/security.md/definition)에 해당하는 보안 취약점을 발견하셨다고 생각되면 아래 설명된 대로 신고해 주세요.
 
-If you believe you have found a security vulnerability in any Microsoft-owned repository that meets [Microsoft's definition of a security vulnerability](https://aka.ms/security.md/definition), please report it to us as described below.
+## 보안 이슈 신고하기
 
-## Reporting Security Issues
+**보안 취약점은 공개 GitHub 이슈로 신고하지 말아 주세요.**
 
-**Please do not report security vulnerabilities through public GitHub issues.**
+대신, Microsoft 보안 대응 센터(MSRC)의 [https://msrc.microsoft.com/create-report](https://aka.ms/security.md/msrc/create-report)로 신고해 주세요.
 
-Instead, please report them to the Microsoft Security Response Center (MSRC) at [https://msrc.microsoft.com/create-report](https://aka.ms/security.md/msrc/create-report).
+로그인 없이 제출하려면 [secure@microsoft.com](mailto:secure@microsoft.com)으로 이메일을 보내주세요. 가능하면 PGP 키로 메시지를 암호화해 주시기 바랍니다. PGP 키는 [Microsoft 보안 대응 센터 PGP 키 페이지](https://aka.ms/security.md/msrc/pgp)에서 다운로드할 수 있습니다.
 
-If you prefer to submit without logging in, send email to [secure@microsoft.com](mailto:secure@microsoft.com).  If possible, encrypt your message with our PGP key; please download it from the [Microsoft Security Response Center PGP Key page](https://aka.ms/security.md/msrc/pgp).
+24시간 이내에 답변을 받으실 수 있습니다. 어떤 이유로 답변을 받지 못한 경우, 원본 메시지를 수신했는지 확인하기 위해 이메일로 후속 연락을 취해 주세요. 추가 정보는 [microsoft.com/msrc](https://www.microsoft.com/msrc)에서 확인하실 수 있습니다.
 
-You should receive a response within 24 hours. If for some reason you do not, please follow up via email to ensure we received your original message. Additional information can be found at [microsoft.com/msrc](https://www.microsoft.com/msrc). 
+가능한 문제의 성격과 범위를 더 잘 이해할 수 있도록 아래 요청된 정보를 최대한 많이 포함해 주세요:
 
-Please include the requested information listed below (as much as you can provide) to help us better understand the nature and scope of the possible issue:
+- 이슈 유형 (예: 버퍼 오버플로우, SQL 삽입, 교차 사이트 스크립팅 등)
+- 이슈 발생과 관련된 소스 파일의 전체 경로
+- 영향을 받는 소스 코드의 위치 (태그/브랜치/커밋 또는 직접 URL)
+- 이슈 재현에 필요한 특별한 구성
+- 이슈 재현을 위한 단계별 지침
+- 개념 증명 또는 익스플로잇 코드 (가능한 경우)
+- 이슈의 영향 (공격자가 이슈를 어떻게 악용할 수 있는지 포함)
 
-* Type of issue (e.g. buffer overflow, SQL injection, cross-site scripting, etc.)
-* Full paths of source file(s) related to the manifestation of the issue
-* The location of the affected source code (tag/branch/commit or direct URL)
-* Any special configuration required to reproduce the issue
-* Step-by-step instructions to reproduce the issue
-* Proof-of-concept or exploit code (if possible)
-* Impact of the issue, including how an attacker might exploit the issue
+이 정보는 신고 내용을 더 신속하게 분류하는 데 도움이 됩니다.
 
-This information will help us triage your report more quickly.
+버그 바운티 신고의 경우, 더 완전한 보고서가 더 높은 바운티 보상으로 이어질 수 있습니다. 당사의 활성 프로그램에 대한 자세한 내용은 [Microsoft 버그 바운티 프로그램](https://aka.ms/security.md/msrc/bounty) 페이지를 방문해 주세요.
 
-If you are reporting for a bug bounty, more complete reports can contribute to a higher bounty award. Please visit our [Microsoft Bug Bounty Program](https://aka.ms/security.md/msrc/bounty) page for more details about our active programs.
+## 선호 언어
 
-## Preferred Languages
+모든 커뮤니케이션은 영어로 부탁드립니다.
 
-We prefer all communications to be in English.
+## 정책
 
-## Policy
+Microsoft는 [조율된 취약점 공개(CVD)](https://aka.ms/security.md/cvd) 원칙을 따릅니다.
 
-Microsoft follows the principle of [Coordinated Vulnerability Disclosure](https://aka.ms/security.md/cvd).
+---
 
-<!-- END MICROSOFT SECURITY.MD BLOCK -->
+*이 글이 도움이 되셨나요? 보안 관련 추가 질문이 있으시면 언제든지 말씀해 주세요!* 🔒
